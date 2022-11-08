@@ -1,5 +1,5 @@
-import { useToggle, upperFirst } from '@mantine/hooks';
-import { useForm } from '@mantine/form';
+import { useToggle, upperFirst } from "@mantine/hooks";
+import { useForm } from "@mantine/form";
 import {
   TextInput,
   PasswordInput,
@@ -15,25 +15,19 @@ import {
   NumberInput,
   Title,
   Flex,
-} from '@mantine/core';
-import { initializeApp } from 'firebase/app';
-import { createUserWithEmailAndPassword, getAuth, onAuthStateChanged, signInWithEmailAndPassword } from 'firebase/auth';
-import { showNotification } from '@mantine/notifications';
+} from "@mantine/core";
+import {
+  createUserWithEmailAndPassword,
+  getAuth,
+  onAuthStateChanged,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
+import { showNotification } from "@mantine/notifications";
 
-// TODO: Replace the following with your app's Firebase project configuration
-// See: https://firebase.google.com/docs/web/learn-more#config-object
-const firebaseConfig = {
-  apiKey: "AIzaSyBUWfnNdDpvVrF27882U8sGxlsRj1gjalI",
-  authDomain: "spralnica.firebaseapp.com",
-  projectId: "spralnica",
-  storageBucket: "spralnica.appspot.com",
-  messagingSenderId: "225308004725",
-  appId: "1:225308004725:web:087e3c66689f40c1b8433c"
-};
-
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
+import BG from "../public/leaves.png";
+import { auth } from "./firebase";
+import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 
 interface IForms {
   name: string;
@@ -44,83 +38,116 @@ interface IForms {
 }
 
 function roomNumberInRange(val: number) {
-  return (val > 0 && val < 29) || (val > 100 && val < 129) || (val > 200 && val < 229) || (val > 300 && val < 329);
+  return (
+    (val > 0 && val < 29) ||
+    (val > 100 && val < 129) ||
+    (val > 200 && val < 229) ||
+    (val > 300 && val < 329)
+  );
 }
 
 export function AuthenticationForm(props: PaperProps) {
-  const [type, toggle] = useToggle(['login', 'register']);
+  const [type, toggle] = useToggle(["login", "register"]);
+  const [loading, setLoading] = useState(false);
+  const redirect = useNavigate();
+
   const form = useForm<IForms>({
     initialValues: {
-      name: '',
-      surname: '',
+      name: "",
+      surname: "",
       room: undefined,
-      email: '',
-      password: '',
+      email: "",
+      password: "",
     },
 
     validate: {
-      name: (val) => (type === 'register' && !val ? 'Manjka ime.' : null),
-      surname: (val) => (type === 'register' && !val ? 'Manjka priimek.' : null),
-      email: (val) => (/^\S+@\S+$/.test(val) ? null : 'Neveljaven email naslov.'),
-      password: (val) => (val.length < 8 ? 'Geslo mora vsebovati vsaj 8 znakov.' : null),
-      room: (val: number | undefined) => (val && roomNumberInRange(val) ? null : 'Neveljavna številka sobe.'),
+      name: (val) => (type === "register" && !val ? "Manjka ime." : null),
+      surname: (val) =>
+        type === "register" && !val ? "Manjka priimek." : null,
+      email: (val) =>
+        /^\S+@\S+$/.test(val) ? null : "Neveljaven email naslov.",
+      password: (val) =>
+        val.length < 8 ? "Geslo mora vsebovati vsaj 8 znakov." : null,
+      room: (val: number | undefined) =>
+        type == "login" || (val && roomNumberInRange(val))
+          ? null
+          : "Neveljavna številka sobe.",
     },
-
   });
 
   return (
-
-    <Flex direction="column" align="center" style={{
-      width: "100vw"
-    }}>
-      <Title order={1} py={30}>Pozdravljeni v Spralnici!</Title>
+    <Flex
+      direction="column"
+      align="center"
+      justify="center"
+      style={{
+        width: "100vw",
+        height: "100vh",
+        backgroundImage: `url(${BG})`,
+      }}
+    >
+      <Title order={1} py={30}>
+        Pozdravljeni v Spralnici!
+      </Title>
       <Paper radius="md" p="xl" withBorder {...props}>
-        <form onSubmit={form.onSubmit((a) => {
-          if (type === 'register') {
-            createUserWithEmailAndPassword(auth, a.email, a.password)
-              .then((userCredential) => {
-                // Signed in 
-                const user = userCredential.user;
-                console.log({ user });
+        <form
+          onSubmit={form.onSubmit((a) => {
+            console.log("Submitted", a);
+            setLoading(true);
 
-                // ...
-              })
-              .catch((error) => {
-                const errorCode = error.code;
-                const errorMessage = error.message;
-                showNotification({
-                  title: `Registracijska napaka ${errorCode}`,
-                  message: errorMessage,
-                  color: "red"
+            if (type === "register") {
+              createUserWithEmailAndPassword(auth, a.email, a.password)
+                .then((userCredential) => {
+                  // Signed in
+                  const user = userCredential.user;
+                  console.log({ user });
+                  redirect("/");
                 })
-              });
-          }
-          else {
-            signInWithEmailAndPassword(auth, a.email, a.password)
-              .then((userCredential) => {
-                // Signed in 
-                const user = userCredential.user;
-                // ...
-              })
-              .catch((error) => {
-                const errorCode = error.code;
-                const errorMessage = error.message;
-                showNotification({
-                  title: `Prijavna napaka ${errorCode}`,
-                  message: errorMessage,
-                  color: "red"
+                .catch((error) => {
+                  const errorCode = error.code;
+                  const errorMessage = error.message;
+                  showNotification({
+                    title: `Registracijska napaka ${errorCode}`,
+                    message: errorMessage,
+                    color: "red",
+                  });
                 })
-              });
-          }
-        })}>
+                .finally(() => {
+                  setLoading(false);
+                });
+            } else {
+              signInWithEmailAndPassword(auth, a.email, a.password)
+                .then((userCredential) => {
+                  // Signed in
+                  const user = userCredential.user;
+                  console.log({ user });
+                  redirect("/");
+                })
+                .catch((error) => {
+                  const errorCode = error.code;
+                  const errorMessage = error.message;
+                  showNotification({
+                    title: `Prijavna napaka ${errorCode}`,
+                    message: errorMessage,
+                    color: "red",
+                  });
+                })
+                .finally(() => {
+                  setLoading(false);
+                });
+            }
+          })}
+        >
           <Stack>
-            {type === 'register' && (
+            {type === "register" && (
               <>
                 <TextInput
                   label="Ime"
                   placeholder="Ime"
                   value={form.values.name}
-                  onChange={(event) => form.setFieldValue('name', event.currentTarget.value)}
+                  onChange={(event) =>
+                    form.setFieldValue("name", event.currentTarget.value)
+                  }
                   error={form.errors.name}
                 />
 
@@ -128,7 +155,9 @@ export function AuthenticationForm(props: PaperProps) {
                   label="Priimek"
                   placeholder="Priimek"
                   value={form.values.surname}
-                  onChange={(event) => form.setFieldValue('surname', event.currentTarget.value)}
+                  onChange={(event) =>
+                    form.setFieldValue("surname", event.currentTarget.value)
+                  }
                   error={form.errors.surname}
                 />
 
@@ -136,7 +165,7 @@ export function AuthenticationForm(props: PaperProps) {
                   label="Številka sobe"
                   placeholder="401"
                   value={form.values.room}
-                  onChange={(num) => form.setFieldValue('room', num)}
+                  onChange={(num) => form.setFieldValue("room", num)}
                   hideControls
                   error={form.errors.room}
                 />
@@ -147,16 +176,22 @@ export function AuthenticationForm(props: PaperProps) {
               label="Email"
               placeholder="nekdo@gmail.com"
               value={form.values.email}
-              onChange={(event) => form.setFieldValue('email', event.currentTarget.value)}
-              error={form.errors.email && 'Napačen email'}
+              onChange={(event) =>
+                form.setFieldValue("email", event.currentTarget.value)
+              }
+              error={form.errors.email && "Napačen email"}
             />
 
             <PasswordInput
               label="Geslo"
               placeholder="Geslo"
               value={form.values.password}
-              onChange={(event) => form.setFieldValue('password', event.currentTarget.value)}
-              error={form.errors.password && 'Geslo mora vsebovati vsaj 8 znakov.'}
+              onChange={(event) =>
+                form.setFieldValue("password", event.currentTarget.value)
+              }
+              error={
+                form.errors.password && "Geslo mora vsebovati vsaj 8 znakov."
+              }
             />
           </Stack>
 
@@ -168,11 +203,13 @@ export function AuthenticationForm(props: PaperProps) {
               onClick={() => toggle()}
               size="xs"
             >
-              {type === 'register'
-                ? 'Že imaš račun? Prijava'
+              {type === "register"
+                ? "Že imaš račun? Prijava"
                 : "Še nimaš računa? Registracija"}
             </Anchor>
-            <Button type="submit">{type === 'register' ? "Registracija" : "Prijava"}</Button>
+            <Button type="submit" loading={loading}>
+              {type === "register" ? "Registracija" : "Prijava"}
+            </Button>
           </Group>
         </form>
       </Paper>
