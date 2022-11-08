@@ -25,9 +25,10 @@ import {
 import { showNotification } from "@mantine/notifications";
 
 import BG from "../public/leaves.png";
-import { auth } from "./firebase";
+import { auth, db } from "./firebase";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { addDoc, collection, getDoc, getDocs, query, where } from "firebase/firestore";
 
 interface IForms {
   name: string;
@@ -56,8 +57,8 @@ export function AuthenticationForm(props: PaperProps) {
       name: "",
       surname: "",
       room: undefined,
-      email: "",
-      password: "",
+      email: "enei@enei.enei",
+      password: "eneienei",
     },
 
     validate: {
@@ -100,7 +101,16 @@ export function AuthenticationForm(props: PaperProps) {
                 .then((userCredential) => {
                   // Signed in
                   const user = userCredential.user;
-                  console.log({ user });
+                  const c = collection(db, "users");
+                  addDoc(c, {
+                    uuid: user?.uid,
+                    name: a.name,
+                    surname: a.surname,
+                    room: a.room,
+                    confirmed: false,
+                  });
+
+                  // console.log({ user });
                   redirect("/");
                 })
                 .catch((error) => {
@@ -120,7 +130,19 @@ export function AuthenticationForm(props: PaperProps) {
                 .then((userCredential) => {
                   // Signed in
                   const user = userCredential.user;
-                  console.log({ user });
+                  const c = collection(db, "users");
+                  const q = query(c, where("uuid", "==", user?.uid));
+                  const res = getDocs(q).then(
+                    (querySnapshot) => {
+                      querySnapshot.forEach((doc) => {
+                        // login successful
+                        // console.log(doc.id, " => ", doc.data());
+                      });
+                    }).catch((error) => {
+                      console.log("Error getting documents: ", error);
+                    });
+                  
+
                   redirect("/");
                 })
                 .catch((error) => {
