@@ -25,6 +25,7 @@ export default function App() {
             <Route path="/">
               <Route index element={<AppShellDemo />} />
               <Route path="login" element={<AuthenticationForm />} />
+              {/* <Route path="admin" element={<UsersRolesTable />} /> */}
               {/* <Route path="teams" element={<Teams />}>
               <Route path=":teamId" element={<Team />} />
               <Route path="new" element={<NewTeamForm />} />
