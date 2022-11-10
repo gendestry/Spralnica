@@ -28,7 +28,14 @@ import BG from "../public/leaves.png";
 import { auth, db } from "./firebase";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import { addDoc, collection, getDoc, getDocs, query, where } from "firebase/firestore";
+import {
+  addDoc,
+  collection,
+  getDoc,
+  getDocs,
+  query,
+  where,
+} from "firebase/firestore";
 
 interface IForms {
   name: string;
@@ -87,9 +94,7 @@ export function AuthenticationForm(props: PaperProps) {
         backgroundImage: `url(${BG})`,
       }}
     >
-      <Title order={1} py={30}>
-        Pozdravljeni v Spralnici!
-      </Title>
+      <Title order={1} py={30}></Title>
       <Paper radius="md" p="xl" withBorder {...props}>
         <form
           onSubmit={form.onSubmit((a) => {
@@ -132,16 +137,16 @@ export function AuthenticationForm(props: PaperProps) {
                   const user = userCredential.user;
                   const c = collection(db, "users");
                   const q = query(c, where("uuid", "==", user?.uid));
-                  const res = getDocs(q).then(
-                    (querySnapshot) => {
+                  const res = getDocs(q)
+                    .then((querySnapshot) => {
                       querySnapshot.forEach((doc) => {
                         // login successful
                         // console.log(doc.id, " => ", doc.data());
                       });
-                    }).catch((error) => {
+                    })
+                    .catch((error) => {
                       console.log("Error getting documents: ", error);
                     });
-                  
 
                   redirect("/");
                 })

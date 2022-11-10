@@ -1,9 +1,21 @@
-import { Avatar, Badge, Table, Group, Text, Select, ScrollArea, Skeleton } from '@mantine/core';
-import { useEffect, useState } from 'react';
+import {
+  Avatar,
+  Badge,
+  Table,
+  Group,
+  Text,
+  Select,
+  ScrollArea,
+  Skeleton,
+} from "@mantine/core";
+import { useEffect, useState } from "react";
 
 export interface IUser {
   name: string;
-  surname: string; room: number; email: string; uuid: string;
+  surname: string;
+  room: number;
+  email: string;
+  uuid: string;
 }
 
 interface UsersTableProps {
@@ -12,22 +24,23 @@ interface UsersTableProps {
 
 // const rolesData = ['Manager', 'Collaborator', 'Contractor'];
 
-export function UsersRolesTable ({ data }: UsersTableProps) {
+export function UsersRolesTable({ data }: UsersTableProps) {
   const [users, setUsers] = useState<IUser[]>([]);
   // data.map(item => console.log(item));đđ
   // console.log(data);
-  
 
   useEffect(() => {
     data.then((data) => {
       setUsers(data);
     });
-  },[])
+  }, []);
 
   const rows = users.map((item, index) => (
     <tr key={item.uuid}>
       <td>
-        <Text size="sm" color="dimmed">{index + 1}</Text>
+        <Text size="sm" color="dimmed">
+          {index + 1}
+        </Text>
       </td>
       <td>
         <Group spacing="sm">
@@ -46,7 +59,6 @@ export function UsersRolesTable ({ data }: UsersTableProps) {
       <td>
         <Text size="sm">{item.room}</Text>
       </td>
-
 
       {/* <td>
         <Select data={rolesData} defaultValue={item.role} variant="unstyled" />
@@ -77,30 +89,59 @@ export function UsersRolesTable ({ data }: UsersTableProps) {
           </tr>
         </thead>
         {rows.length > 0 ? (
-
           <tbody>{rows}</tbody>
         ) : (
           <tbody>
             <tr>
-              <td><Skeleton height={14} my={10} radius="xl" /></td>
-              <td><Skeleton height={14} my={10} radius="xl" /></td>
-              <td><Skeleton height={14} my={10} radius="xl" /></td>
-              <td><Skeleton height={14} my={10} radius="xl" /></td>
-              <td><Skeleton height={14} my={10} radius="xl" /></td>
+              <td>
+                <Skeleton height={14} my={10} radius="xl" />
+              </td>
+              <td>
+                <Skeleton height={14} my={10} radius="xl" />
+              </td>
+              <td>
+                <Skeleton height={14} my={10} radius="xl" />
+              </td>
+              <td>
+                <Skeleton height={14} my={10} radius="xl" />
+              </td>
+              <td>
+                <Skeleton height={14} my={10} radius="xl" />
+              </td>
             </tr>
             <tr>
-              <td><Skeleton height={14} my={10} radius="xl" /></td>
-              <td><Skeleton height={14} my={10} radius="xl" /></td>
-              <td><Skeleton height={14} my={10} radius="xl" /></td>
-              <td><Skeleton height={14} my={10} radius="xl" /></td>
-              <td><Skeleton height={14} my={10} radius="xl" /></td>
+              <td>
+                <Skeleton height={14} my={10} radius="xl" />
+              </td>
+              <td>
+                <Skeleton height={14} my={10} radius="xl" />
+              </td>
+              <td>
+                <Skeleton height={14} my={10} radius="xl" />
+              </td>
+              <td>
+                <Skeleton height={14} my={10} radius="xl" />
+              </td>
+              <td>
+                <Skeleton height={14} my={10} radius="xl" />
+              </td>
             </tr>
             <tr>
-              <td><Skeleton height={14} my={10} radius="xl" /></td>
-              <td><Skeleton height={14} my={10} radius="xl" /></td>
-              <td><Skeleton height={14} my={10} radius="xl" /></td>
-              <td><Skeleton height={14} my={10} radius="xl" /></td>
-              <td><Skeleton height={14} my={10} radius="xl" /></td>
+              <td>
+                <Skeleton height={14} my={10} radius="xl" />
+              </td>
+              <td>
+                <Skeleton height={14} my={10} radius="xl" />
+              </td>
+              <td>
+                <Skeleton height={14} my={10} radius="xl" />
+              </td>
+              <td>
+                <Skeleton height={14} my={10} radius="xl" />
+              </td>
+              <td>
+                <Skeleton height={14} my={10} radius="xl" />
+              </td>
             </tr>
             {/* <Skeleton height={8} mt={6} radius="xl" /> */}
             {/* <Skeleton height={8} mt={6} width="70%" radius="xl" /> */}

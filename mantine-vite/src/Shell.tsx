@@ -17,17 +17,16 @@ import {
 } from "@mantine/core";
 import { auth, db } from "./firebase";
 import { useNavigate } from "react-router-dom";
-import { NavbarMinimal } from "./Navbar";
+import { NavbarMinimal } from "./Sidebar";
 import { Cal } from "./Calendar";
 import { IUser, UsersRolesTable } from "./UserList";
 import { collection, getDocs } from "firebase/firestore";
-
 
 async function getUsers() {
   const ret: IUser[] = [];
 
   const c = collection(db, "users");
-  const docs = await getDocs(c)
+  const docs = await getDocs(c);
   docs.forEach((doc) => {
     const data: any = doc.data();
     data.email = "lan@je.gay";
@@ -35,7 +34,6 @@ async function getUsers() {
   });
   return ret;
 }
-
 
 export default function AppShellDemo() {
   const theme = useMantineTheme();
@@ -116,13 +114,16 @@ export default function AppShellDemo() {
               <Text weight="bold" size={36} m={42}>
                 Spralnica!
               </Text>
+              {import.meta.env.MODE == "development" && (
+                <Text color="grape">{import.meta.env.MODE}</Text>
+              )}
             </Flex>
           </div>
         </Header>
       }
     >
       {/* <Cal /> */}
-      <UsersRolesTable data={ getUsers()} />
+      <UsersRolesTable data={getUsers()} />
     </AppShell>
   );
 }
