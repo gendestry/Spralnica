@@ -17,7 +17,7 @@ const firebaseConfig: FirebaseOptions = {
 const app = initializeApp(firebaseConfig);
 
 const auth = getAuth(app);
-connectAuthEmulator(auth, import.meta.env.VITE_AUTH_URL);
+// connectAuthEmulator(auth, import.meta.env.VITE_AUTH_URL);
 
 const db = getFirestore(app);
 connectFirestoreEmulator(
