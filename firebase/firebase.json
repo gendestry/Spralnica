@@ -19,30 +19,28 @@
       ]
     }
   ],
-  "hosting": {
-    "public": "mantine-vite/build",
-    "ignore": [
-      "firebase.json",
-      "**/.*",
-      "**/node_modules/**"
-    ],
-    "rewrites": [
-      {
-        "source": "**",
-        "destination": "/index.html"
-      }
-    ]
-  },
   "emulators": {
-    "functions": {
-      "port": 5001
-    },
-    "firestore": {
-      "port": 8080
-    },
+    "singleProjectMode": true,
     "ui": {
+      "host": "0.0.0.0",
+      "port": 4001,
       "enabled": true
     },
-    "singleProjectMode": true
+    "functions": {
+      "host": "0.0.0.0",
+      "port": 4002
+    },
+    "firestore": {
+      "host": "0.0.0.0",
+      "port": 4003
+    },
+    "hosting": {
+      "host": "0.0.0.0",
+      "port": 4004
+    },
+    "auth": {
+      "host": "0.0.0.0",
+      "port": 4005
+    }
   }
 }

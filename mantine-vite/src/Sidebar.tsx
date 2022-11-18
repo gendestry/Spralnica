@@ -79,10 +79,9 @@ function NavbarLink({ icon: Icon, label, active, onClick }: NavbarLinkProps) {
 }
 
 const mockdata = [
-  // { icon: IconGauge, label: "Dashboard" },
-  { icon: IconDeviceDesktopAnalytics, label: "Admin" },
-  { icon: IconCalendarStats, label: "Spranje" },
-  { icon: IconUser, label: "Uporabnik" },
+  { icon: IconDeviceDesktopAnalytics, label: "Admin", path: "/admin" },
+  { icon: IconCalendarStats, label: "Spranje", path: "/spranje" },
+  { icon: IconUser, label: "Uporabnik", path: "/uporabnik" },
 ];
 
 export function NavbarMinimal() {
@@ -94,7 +93,10 @@ export function NavbarMinimal() {
       {...link}
       key={link.label}
       active={index === active}
-      onClick={() => setActive(index)}
+      onClick={() => {
+        setActive(index);
+        redirect(link.path);
+      }}
     />
   ));
 

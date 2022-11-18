@@ -1,0 +1,63 @@
+version: '3.8'
+
+services:
+  # ta-db-users:
+  #   container_name: ta-db-users
+  #   image: postgres:15.0-alpine
+  #   environment: 
+  #     POSTGRES_USER: ta-kratos
+  #     POSTGRES_PASSWORD: changemeinprod
+  #     POSTGRES_DB: ta-kratos
+  #   ports:
+  #     - '6432:5432'
+  #   networks:
+  #     - track-app-network
+  firebase:
+    container_name: firebase
+    build:
+      context: ./firebase
+      dockerfile: $PWD/docker/firebase/dev.Dockerfile 
+    restart: always
+    ports:
+      - "4001:4001"
+      - "4002:4002"
+      - "4003:4003"
+      - "4004:4004"
+      - "4005:4005"
+      - "4006:4006"
+      - "4007:4007"
+    volumes:
+      - ./firebase:/usr/src/app
+    networks:
+      - dev-net
+
+  mantine-vite:
+    container_name: mantine-vite
+    build:
+      context: ./mantine-vite
+      dockerfile: $PWD/docker/vite/dev.Dockerfile
+    restart: always
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./mantine-vite:/usr/src/app
+    networks:
+      - dev-net
+
+networks:
+  dev-net:
+    driver: bridge
+
+  
+  # ta-fe:
+  #   container_name: ta-fe
+  #   build:
+  #     context: ./ta-frontend 
+  #     dockerfile: Dockerfile.dev
+  #   restart: always
+  #   ports:
+  #     - "3000:3000"
+  #   volumes:
+  #     - ./ta-frontend:/usr/src/app
+  #   depends_on:
+  #     - ta-db

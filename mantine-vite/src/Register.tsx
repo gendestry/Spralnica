@@ -24,7 +24,7 @@ import {
 } from "firebase/auth";
 import { showNotification } from "@mantine/notifications";
 
-import BG from "../public/leaves.png";
+// import BG from "../public/leaves.png";
 import { auth, db } from "./firebase";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
@@ -91,7 +91,6 @@ export function AuthenticationForm(props: PaperProps) {
       style={{
         width: "100vw",
         height: "100vh",
-        backgroundImage: `url(${BG})`,
       }}
     >
       <Title order={1} py={30}></Title>
@@ -113,10 +112,17 @@ export function AuthenticationForm(props: PaperProps) {
                     surname: a.surname,
                     room: a.room,
                     confirmed: false,
-                  });
-
-                  // console.log({ user });
-                  redirect("/");
+                  })
+                    .then(() => {
+                      redirect("/");
+                    })
+                    .catch((e) => {
+                      showNotification({
+                        title: `Registracijska napaka, 2. korak `,
+                        message: e,
+                        color: "red",
+                      });
+                    });
                 })
                 .catch((error) => {
                   const errorCode = error.code;
@@ -133,21 +139,6 @@ export function AuthenticationForm(props: PaperProps) {
             } else {
               signInWithEmailAndPassword(auth, a.email, a.password)
                 .then((userCredential) => {
-                  // Signed in
-                  const user = userCredential.user;
-                  const c = collection(db, "users");
-                  const q = query(c, where("uuid", "==", user?.uid));
-                  const res = getDocs(q)
-                    .then((querySnapshot) => {
-                      querySnapshot.forEach((doc) => {
-                        // login successful
-                        // console.log(doc.id, " => ", doc.data());
-                      });
-                    })
-                    .catch((error) => {
-                      console.log("Error getting documents: ", error);
-                    });
-
                   redirect("/");
                 })
                 .catch((error) => {

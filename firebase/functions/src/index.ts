@@ -12,10 +12,25 @@ import { applicationDefault } from "firebase-admin/app";
 
 // firebase stuff
 admin.initializeApp({ credential: applicationDefault() });
+// init emulators
+
+function wraper(
+  request: Request,
+  response: Response,
+  cb: (param0: Request, param1: Response) => void
+) {
+  response.set("Access-Control-Allow-Origin", "*");
+  response.set("Access-Control-Allow-Methods", "GET, POST");
+
+  cb(request, response);
+}
 
 // returns a list of all users
 export const allUsers = https.onRequest(
   (request: Request, response: Response) => {
+    response.set("Access-Control-Allow-Origin", "*");
+    response.set("Access-Control-Allow-Methods", "GET, POST");
+
     const defaultAuth = getAuth();
     const defaultDatabase = getFirestore();
 

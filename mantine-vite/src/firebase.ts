@@ -1,11 +1,10 @@
 // TODO: Replace the following with your app's Firebase project configuration
 
-import { initializeApp } from "firebase/app";
-import { getAuth, User } from "firebase/auth";
-import { getFirestore } from "firebase/firestore";
+import { FirebaseOptions, initializeApp } from "firebase/app";
+import { getAuth, User, connectAuthEmulator } from "firebase/auth";
+import { connectFirestoreEmulator, getFirestore } from "firebase/firestore";
 
-// See: https://firebase.google.com/docs/web/learn-more#config-object
-const firebaseConfig = {
+const firebaseConfig: FirebaseOptions = {
   apiKey: "AIzaSyBUWfnNdDpvVrF27882U8sGxlsRj1gjalI",
   authDomain: "spralnica.firebaseapp.com",
   projectId: "spralnica",
@@ -17,5 +16,14 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 
-export const auth = getAuth(app);
-export const db = getFirestore(app);
+const auth = getAuth(app);
+connectAuthEmulator(auth, import.meta.env.VITE_AUTH_URL);
+
+const db = getFirestore(app);
+connectFirestoreEmulator(
+  db,
+  import.meta.env.VITE_FIRESTORE_HOST,
+  import.meta.env.VITE_FIRESTORE_PORT
+);
+
+export { db, auth };

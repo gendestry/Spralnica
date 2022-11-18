@@ -14,15 +14,16 @@ import {
   Button,
   Badge,
   Flex,
+  Box,
 } from "@mantine/core";
 import { auth, db } from "./firebase";
-import { useNavigate } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import { NavbarMinimal } from "./Sidebar";
-import { Cal } from "./Calendar";
-import { IUser, UsersRolesTable } from "./UserList";
+import { UsersRolesTable } from "./userMgmt/UserList";
 import { collection, getDocs } from "firebase/firestore";
+import { IUser } from "./userMgmt/listUsers";
 
-async function getUsers() {
+export async function getUsers() {
   const ret: IUser[] = [];
 
   const c = collection(db, "users");
@@ -111,9 +112,30 @@ export default function AppShellDemo() {
               justify="space-between"
               w="100%"
             >
-              <Text weight="bold" size={36} m={42}>
-                Spralnica!
-              </Text>
+              <Flex>
+                <Text
+                  variant="gradient"
+                  gradient={{ from: "yellow", to: "red", deg: 45 }}
+                  sx={{ fontFamily: "Greycliff CF, sans-serif" }}
+                  ta="center"
+                  fz="xl"
+                  fw={700}
+                  mx={10}
+                >
+                  G59
+                </Text>
+                <Text
+                  variant="gradient"
+                  gradient={{ from: "cyan", to: "royalblue", deg: 45 }}
+                  sx={{ fontFamily: "Greycliff CF, sans-serif" }}
+                  ta="center"
+                  fz="xl"
+                  fw={700}
+                >
+                  SPRALNICA
+                </Text>
+              </Flex>
+
               {import.meta.env.MODE == "development" && (
                 <Text color="grape">{import.meta.env.MODE}</Text>
               )}
@@ -123,7 +145,10 @@ export default function AppShellDemo() {
       }
     >
       {/* <Cal /> */}
-      <UsersRolesTable data={getUsers()} />
+      <Box pl={{ sm: "0", md: "6rem" }}>
+        <Outlet />
+        {/* <UsersRolesTable data={getUsers()} /> */}
+      </Box>
     </AppShell>
   );
 }

@@ -1,18 +1,21 @@
 import { Calendar } from "@mantine/dates";
 import { useState } from "react";
 
-export function Cal() {
-  const [value, setValue] = useState<Date | null>(new Date());
+interface ICalProps {
+  date: Date;
+  setDate: (date: Date) => void;
+}
+
+export function Cal({ date, setDate }: ICalProps) {
   const today = new Date();
   const maxDate = new Date();
   maxDate.setMonth(today.getMonth() + 1);
 
   return (
     <>
-      pizdaaa
       <Calendar
-        value={value}
-        onChange={setValue}
+        value={date}
+        onChange={setDate}
         fullWidth
         size="xl"
         minDate={today}
