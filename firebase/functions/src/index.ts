@@ -9,7 +9,7 @@ import { https, logger, Request, Response } from "firebase-functions";
 import * as admin from "firebase-admin";
 import { applicationDefault } from "firebase-admin/app";
 
-// import { defaultAuth, defaultDatabase } from "./firebase";
+// import { adminAuth, defaultDatabase } from "./firebase";
 
 // firebase stuff
 admin.initializeApp({ credential: applicationDefault() });
@@ -31,8 +31,8 @@ export const allUsers = https.onRequest(
     response.set("Access-Control-Allow-Origin", "*");
     response.set("Access-Control-Allow-Methods", "GET, POST");
 
-    const defaultAuth = getAuth();
-    defaultAuth.listUsers().then((usersList: ListUsersResult) => {
+    const adminAuth = getAuth();
+    adminAuth.listUsers().then((usersList: ListUsersResult) => {
       const filtered = usersList.users.map((user) => {
         return {
           uuid: user.uid,
@@ -60,8 +60,8 @@ export const user = https.onRequest(
     response.set("Access-Control-Allow-Methods", "GET, POST");
     
     const data = request.body;
-    const defaultAuth = getAuth();
-    defaultAuth.getUser(data.uuid).then((user) => {
+    const adminAuth = getAuth();
+    adminAuth.getUser(data.uuid).then((user) => {
       const filtered = {
         uuid: user.uid,
         email: user.email,
@@ -118,15 +118,15 @@ export const registerUser = https.onRequest(
     const password: string = data.password;
     const phone: string = data.phone;
 
-    const defaultAuth = getAuth();
-    defaultAuth
+    const adminAuth = getAuth();
+    adminAuth
       .createUser({
         email: email,
         password: password,
         phoneNumber: phone,
       })
       .then((user) => {
-        defaultAuth
+        adminAuth
           .setCustomUserClaims(user.uid, {
             name: name,
             surname: surname,
@@ -154,8 +154,8 @@ export const deleteUser = https.onRequest(
     const data = request.body;
     const uuid: string = data.uuid;
 
-    const defaultAuth = getAuth();
-    defaultAuth.deleteUser(uuid).then(() => {
+    const adminAuth = getAuth();
+    adminAuth.deleteUser(uuid).then(() => {
       response.sendStatus(200);
     })
     .catch((err: Error) => {
@@ -170,15 +170,18 @@ export const setRole = https.onRequest(
     const uuid: string = data.uuid;
     const role: string = data.role;
 
-    const defaultAuth = getAuth();
-    defaultAuth.setCustomUserClaims(uuid, {
-      role: role,
-    })
-    .then(() => {
-      response.sendStatus(200);
-    })
-    .catch((err: Error) => {
-      response.status(503).send(JSON.stringify({ step: "role", ...err }));
+    const adminAuth = getAuth();
+    adminAuth.getUser(uuid).then((user) => {
+      const updatedClaims = {role, ...user.customClaims};
+      adminAuth.setCustomUserClaims(uuid, updatedClaims)
+      .then(() => {
+        response.sendStatus(200);
+      })
+      .catch((err: Error) => {
+        response.status(503).send(JSON.stringify({ step: "role", ...err }));
+      });
+    }).catch((err: Error) => {
+      response.status(503).send(JSON.stringify({ step: "role-getuser", ...err }));
     });
   }
 );
@@ -189,15 +192,18 @@ export const setConfirmed = https.onRequest(
     const uuid: string = data.uuid;
     const confirmed: boolean = data.confirmed;
 
-    const defaultAuth = getAuth();
-    defaultAuth.setCustomUserClaims(uuid, {
-      confirmed: confirmed,
-    })
-    .then(() => {
-      response.sendStatus(200);
-    })
-    .catch((err: Error) => {
-      response.status(503).send(JSON.stringify({ step: "confirm", ...err }));
+    const adminAuth = getAuth();
+    adminAuth.getUser(uuid).then((user) => {
+      const updatedClaims = {confirmed, ...user.customClaims};
+      adminAuth.setCustomUserClaims(uuid, updatedClaims)
+      .then(() => {
+        response.sendStatus(200);
+      })
+      .catch((err: Error) => {
+        response.status(503).send(JSON.stringify({ step: "confirmed", ...err }));
+      });
+    }).catch((err: Error) => {
+      response.status(503).send(JSON.stringify({ step: "confirmed-getuser", ...err }));
     });
   }
 );
@@ -208,8 +214,8 @@ export const setBan = https.onRequest(
     const uuid: string = data.uuid;
     const banned: boolean = data.banned;
 
-    const defaultAuth = getAuth();
-    defaultAuth
+    const adminAuth = getAuth();
+    adminAuth
       .updateUser(uuid, {
         disabled: banned,
       })
