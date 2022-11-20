@@ -26,7 +26,6 @@ function wraper(
   cb(request, response);
 }
 
-
 export const allUsers = https.onRequest(
   (request: Request, response: Response) => {
     response.set("Access-Control-Allow-Origin", "*");
@@ -78,6 +77,33 @@ export const user = https.onRequest(
       response.send(JSON.stringify(filtered));
     }).catch((err: Error) => {
       response.status(503).send(JSON.stringify({ step: "user", ...err }));
+    });
+  }
+);
+
+export const me = https.onRequest(
+  (request: Request, response: Response) => {
+    const auth = request.headers.authorization;
+    getAuth().verifyIdToken(auth || "").then((decodedToken) => {
+      const uuid = decodedToken.uid;
+      getAuth().getUser(uuid).then((user) => {
+        const filtered = {
+          uuid: user.uid,
+          email: user.email,
+          phoneNumber: user.phoneNumber,
+          name: user.customClaims?.name,
+          surname: user.customClaims?.surname,
+          room: user.customClaims?.room,
+          confirmed: user.customClaims?.confirmed,
+          banStatus: user.disabled,
+        };
+
+        response.send(JSON.stringify(filtered));
+      }).catch((err: Error) => {
+        response.status(503).send(JSON.stringify({ step: "me-getuser", ...err }));
+      });
+    }).catch((err: Error) => {
+      response.status(503).send(JSON.stringify({ step: "me", ...err }));
     });
   }
 );
@@ -193,6 +219,44 @@ export const setBan = https.onRequest(
       .catch((err: Error) => {
         response.status(503).send(JSON.stringify({ step: "ban", ...err }));
       });
+  }
+);
+
+
+/*
+  tid - random generated
+  uuid - user uuid
+  washingId - id of washing machine
+  termin - [0-7] 8 terminov / dan
+  date
+*/
+
+
+export const addAllocation = https.onRequest(
+  (request: Request, response: Response) => {
+    const data = request.body;
+    const uuid: string = data.uuid;
+    const washingId: number = data.washingId;
+    const termin: number = data.termin;
+    const date: string = data.date;
+
+    const defaultDatabase = getFirestore();
+    defaultDatabase.collection("washing").add({
+      uuid: uuid,
+      washingId: washingId,
+      termin: termin,
+      date: date,
+    }).then(() => {
+      response.sendStatus(200);
+    }).catch((err: Error) => {
+      response.status(503).send(JSON.stringify({ step: "addWash", ...err }));
+    });
+  }
+);
+
+export const getAllocations = https.onRequest(
+  (request: Request, response: Response) => {
+    const defaultDatabase = getFirestore();
   }
 );
 
