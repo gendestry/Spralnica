@@ -8,7 +8,7 @@ import { https, logger, Request, Response } from "firebase-functions";
 import * as admin from "firebase-admin";
 import { applicationDefault } from "firebase-admin/app";
 
-// import { defaultAuth, defaultDatabase } from "./firebase";
+// import { adminAuth, defaultDatabase } from "./firebase";
 
 // firebase stuff
 admin.initializeApp({ credential: applicationDefault() });
@@ -76,6 +76,39 @@ export const user = https.onRequest((request: Request, response: Response) => {
     });
 });
 
+export const me = https.onRequest((request: Request, response: Response) => {
+  const auth = request.headers.authorization;
+  getAuth()
+    .verifyIdToken(auth || "")
+    .then((decodedToken) => {
+      const uuid = decodedToken.uid;
+      getAuth()
+        .getUser(uuid)
+        .then((user) => {
+          const filtered = {
+            uuid: user.uid,
+            email: user.email,
+            phoneNumber: user.phoneNumber,
+            name: user.customClaims?.name,
+            surname: user.customClaims?.surname,
+            room: user.customClaims?.room,
+            confirmed: user.customClaims?.confirmed,
+            banStatus: user.disabled,
+          };
+
+          response.send(JSON.stringify(filtered));
+        })
+        .catch((err: Error) => {
+          response
+            .status(503)
+            .send(JSON.stringify({ step: "me-getuser", ...err }));
+        });
+    })
+    .catch((err: Error) => {
+      response.status(503).send(JSON.stringify({ step: "me", ...err }));
+    });
+});
+
 export const registerUser = https.onRequest(
   (request: Request, response: Response) => {
     const data = request.body;
@@ -86,15 +119,15 @@ export const registerUser = https.onRequest(
     const password: string = data.password;
     const phone: string = data.phone;
 
-    const defaultAuth = getAuth();
-    defaultAuth
+    const adminAuth = getAuth();
+    adminAuth
       .createUser({
         email: email,
         password: password,
         phoneNumber: phone,
       })
       .then((user) => {
-        defaultAuth
+        adminAuth
           .setCustomUserClaims(user.uid, {
             name: name,
             surname: surname,
@@ -122,8 +155,8 @@ export const deleteUser = https.onRequest(
     const data = request.body;
     const uuid: string = data.uuid;
 
-    const defaultAuth = getAuth();
-    defaultAuth
+    const adminAuth = getAuth();
+    adminAuth
       .deleteUser(uuid)
       .then(() => {
         response.sendStatus(200);
@@ -140,16 +173,24 @@ export const setRole = https.onRequest(
     const uuid: string = data.uuid;
     const role: string = data.role;
 
-    const defaultAuth = getAuth();
-    defaultAuth
-      .setCustomUserClaims(uuid, {
-        role: role,
-      })
-      .then(() => {
-        response.sendStatus(200);
+    const adminAuth = getAuth();
+    adminAuth
+      .getUser(uuid)
+      .then((user) => {
+        const updatedClaims = { role, ...user.customClaims };
+        adminAuth
+          .setCustomUserClaims(uuid, updatedClaims)
+          .then(() => {
+            response.sendStatus(200);
+          })
+          .catch((err: Error) => {
+            response.status(503).send(JSON.stringify({ step: "role", ...err }));
+          });
       })
       .catch((err: Error) => {
-        response.status(503).send(JSON.stringify({ step: "role", ...err }));
+        response
+          .status(503)
+          .send(JSON.stringify({ step: "role-getuser", ...err }));
       });
   }
 );
@@ -171,19 +212,27 @@ export const setConfirmed = https.onRequest(
 
     const uuid: string = data.uuid;
     const confirmed: boolean = data.confirmed;
-    const defaultAuth = getAuth();
 
-    console.log(data);
-
-    defaultAuth
-      .setCustomUserClaims(uuid, {
-        confirmed: confirmed,
-      })
-      .then(() => {
-        response.sendStatus(200);
+    const adminAuth = getAuth();
+    adminAuth
+      .getUser(uuid)
+      .then((user) => {
+        const updatedClaims = { confirmed, ...user.customClaims };
+        adminAuth
+          .setCustomUserClaims(uuid, updatedClaims)
+          .then(() => {
+            response.sendStatus(200);
+          })
+          .catch((err: Error) => {
+            response
+              .status(503)
+              .send(JSON.stringify({ step: "confirmed", ...err }));
+          });
       })
       .catch((err: Error) => {
-        response.status(503).send(JSON.stringify({ step: "confirm", ...err }));
+        response
+          .status(503)
+          .send(JSON.stringify({ step: "confirmed-getuser", ...err }));
       });
   }
 );
@@ -194,8 +243,8 @@ export const setBan = https.onRequest(
     const uuid: string = data.uuid;
     const banned: boolean = data.banned;
 
-    const defaultAuth = getAuth();
-    defaultAuth
+    const adminAuth = getAuth();
+    adminAuth
       .updateUser(uuid, {
         disabled: banned,
       })
@@ -207,3 +256,69 @@ export const setBan = https.onRequest(
       });
   }
 );
+
+/*
+  tid - random generated
+  uuid - user uuid
+  washingId - id of washing machine
+  termin - [0-7] 8 terminov / dan
+  date
+*/
+
+export const addAllocation = https.onRequest(
+  (request: Request, response: Response) => {
+    const data = request.body;
+    const uuid: string = data.uuid;
+    const washingId: number = data.washingId;
+    const termin: number = data.termin;
+    const date: string = data.date;
+
+    const defaultDatabase = getFirestore();
+    defaultDatabase
+      .collection("washing")
+      .add({
+        uuid: uuid,
+        washingId: washingId,
+        termin: termin,
+        date: date,
+      })
+      .then(() => {
+        response.sendStatus(200);
+      })
+      .catch((err: Error) => {
+        response.status(503).send(JSON.stringify({ step: "addWash", ...err }));
+      });
+  }
+);
+
+export const getAllocations = https.onRequest(
+  (request: Request, response: Response) => {
+    const defaultDatabase = getFirestore();
+  }
+);
+
+// toggle user enabled
+// export const setConfirmed = https.onRequest(
+//   (request: Request, response: Response) => {
+//     const data = request.body;
+//     const uuid: string = data.uuid;
+//     const confirmed: boolean = data.confirmed;
+
+//     const defaultDatabase = getFirestore();
+//     defaultDatabase
+//       .collection("users")
+//       .select("uuid", "==", uuid)
+//       .get()
+//       .then((snapshot) => {
+//         snapshot.forEach((doc) => {
+//           doc.ref.update({ confirmed });
+//         });
+//       })
+//       .then(() => {
+//         response.send("success");
+//       })
+//       .catch((error) => {
+//         response.status(500).send(error);
+//       });
+//   }
+// );
