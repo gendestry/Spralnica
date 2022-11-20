@@ -1,5 +1,17 @@
-import { Group, Badge, Checkbox, Text, Button, Box } from "@mantine/core";
-import { IUser } from "./listUsers";
+import {
+  Group,
+  Badge,
+  Checkbox,
+  Text,
+  Button,
+  Box,
+  Select,
+  Avatar,
+} from "@mantine/core";
+import { IconEdit } from "@tabler/icons";
+import { useState } from "react";
+import { useConfirmUser } from "../api/editusers";
+import { IUser } from "../api/listUsers";
 
 interface IUserRowProps {
   item: IUser;
@@ -7,60 +19,38 @@ interface IUserRowProps {
 }
 
 export const UserRow = ({ item, i }: IUserRowProps) => {
-  if (!item.name) {
-    return (
-      <tr key={item.uuid}>
-        <td>
-          <Text size="sm" color="dimmed">
-            {i + 1}
-          </Text>
-        </td>
-        <td>
-          <Group spacing="sm">
-            <div>
-              <Text size="sm" weight={500}>
-                {item.name} {item.surname}
-              </Text>
-              <Text size="xs" color="dimmed">
-                {item.email}
-              </Text>
-            </div>
-          </Group>
-        </td>
+  const { error, loading, mutateUser } = useConfirmUser(item.uuid);
 
-        <td colSpan={3}>
-          <Text>
-            <Badge color={"orange"}>Napaka</Badge>
-          </Text>
-        </td>
-      </tr>
-    );
-  }
+  const mainCol = item.role === "admin" ? "red" : "";
 
+  const user = (
+    <Group spacing="sm">
+      <Avatar color={mainCol}>{item.role === "admin" ? "AD" : "UP"}</Avatar>
+      <div>
+        <Text size="sm" weight={500} color={mainCol}>
+          {item.name} {item.surname}
+        </Text>
+        <Text size="xs" color="dimmed">
+          {item.email}
+        </Text>
+      </div>
+    </Group>
+  );
+
+  // REEEMOVEEE FALSEEE
   if (!item.confirmed) {
     return (
       <tr key={item.uuid}>
         <td>
-          <Text size="sm" color="dimmed">
+          <Button leftIcon={<IconEdit />} variant="light" color={mainCol}>
             {i + 1}
-          </Text>
+          </Button>
         </td>
-        <td>
-          <Group spacing="sm">
-            <div>
-              <Text size="sm" weight={500}>
-                {item.name} {item.surname}
-              </Text>
-              <Text size="xs" color="dimmed">
-                {item.email}
-              </Text>
-            </div>
-          </Group>
-        </td>
+        <td>{user}</td>
 
         <td>
           <Text>
-            <Badge color={"blue"} size="lg">
+            <Badge color={mainCol} size="lg">
               {item.room}
             </Badge>
           </Text>
@@ -75,12 +65,14 @@ export const UserRow = ({ item, i }: IUserRowProps) => {
             }}
           >
             <Button
-              color="teal"
+              size="xs"
+              loading={loading}
               onClick={() => {
-                confirm("Zelite potrditi osebo?");
+                confirm("Zelite potrditi osebo?") && mutateUser();
               }}
+              color={"teal"}
             >
-              Sprejmi{" "}
+              {error ? "Ponovi" : "Potrdi"}
             </Button>
           </Box>
         </td>
@@ -91,31 +83,20 @@ export const UserRow = ({ item, i }: IUserRowProps) => {
   return (
     <tr key={item.uuid}>
       <td>
-        <Text size="sm" color="dimmed">
+        <Button leftIcon={<IconEdit />} variant="light" color={mainCol}>
           {i + 1}
-        </Text>
+        </Button>
       </td>
+      <td>{user}</td>
       <td>
-        <Group spacing="sm">
-          {/* <Avatar size={40} src={item.avatar} radius={40} /> */}
-          <div>
-            <Text size="sm" weight={500}>
-              {item.name} {item.surname}
-            </Text>
-            <Text size="xs" color="dimmed">
-              {item.email}
-            </Text>
-          </div>
-        </Group>
-      </td>
-
-      <td>
-        <Text size="sm">{item.room}</Text>
+        <Badge color={mainCol} size="lg">
+          {item.room}
+        </Badge>
       </td>
 
       <td>
         {!item.disabled ? (
-          <Badge color="gray">Aktiven</Badge>
+          <Badge color="green">Aktiven</Badge>
         ) : (
           <Badge color="red">Onemogočen</Badge>
         )}

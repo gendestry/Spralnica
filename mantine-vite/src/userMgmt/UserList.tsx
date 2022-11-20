@@ -9,15 +9,18 @@ import {
   Skeleton,
   Checkbox,
   Flex,
+  Alert,
+  Box,
 } from "@mantine/core";
 import { useEffect, useState } from "react";
-import { IUser, useListUsers } from "./listUsers";
 import { skeletalRows } from "../skeletons";
 import { UserRow } from "./UserRow";
 import { InputWithButton } from "./FancySearch";
+import { fetchUsers, IUser, useFetchUsers } from "../api/listUsers";
+import { IconAlertCircle } from "@tabler/icons";
 
 interface UsersTableProps {
-  data: Promise<IUser[]>;
+  data?: Promise<IUser[]>;
 }
 
 function filterSearch(search: string, users: IUser[]): IUser[] {
@@ -31,11 +34,11 @@ function filterSearch(search: string, users: IUser[]): IUser[] {
   });
 }
 
-export function UsersRolesTable({ data }: UsersTableProps) {
+export function UsersRolesTable() {
   const [search, setSearch] = useState("");
-  // data.map(item => console.log(item));đđ
-  // console.log(data);
-  const { isLoading, isError, users } = useListUsers();
+
+  const { data, error } = useFetchUsers();
+
   return (
     <ScrollArea>
       <Flex m={32} align="center" justify="center">
@@ -46,6 +49,7 @@ export function UsersRolesTable({ data }: UsersTableProps) {
           }}
         />
       </Flex>
+
       <Table verticalSpacing="sm">
         <thead>
           <tr>
@@ -55,15 +59,43 @@ export function UsersRolesTable({ data }: UsersTableProps) {
             <th>Status</th>
           </tr>
         </thead>
-        {users && users.length > 0 ? (
+        {error && (
           <tbody>
-            {filterSearch(search, users).map((user, i) => {
-              return <UserRow item={user} i={i} key={i} />;
-            })}
+            <tr>
+              <td colSpan={4}>
+                <Alert
+                  icon={<IconAlertCircle size={16} />}
+                  title="Jebiga"
+                  color="red"
+                  variant="outline"
+                >
+                  Neki je šlo narobe. Probi osvežit stran. Detajli v konzoli.
+                </Alert>
+              </td>
+            </tr>
           </tbody>
-        ) : (
-          <tbody>{skeletalRows}</tbody>
         )}
+        {data && data.length == 0 && (
+          <tbody>
+            <tr>
+              <td colSpan={4}>
+                <Alert
+                  icon={<IconAlertCircle size={16} />}
+                  title="Ni uporabnikov"
+                  variant="outline"
+                >
+                  V bazi ni bil najden noben registriran uporabnik. Naj se kdo
+                  registrira ...
+                </Alert>
+              </td>
+            </tr>
+          </tbody>
+        )}
+        {!data && !error && <tbody>{skeletalRows}</tbody>}
+        {!error &&
+          filterSearch(search, data || []).map((user, i) => (
+            <UserRow i={i} key={user.uuid} item={user} />
+          ))}
       </Table>
     </ScrollArea>
   );

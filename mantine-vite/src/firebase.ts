@@ -2,7 +2,7 @@
 
 import { FirebaseOptions, initializeApp } from "firebase/app";
 import { getAuth, User, connectAuthEmulator } from "firebase/auth";
-import { connectFirestoreEmulator, getFirestore } from "firebase/firestore";
+import { useEffect, useState } from "react";
 
 const firebaseConfig: FirebaseOptions = {
   apiKey: "AIzaSyBUWfnNdDpvVrF27882U8sGxlsRj1gjalI",
@@ -19,11 +19,18 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 // connectAuthEmulator(auth, import.meta.env.VITE_AUTH_URL);
 
-const db = getFirestore(app);
-connectFirestoreEmulator(
-  db,
-  import.meta.env.VITE_FIRESTORE_HOST,
-  import.meta.env.VITE_FIRESTORE_PORT
-);
+// currentUserHook
+const useFirebaseUser = () => {
+  const [user, setUser] = useState<User | null>();
+  console.log(user);
 
-export { db, auth };
+  useEffect(() => {
+    auth.onAuthStateChanged((user) => {
+      setUser(user);
+    });
+  }, []);
+
+  return user;
+};
+
+export { auth, useFirebaseUser };

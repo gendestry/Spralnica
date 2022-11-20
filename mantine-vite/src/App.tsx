@@ -11,13 +11,14 @@ import { NotificationsProvider } from "@mantine/notifications";
 import { initializeApp } from "firebase/app";
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import { useEffect } from "react";
-import { AuthenticationForm } from "./Register";
-import AppShellDemo, { getUsers } from "./Shell";
+import { AuthenticationForm as Login } from "./Register";
+import AppShell from "./Shell";
 
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { UsersRolesTable } from "./userMgmt/UserList";
-import { Cal } from "./spranje/Calendar";
 import { Spranje } from "./spranje/Spranje";
+import { ProtectedPath } from "./ProtectedPath";
+import { User } from "./User";
 
 export default function App() {
   return (
@@ -29,19 +30,33 @@ export default function App() {
       <NotificationsProvider>
         <BrowserRouter>
           <Routes>
-            <Route path="/login" element={<AuthenticationForm />} />
-            <Route path="/" element={<AppShellDemo />}>
+            <Route path="/login" element={<Login />} />
+            <Route path="/" element={<AppShell />}>
               <Route
                 path="admin"
-                element={<UsersRolesTable data={getUsers()} />}
+                element={
+                  <ProtectedPath redirect={<Login />}>
+                    <UsersRolesTable />
+                  </ProtectedPath>
+                }
               />
-              <Route path="spranje" element={<Spranje />} />
+              <Route
+                path="spranje"
+                element={
+                  <ProtectedPath redirect={<Login />}>
+                    <Spranje />
+                  </ProtectedPath>
+                }
+              />
+              <Route
+                path="uporabnik"
+                element={
+                  <ProtectedPath redirect={<Login />}>
+                    <User />
+                  </ProtectedPath>
+                }
+              />
             </Route>
-            {/* <Route path="teams" element={<Teams />}>
-              <Route path=":teamId" element={<Team />} />
-              <Route path="new" element={<NewTeamForm />} />
-              <Route index element={<LeagueStandings />} />
-            </Route> */}
           </Routes>
         </BrowserRouter>
       </NotificationsProvider>

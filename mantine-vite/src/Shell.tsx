@@ -16,46 +16,19 @@ import {
   Flex,
   Box,
 } from "@mantine/core";
-import { auth, db } from "./firebase";
+import { auth } from "./firebase";
 import { Outlet, useNavigate } from "react-router-dom";
 import { NavbarMinimal } from "./Sidebar";
 import { UsersRolesTable } from "./userMgmt/UserList";
 import { collection, getDocs } from "firebase/firestore";
 import { IUser } from "./userMgmt/listUsers";
 
-export async function getUsers() {
-  const ret: IUser[] = [];
-
-  const c = collection(db, "users");
-  const docs = await getDocs(c);
-  docs.forEach((doc) => {
-    const data: any = doc.data();
-    data.email = "lan@je.gay";
-    ret.push(data);
-  });
-  return ret;
-}
-
 export default function AppShellDemo() {
   const theme = useMantineTheme();
   const [opened, setOpened] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [user, setUser] = useState<User | null>(null);
-
-  const redirect = useNavigate();
-
-  useEffect(() => {
-    // on user change
-    if (auth.currentUser) {
-      setUser(auth.currentUser);
-    } else {
-      // on user logout
-      redirect("/login");
-    }
-  }, [auth.currentUser]);
 
   console.log(auth.currentUser);
-  console.log(getUsers());
 
   return (
     <AppShell
@@ -86,11 +59,11 @@ export default function AppShellDemo() {
       //     </Aside>
       //   </MediaQuery>
       // }
-      footer={
-        <Footer height={60} p="md">
-          nogice
-        </Footer>
-      }
+      // footer={
+      //   <Footer height={60} p="md">
+      //     nogice
+      //   </Footer>
+      // }
       header={
         <Header height={{ base: 50, md: 70 }} p="md">
           <div

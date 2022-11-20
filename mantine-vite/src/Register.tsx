@@ -25,17 +25,9 @@ import {
 import { showNotification } from "@mantine/notifications";
 
 // import BG from "../public/leaves.png";
-import { auth, db } from "./firebase";
+import { auth } from "./firebase";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import {
-  addDoc,
-  collection,
-  getDoc,
-  getDocs,
-  query,
-  where,
-} from "firebase/firestore";
 
 interface IForms {
   name: string;
@@ -43,6 +35,7 @@ interface IForms {
   room: number | undefined;
   email: string;
   password: string;
+  phone: string;
 }
 
 function roomNumberInRange(val: number) {
@@ -66,6 +59,7 @@ export function AuthenticationForm(props: PaperProps) {
       room: undefined,
       email: "enei@enei.enei",
       password: "eneienei",
+      phone: "+386",
     },
 
     validate: {
@@ -99,61 +93,22 @@ export function AuthenticationForm(props: PaperProps) {
           onSubmit={form.onSubmit((a) => {
             console.log("Submitted", a);
             setLoading(true);
-
-            if (type === "register") {
-              createUserWithEmailAndPassword(auth, a.email, a.password)
-                .then((userCredential) => {
-                  // Signed in
-                  const user = userCredential.user;
-                  const c = collection(db, "users");
-                  addDoc(c, {
-                    uuid: user?.uid,
-                    name: a.name,
-                    surname: a.surname,
-                    room: a.room,
-                    confirmed: false,
-                  })
-                    .then(() => {
-                      redirect("/");
-                    })
-                    .catch((e) => {
-                      showNotification({
-                        title: `Registracijska napaka, 2. korak `,
-                        message: e,
-                        color: "red",
-                      });
-                    });
-                })
-                .catch((error) => {
-                  const errorCode = error.code;
-                  const errorMessage = error.message;
-                  showNotification({
-                    title: `Registracijska napaka ${errorCode}`,
-                    message: errorMessage,
-                    color: "red",
-                  });
-                })
-                .finally(() => {
-                  setLoading(false);
+            signInWithEmailAndPassword(auth, a.email, a.password)
+              .then((userCredential) => {
+                redirect("/");
+              })
+              .catch((error) => {
+                const errorCode = error.code;
+                const errorMessage = error.message;
+                showNotification({
+                  title: `Prijavna napaka ${errorCode}`,
+                  message: errorMessage,
+                  color: "red",
                 });
-            } else {
-              signInWithEmailAndPassword(auth, a.email, a.password)
-                .then((userCredential) => {
-                  redirect("/");
-                })
-                .catch((error) => {
-                  const errorCode = error.code;
-                  const errorMessage = error.message;
-                  showNotification({
-                    title: `Prijavna napaka ${errorCode}`,
-                    message: errorMessage,
-                    color: "red",
-                  });
-                })
-                .finally(() => {
-                  setLoading(false);
-                });
-            }
+              })
+              .finally(() => {
+                setLoading(false);
+              });
           })}
         >
           <Stack>
@@ -175,6 +130,17 @@ export function AuthenticationForm(props: PaperProps) {
                   value={form.values.surname}
                   onChange={(event) =>
                     form.setFieldValue("surname", event.currentTarget.value)
+                  }
+                  error={form.errors.surname}
+                />
+
+                <TextInput
+                  label="Telefon"
+                  type="tel"
+                  placeholder="+386 40 123 456"
+                  value={form.values.surname}
+                  onChange={(event) =>
+                    form.setFieldValue("phone", event.currentTarget.value)
                   }
                   error={form.errors.surname}
                 />
