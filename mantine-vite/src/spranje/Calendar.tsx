@@ -1,3 +1,13 @@
+import {
+  Box,
+  Group,
+  Text,
+  Indicator,
+  Stack,
+  Flex,
+  Badge,
+  Avatar,
+} from "@mantine/core";
 import { Calendar } from "@mantine/dates";
 import { useState } from "react";
 
@@ -14,10 +24,38 @@ export function Cal({ date, setDate }: ICalProps) {
   return (
     <>
       <Calendar
-        value={date}
+        // value={date}
         onChange={setDate}
         fullWidth
         size="xl"
+        renderDay={(date) => {
+          const day = date.getDate();
+          return (
+            <Flex align="center" justify="space-around">
+              {/* display of free spaces */}
+              <Flex align="center" direction="column">
+                <Avatar color="blue" size="sm">
+                  <Text opacity={0.5} size={"sm"}>
+                    {Math.floor(Math.random() * 8)}
+                  </Text>
+                </Avatar>
+                <Avatar color="orange" size="sm">
+                  <Text opacity={0.5} size={"sm"}>
+                    {Math.floor(Math.random() * 8)}
+                  </Text>
+                </Avatar>
+              </Flex>
+
+              {/* current day display */}
+              {date.toDateString() === today.toDateString() ? (
+                <Avatar>{day}</Avatar>
+              ) : (
+                <Box>{day}</Box>
+              )}
+              <Box></Box>
+            </Flex>
+          );
+        }}
         minDate={today}
         maxDate={maxDate}
         styles={(theme) => ({

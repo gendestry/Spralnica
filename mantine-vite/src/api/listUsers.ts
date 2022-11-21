@@ -2,6 +2,7 @@ import useSWR from "swr";
 import { fetcher } from "./swrFetcher";
 
 export interface IUser {
+  phone: string;
   name: string;
   surname: string;
   room: number;
