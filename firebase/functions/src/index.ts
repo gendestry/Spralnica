@@ -11,30 +11,27 @@ import { applicationDefault } from "firebase-admin/app";
 import cors = require("cors");
 import * as express from "express";
 const app = express();
+app.use(cors());
+app.options("*", cors()); // preflight OPTIONS; put before other routes
 
-app.use(
-  cors({
-    origin: true,
-    allowedHeaders: [
-      "Content-Type",
-      "Authorization",
-      "X-Requested-With",
-      "X-HTTP-Method-Override",
-      "Accept",
-      "Origin",
-      "X-Custom-Header",
-    ],
-    credentials: true,
-    methods: ["GET", "POST"],
-  })
-);
-// import { adminAuth, defaultDatabase } from "./firebase";
+// app.all("*", function (req, res, next) {
+//   res.header("Access-Control-Allow-Origin", "*");
+//   res.header(
+//     "Access-Control-Allow-Headers",
+//     "Origin, X-Requested-With, Content-Type, Accept"
+//   );
+//   next();
+// });
 
 // firebase stuff
 admin.initializeApp({ credential: applicationDefault() });
 
 app.get("/allUsers", async (req: Request, res: Response) => {
+  res.set("Access-Control-Allow-Origin", "*");
+  res.set("content-type", "application/json");
   const defaultAuth = getAuth();
+  console.log("aaaa");
+
   defaultAuth
     .listUsers()
     .then((usersList: ListUsersResult) => {
@@ -97,16 +94,7 @@ app.post("/registerUser", async (request: Request, response: Response) => {
 });
 
 app.post("/setConfirmed", async (request: Request, response: Response) => {
-  response.setHeader("Access-Control-Allow-Origin", "*");
-  response.setHeader("Access-Control-Allow-Credentials", "true");
-  response.setHeader(
-    "Access-Control-Allow-Methods",
-    "GET,HEAD,OPTIONS,POST,PUT"
-  );
-  response.setHeader(
-    "Access-Control-Allow-Headers",
-    "Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers"
-  );
+  console.log("setConfirmed");
 
   const data = request.body;
 
@@ -117,7 +105,9 @@ app.post("/setConfirmed", async (request: Request, response: Response) => {
   adminAuth
     .getUser(uuid)
     .then((user) => {
-      const updatedClaims = { confirmed, ...user.customClaims };
+      const updatedClaims = { ...user.customClaims };
+      updatedClaims.confirmed = confirmed;
+      console.log(updatedClaims, confirmed);
       adminAuth
         .setCustomUserClaims(uuid, updatedClaims)
         .then(() => {
