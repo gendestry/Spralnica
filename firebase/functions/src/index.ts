@@ -15,6 +15,10 @@ const app = express();
 app.use(cors());
 app.options("*", cors()); // preflight OPTIONS; put before other routes
 
+const bodyParser = require("body-parser");
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+
 // app.all("*", function (req, res, next) {
 //   res.header("Access-Control-Allow-Origin", "*");
 //   res.header(
@@ -57,7 +61,7 @@ app.get("/allUsers", async (req: Request, res: Response) => {
     });
 });
 
-app.get("/user/:id", async(req: Request, res: Response) => {
+app.get("/user/:id", async (req: Request, res: Response) => {
   res.set("Access-Control-Allow-Origin", "*");
   res.set("content-type", "application/json");
 
@@ -68,7 +72,7 @@ app.get("/user/:id", async(req: Request, res: Response) => {
       const filtered = {
         uuid: user.uid,
         email: user.email,
-        phoneNumber: user.phoneNumber,
+        phone: user.phoneNumber,
         name: user.customClaims?.name,
         surname: user.customClaims?.surname,
         room: user.customClaims?.room,
