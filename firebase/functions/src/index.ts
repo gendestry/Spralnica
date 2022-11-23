@@ -57,6 +57,33 @@ app.get("/allUsers", async (req: Request, res: Response) => {
     });
 });
 
+app.get("/user/:id", async(req: Request, res: Response) => {
+  res.set("Access-Control-Allow-Origin", "*");
+  res.set("content-type", "application/json");
+
+  const defaultAuth = getAuth();
+  defaultAuth
+    .getUser(req.params.id)
+    .then((user) => {
+      const filtered = {
+        uuid: user.uid,
+        email: user.email,
+        phoneNumber: user.phoneNumber,
+        name: user.customClaims?.name,
+        surname: user.customClaims?.surname,
+        room: user.customClaims?.room,
+        role: user.customClaims?.role,
+        confirmed: user.customClaims?.confirmed,
+        disabled: user.disabled,
+      };
+
+      res.send(JSON.stringify(filtered));
+    })
+    .catch((err: Error) => {
+      res.status(503).send(JSON.stringify({ step: "user", ...err }));
+    });
+});
+
 app.post("/registerUser", async (request: Request, response: Response) => {
   const data = request.body;
   const email: string = data.email;
