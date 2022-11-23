@@ -1,3 +1,4 @@
+import { showNotification } from "@mantine/notifications";
 import { useState } from "react";
 import { mutate } from "swr";
 import { fetcher } from "./swrFetcher";
@@ -12,12 +13,20 @@ export const confirmUser = ({ uuid }: { uuid: string }) => {
     fetcher
       .post(url, payload)
       .then((res) => {
-        console.log({ res });
+        showNotification({
+          color: "green",
+          title: "Sprejeto!",
+          message: `Uporabnik ${uuid} sprejet!`,
+        });
         resolve(res.data);
       })
-      .catch((e) => {
+      .catch((e: Error) => {
         reject(e);
-        console.error({ e });
+        showNotification({
+          color: "red",
+          title: "Napaka!",
+          message: `Napaka ${e.message} pri sprejemu uporabnika!`,
+        });
       })
       .finally(() => {
         // store.dispatch(popLoad());

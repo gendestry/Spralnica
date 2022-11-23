@@ -1,4 +1,4 @@
-import { forwardRef, useState } from "react";
+import { forwardRef, useEffect, useState } from "react";
 import {
   Modal,
   Button,
@@ -24,8 +24,9 @@ import {
   IconUserCircle,
 } from "@tabler/icons";
 import { InfoRow, TerminRow } from "../User";
-import { useForm } from "@mantine/form";
+import { useForm, UseFormReturnType } from "@mantine/form";
 import { IUser } from "../api/listUsers";
+import { useEditUser } from "../api/editUser";
 
 export interface IModalProps {
   mainCol: string;
@@ -34,8 +35,9 @@ export interface IModalProps {
 
 export function MyModal({ mainCol, user }: IModalProps) {
   const [opened, setOpened] = useState(false);
+  const { error, loading, editUserProps } = useEditUser();
 
-  const form = useForm({
+  let form = useForm({
     initialValues: {
       ...user,
     },
@@ -44,6 +46,20 @@ export function MyModal({ mainCol, user }: IModalProps) {
     //   email: (value) => (/^\S+@\S+$/.test(value) ? null : "Invalid email"),
     // },
   });
+
+  useEffect(() => {
+    form.setValues(user);
+    form.setTouched({});
+    form.setDirty({});
+  }, [user]);
+
+  const handleSubmit = (newUser: IUser) => {
+    console.log(newUser);
+    editUserProps(newUser).then(() => {
+      setOpened(false);
+      // form.reset();
+    });
+  };
 
   return (
     <>
@@ -63,7 +79,11 @@ export function MyModal({ mainCol, user }: IModalProps) {
           </Flex>
         }
       >
-        <form onSubmit={form.onSubmit((values) => console.log(values))}>
+        <form
+          onSubmit={form.onSubmit((values) => {
+            handleSubmit(values);
+          })}
+        >
           <Stack spacing={"xs"}>
             <Divider label={"Kontakt"} labelPosition="right" />
             {/* <Input icon={<IconAt />} placeholder="email" /> */}
@@ -128,10 +148,8 @@ export function MyModal({ mainCol, user }: IModalProps) {
                 style={{ flex: "1" }}
                 type="submit"
                 m={"sm"}
-                disabled={!form.isDirty()}
-                onClick={() => {
-                  form.reset();
-                }}
+                disabled={!form.isTouched()}
+                loading={loading}
               >
                 Shrani
               </Button>

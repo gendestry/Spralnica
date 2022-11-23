@@ -22,7 +22,6 @@ const auth = getAuth(app);
 // currentUserHook
 const useFirebaseUser = () => {
   const [user, setUser] = useState<User | null>();
-  console.log(user);
 
   useEffect(() => {
     auth.onAuthStateChanged((user) => {

@@ -113,9 +113,11 @@ export const User = () => {
           </Table>
           <Divider my="sm" label={"Termini"} labelPosition="right" />
           <Table>
-            <TerminRow data={new Date()} />
-            <TerminRow data={new Date("05-11-2022")} />
-            <TerminRow data={new Date("12-11-2022")} />
+            <tbody>
+              <TerminRow data={new Date()} />
+              <TerminRow data={new Date("05-11-2022")} />
+              <TerminRow data={new Date("12-11-2022")} />
+            </tbody>
           </Table>
           <PresidentInfo />
         </Stack>

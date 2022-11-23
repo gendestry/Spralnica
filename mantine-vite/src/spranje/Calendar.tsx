@@ -9,7 +9,6 @@ import {
   Avatar,
 } from "@mantine/core";
 import { Calendar } from "@mantine/dates";
-import { useState } from "react";
 
 interface ICalProps {
   date: Date;

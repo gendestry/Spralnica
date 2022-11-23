@@ -10,6 +10,7 @@ import { applicationDefault } from "firebase-admin/app";
 
 import cors = require("cors");
 import * as express from "express";
+import { user } from "firebase-functions/v1/auth";
 const app = express();
 app.use(cors());
 app.options("*", cors()); // preflight OPTIONS; put before other routes
@@ -39,7 +40,7 @@ app.get("/allUsers", async (req: Request, res: Response) => {
         return {
           uuid: user.uid,
           email: user.email,
-          phoneNumber: user.phoneNumber,
+          phone: user.phoneNumber,
           name: user.customClaims?.name,
           surname: user.customClaims?.surname,
           room: user.customClaims?.room,
@@ -150,6 +151,13 @@ app.post("/updateUser", async (request: Request, response: Response) => {
   const role: string | undefined = data.role;
   const email: string | undefined = data.email;
   const phone: string | undefined = data.phone;
+  let disabled: boolean | undefined;
+
+  if (data.disabled !== undefined && data.disabled !== null) {
+    disabled = data.disabled;
+  } else {
+    disabled = undefined;
+  }
 
   const adminAuth = getAuth();
 
@@ -188,6 +196,7 @@ app.post("/updateUser", async (request: Request, response: Response) => {
       adminAuth.updateUser(uuid, {
         phoneNumber: phone || user.phoneNumber,
         email: email || user.email,
+        disabled: disabled,
       });
     })
     .catch((err: Error) => {
@@ -198,130 +207,3 @@ app.post("/updateUser", async (request: Request, response: Response) => {
 });
 
 exports.app = https.onRequest(app);
-
-// export const user = https.onRequest((request: Request, response: Response) => {
-//   response.set("Access-Control-Allow-Origin", "*");
-//   response.set("Access-Control-Allow-Methods", "GET, POST");
-
-//   const data = request.body;
-//   const defaultAuth = getAuth();
-//   defaultAuth
-//     .getUser(data.uuid)
-//     .then((user) => {
-//       const filtered = {
-//         uuid: user.uid,
-//         email: user.email,
-//         phoneNumber: user.phoneNumber,
-//         name: user.customClaims?.name,
-//         surname: user.customClaims?.surname,
-//         room: user.customClaims?.room,
-//         role: user.customClaims?.role,
-//         confirmed: user.customClaims?.confirmed,
-//         disabled: user.disabled,
-//       };
-
-//       response.send(JSON.stringify(filtered));
-//     })
-//     .catch((err: Error) => {
-//       response.status(503).send(JSON.stringify({ step: "user", ...err }));
-//     });
-// });
-
-// export const me = https.onRequest((request: Request, response: Response) => {
-//   const auth = request.headers.authorization;
-//   getAuth()
-//     .verifyIdToken(auth || "")
-//     .then((decodedToken) => {
-//       const uuid = decodedToken.uid;
-//       getAuth()
-//         .getUser(uuid)
-//         .then((user) => {
-//           const filtered = {
-//             uuid: user.uid,
-//             email: user.email,
-//             phoneNumber: user.phoneNumber,
-//             name: user.customClaims?.name,
-//             surname: user.customClaims?.surname,
-//             room: user.customClaims?.room,
-//             confirmed: user.customClaims?.confirmed,
-//             disabled: user.disabled,
-//           };
-
-//           response.send(JSON.stringify(filtered));
-//         })
-//         .catch((err: Error) => {
-//           response
-//             .status(503)
-//             .send(JSON.stringify({ step: "me-getuser", ...err }));
-//         });
-//     })
-//     .catch((err: Error) => {
-//       response.status(503).send(JSON.stringify({ step: "me", ...err }));
-//     });
-// });
-
-// /*
-//   tid - random generated
-//   uuid - user uuid
-//   washingId - id of washing machine
-//   termin - [0-7] 8 terminov / dan
-//   date
-// */
-
-// export const addAllocation = https.onRequest(
-//   (request: Request, response: Response) => {
-//     const data = request.body;
-//     const uuid: string = data.uuid;
-//     const washingId: number = data.washingId;
-//     const termin: number = data.termin;
-//     const date: string = data.date;
-
-//     const defaultDatabase = getFirestore();
-//     defaultDatabase
-//       .collection("washing")
-//       .add({
-//         uuid: uuid,
-//         washingId: washingId,
-//         termin: termin,
-//         date: date,
-//       })
-//       .then(() => {
-//         response.sendStatus(200);
-//       })
-//       .catch((err: Error) => {
-//         response.status(503).send(JSON.stringify({ step: "addWash", ...err }));
-//       });
-//   }
-// );
-
-// export const getAllocations = https.onRequest(
-//   (request: Request, response: Response) => {
-//     const defaultDatabase = getFirestore();
-//   }
-// );
-
-// toggle user enabled
-// export const setConfirmed = https.onRequest(
-//   (request: Request, response: Response) => {
-//     const data = request.body;
-//     const uuid: string = data.uuid;
-//     const confirmed: boolean = data.confirmed;
-
-//     const defaultDatabase = getFirestore();
-//     defaultDatabase
-//       .collection("users")
-//       .select("uuid", "==", uuid)
-//       .get()
-//       .then((snapshot) => {
-//         snapshot.forEach((doc) => {
-//           doc.ref.update({ confirmed });
-//         });
-//       })
-//       .then(() => {
-//         response.send("success");
-//       })
-//       .catch((error) => {
-//         response.status(500).send(error);
-//       });
-//   }
-// );

@@ -92,10 +92,13 @@ export function UsersRolesTable() {
           </tbody>
         )}
         {!data && !error && <tbody>{skeletalRows}</tbody>}
-        {!error &&
-          filterSearch(search, data || []).map((user, i) => (
-            <UserRow i={i} key={user.uuid} item={user} />
-          ))}
+        {!error && (
+          <tbody>
+            {filterSearch(search, data || []).map((user, i) => (
+              <UserRow i={i} key={user.uuid} item={user} />
+            ))}
+          </tbody>
+        )}
       </Table>
     </ScrollArea>
   );
