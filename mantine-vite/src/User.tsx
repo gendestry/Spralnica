@@ -108,8 +108,10 @@ export const User = () => {
           </Table> */}
           <Divider my="sm" label={"Kontakt"} labelPosition="right" />
           <Table>
-            <InfoRow dKey="telefon" data={"00386 31 500 400"} />
-            <InfoRow dKey="e-mail" data={"rando.randy@rand.com"} />
+            <tbody>
+              <InfoRow dKey="telefon" data={"00386 31 500 400"} />
+              <InfoRow dKey="e-mail" data={"rando.randy@rand.com"} />
+            </tbody>
           </Table>
           <Divider my="sm" label={"Termini"} labelPosition="right" />
           <Table>

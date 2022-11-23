@@ -83,25 +83,36 @@ export const UserRow = ({ item: userIn, i }: IUserRowProps) => {
   }
 
   return (
-    <tr
-      key={userIn.uuid}
-      style={{
-        opacity: userIn.disabled ? 0.2 : 1,
-      }}
-    >
+    <tr key={userIn.uuid}>
       <td>
         {/* <Button leftIcon={<IconEdit />} variant="light" color={mainCol}>
           {i + 1}
         </Button> */}
         <MyModal mainCol={mainCol} user={userIn} />
       </td>
-      <td>{user}</td>
-      <td>
+      <td
+        style={{
+          opacity: userIn.disabled ? 0.2 : 1,
+        }}
+      >
+        {user}
+      </td>
+      <td
+        style={{
+          opacity: userIn.disabled ? 0.2 : 1,
+        }}
+      >
         <Badge color={mainCol} size="lg">
           {userIn.room}
         </Badge>
       </td>
-      <td>{userIn.phone}</td>
+      <td
+        style={{
+          opacity: userIn.disabled ? 0.2 : 1,
+        }}
+      >
+        {userIn.phone}
+      </td>
 
       {/* <td>
         {!item.disabled ? (

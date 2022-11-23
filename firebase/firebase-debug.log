@@ -5026,3 +5026,282 @@ Issues? Report them at https://github.com/firebase/firebase-tools/issues and att
 [debug] [2022-11-23T12:43:37.845Z] [worker-us-central1-app-2a7ac5e9-bd79-4141-9e32-d59ea70e7d9f]: IDLE {"metadata":{"emulator":{"name":"functions"},"message":"[worker-us-central1-app-2a7ac5e9-bd79-4141-9e32-d59ea70e7d9f]: IDLE"}}
 [debug] [2022-11-23T12:43:37.846Z] [work-queue] {"queueLength":0,"workRunningCount":2}
 [info] i  functions: Finished "app" in 3.837401ms {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-app"},"extension":{},"message":"Finished \"app\" in 3.837401ms"}}
+[debug] [2022-11-23T12:44:30.454Z] [work-queue] {"queueLength":1,"workRunningCount":2}
+[debug] [2022-11-23T12:44:30.455Z] [work-queue] {"queueLength":0,"workRunningCount":3}
+[debug] [2022-11-23T12:44:30.455Z] Accepted request GET /spralnica/us-central1/app/allUsers --> us-central1-app
+[debug] [2022-11-23T12:44:30.455Z] [functions] Runtime ready! Sending request! {"metadata":{"emulator":{"name":"functions"},"message":"[functions] Runtime ready! Sending request!"}}
+[debug] [2022-11-23T12:44:30.455Z] [functions] Got req.url=/spralnica/us-central1/app/allUsers, mapping to path=/allUsers {"metadata":{"emulator":{"name":"functions"},"message":"[functions] Got req.url=/spralnica/us-central1/app/allUsers, mapping to path=/allUsers"}}
+[debug] [2022-11-23T12:44:30.455Z] [worker-pool] submitRequest(triggerId=us-central1-app) {"metadata":{"emulator":{"name":"functions"},"message":"[worker-pool] submitRequest(triggerId=us-central1-app)"}}
+[debug] [2022-11-23T12:44:30.455Z] [worker-us-central1-app-2a7ac5e9-bd79-4141-9e32-d59ea70e7d9f]: BUSY {"metadata":{"emulator":{"name":"functions"},"message":"[worker-us-central1-app-2a7ac5e9-bd79-4141-9e32-d59ea70e7d9f]: BUSY"}}
+[info] i  functions: Beginning execution of "app" {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-app"},"extension":{},"message":"Beginning execution of \"app\""}}
+[info] >  aaaa {"user":"aaaa","metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-app"},"extension":{},"message":">  aaaa"}}
+[debug] [2022-11-23T12:44:30.463Z] [worker-us-central1-app-2a7ac5e9-bd79-4141-9e32-d59ea70e7d9f]: IDLE {"metadata":{"emulator":{"name":"functions"},"message":"[worker-us-central1-app-2a7ac5e9-bd79-4141-9e32-d59ea70e7d9f]: IDLE"}}
+[debug] [2022-11-23T12:44:30.463Z] [work-queue] {"queueLength":0,"workRunningCount":2}
+[info] i  functions: Finished "app" in 5.850707ms {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-app"},"extension":{},"message":"Finished \"app\" in 5.850707ms"}}
+[debug] [2022-11-23T12:45:29.545Z] [work-queue] {"queueLength":1,"workRunningCount":2}
+[debug] [2022-11-23T12:45:29.545Z] [work-queue] {"queueLength":0,"workRunningCount":3}
+[debug] [2022-11-23T12:45:29.545Z] Accepted request GET /spralnica/us-central1/app/allUsers --> us-central1-app
+[debug] [2022-11-23T12:45:29.545Z] [functions] Runtime ready! Sending request! {"metadata":{"emulator":{"name":"functions"},"message":"[functions] Runtime ready! Sending request!"}}
+[debug] [2022-11-23T12:45:29.546Z] [functions] Got req.url=/spralnica/us-central1/app/allUsers, mapping to path=/allUsers {"metadata":{"emulator":{"name":"functions"},"message":"[functions] Got req.url=/spralnica/us-central1/app/allUsers, mapping to path=/allUsers"}}
+[debug] [2022-11-23T12:45:29.546Z] [worker-pool] submitRequest(triggerId=us-central1-app) {"metadata":{"emulator":{"name":"functions"},"message":"[worker-pool] submitRequest(triggerId=us-central1-app)"}}
+[debug] [2022-11-23T12:45:29.546Z] [worker-us-central1-app-2a7ac5e9-bd79-4141-9e32-d59ea70e7d9f]: BUSY {"metadata":{"emulator":{"name":"functions"},"message":"[worker-us-central1-app-2a7ac5e9-bd79-4141-9e32-d59ea70e7d9f]: BUSY"}}
+[info] i  functions: Beginning execution of "app" {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-app"},"extension":{},"message":"Beginning execution of \"app\""}}
+[info] >  aaaa {"user":"aaaa","metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-app"},"extension":{},"message":">  aaaa"}}
+[debug] [2022-11-23T12:45:29.551Z] [worker-us-central1-app-2a7ac5e9-bd79-4141-9e32-d59ea70e7d9f]: IDLE {"metadata":{"emulator":{"name":"functions"},"message":"[worker-us-central1-app-2a7ac5e9-bd79-4141-9e32-d59ea70e7d9f]: IDLE"}}
+[debug] [2022-11-23T12:45:29.551Z] [work-queue] {"queueLength":0,"workRunningCount":2}
+[info] i  functions: Finished "app" in 3.66123ms {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-app"},"extension":{},"message":"Finished \"app\" in 3.66123ms"}}
+[debug] [2022-11-23T12:45:32.747Z] [work-queue] {"queueLength":1,"workRunningCount":2}
+[debug] [2022-11-23T12:45:32.748Z] [work-queue] {"queueLength":0,"workRunningCount":3}
+[debug] [2022-11-23T12:45:32.748Z] Accepted request OPTIONS /spralnica/us-central1/app/updateUser --> us-central1-app
+[debug] [2022-11-23T12:45:32.748Z] [functions] Runtime ready! Sending request! {"metadata":{"emulator":{"name":"functions"},"message":"[functions] Runtime ready! Sending request!"}}
+[debug] [2022-11-23T12:45:32.748Z] [functions] Got req.url=/spralnica/us-central1/app/updateUser, mapping to path=/updateUser {"metadata":{"emulator":{"name":"functions"},"message":"[functions] Got req.url=/spralnica/us-central1/app/updateUser, mapping to path=/updateUser"}}
+[debug] [2022-11-23T12:45:32.748Z] [worker-pool] submitRequest(triggerId=us-central1-app) {"metadata":{"emulator":{"name":"functions"},"message":"[worker-pool] submitRequest(triggerId=us-central1-app)"}}
+[debug] [2022-11-23T12:45:32.748Z] [worker-us-central1-app-2a7ac5e9-bd79-4141-9e32-d59ea70e7d9f]: BUSY {"metadata":{"emulator":{"name":"functions"},"message":"[worker-us-central1-app-2a7ac5e9-bd79-4141-9e32-d59ea70e7d9f]: BUSY"}}
+[debug] [2022-11-23T12:45:32.751Z] [worker-us-central1-app-2a7ac5e9-bd79-4141-9e32-d59ea70e7d9f]: IDLE {"metadata":{"emulator":{"name":"functions"},"message":"[worker-us-central1-app-2a7ac5e9-bd79-4141-9e32-d59ea70e7d9f]: IDLE"}}
+[debug] [2022-11-23T12:45:32.752Z] [work-queue] {"queueLength":0,"workRunningCount":2}
+[info] i  functions: Beginning execution of "app" {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-app"},"extension":{},"message":"Beginning execution of \"app\""}}
+[info] i  functions: Finished "app" in 0.495209ms {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-app"},"extension":{},"message":"Finished \"app\" in 0.495209ms"}}
+[debug] [2022-11-23T12:45:32.753Z] [work-queue] {"queueLength":1,"workRunningCount":2}
+[debug] [2022-11-23T12:45:32.754Z] [work-queue] {"queueLength":0,"workRunningCount":3}
+[debug] [2022-11-23T12:45:32.754Z] Accepted request POST /spralnica/us-central1/app/updateUser --> us-central1-app
+[debug] [2022-11-23T12:45:32.754Z] [functions] Runtime ready! Sending request! {"metadata":{"emulator":{"name":"functions"},"message":"[functions] Runtime ready! Sending request!"}}
+[debug] [2022-11-23T12:45:32.754Z] [functions] Got req.url=/spralnica/us-central1/app/updateUser, mapping to path=/updateUser {"metadata":{"emulator":{"name":"functions"},"message":"[functions] Got req.url=/spralnica/us-central1/app/updateUser, mapping to path=/updateUser"}}
+[debug] [2022-11-23T12:45:32.755Z] [worker-pool] submitRequest(triggerId=us-central1-app) {"metadata":{"emulator":{"name":"functions"},"message":"[worker-pool] submitRequest(triggerId=us-central1-app)"}}
+[debug] [2022-11-23T12:45:32.755Z] [worker-us-central1-app-2a7ac5e9-bd79-4141-9e32-d59ea70e7d9f]: BUSY {"metadata":{"emulator":{"name":"functions"},"message":"[worker-us-central1-app-2a7ac5e9-bd79-4141-9e32-d59ea70e7d9f]: BUSY"}}
+[info] i  functions: Beginning execution of "app" {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-app"},"extension":{},"message":"Beginning execution of \"app\""}}
+[debug] [2022-11-23T12:45:32.771Z] [worker-us-central1-app-2a7ac5e9-bd79-4141-9e32-d59ea70e7d9f]: IDLE {"metadata":{"emulator":{"name":"functions"},"message":"[worker-us-central1-app-2a7ac5e9-bd79-4141-9e32-d59ea70e7d9f]: IDLE"}}
+[debug] [2022-11-23T12:45:32.771Z] [work-queue] {"queueLength":0,"workRunningCount":2}
+[info] i  functions: Finished "app" in 13.543569ms {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-app"},"extension":{},"message":"Finished \"app\" in 13.543569ms"}}
+[debug] [2022-11-23T12:45:32.814Z] [work-queue] {"queueLength":1,"workRunningCount":2}
+[debug] [2022-11-23T12:45:32.815Z] [work-queue] {"queueLength":0,"workRunningCount":3}
+[debug] [2022-11-23T12:45:32.815Z] Accepted request GET /spralnica/us-central1/app/allUsers --> us-central1-app
+[debug] [2022-11-23T12:45:32.815Z] [functions] Runtime ready! Sending request! {"metadata":{"emulator":{"name":"functions"},"message":"[functions] Runtime ready! Sending request!"}}
+[debug] [2022-11-23T12:45:32.815Z] [functions] Got req.url=/spralnica/us-central1/app/allUsers, mapping to path=/allUsers {"metadata":{"emulator":{"name":"functions"},"message":"[functions] Got req.url=/spralnica/us-central1/app/allUsers, mapping to path=/allUsers"}}
+[debug] [2022-11-23T12:45:32.815Z] [worker-pool] submitRequest(triggerId=us-central1-app) {"metadata":{"emulator":{"name":"functions"},"message":"[worker-pool] submitRequest(triggerId=us-central1-app)"}}
+[debug] [2022-11-23T12:45:32.815Z] [worker-us-central1-app-2a7ac5e9-bd79-4141-9e32-d59ea70e7d9f]: BUSY {"metadata":{"emulator":{"name":"functions"},"message":"[worker-us-central1-app-2a7ac5e9-bd79-4141-9e32-d59ea70e7d9f]: BUSY"}}
+[info] i  functions: Beginning execution of "app" {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-app"},"extension":{},"message":"Beginning execution of \"app\""}}
+[info] >  aaaa {"user":"aaaa","metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-app"},"extension":{},"message":">  aaaa"}}
+[debug] [2022-11-23T12:45:32.821Z] [worker-us-central1-app-2a7ac5e9-bd79-4141-9e32-d59ea70e7d9f]: IDLE {"metadata":{"emulator":{"name":"functions"},"message":"[worker-us-central1-app-2a7ac5e9-bd79-4141-9e32-d59ea70e7d9f]: IDLE"}}
+[debug] [2022-11-23T12:45:32.821Z] [work-queue] {"queueLength":0,"workRunningCount":2}
+[info] i  functions: Finished "app" in 3.52739ms {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-app"},"extension":{},"message":"Finished \"app\" in 3.52739ms"}}
+[debug] [2022-11-23T12:45:47.516Z] [work-queue] {"queueLength":1,"workRunningCount":2}
+[debug] [2022-11-23T12:45:47.517Z] [work-queue] {"queueLength":0,"workRunningCount":3}
+[debug] [2022-11-23T12:45:47.517Z] Accepted request OPTIONS /spralnica/us-central1/app/updateUser --> us-central1-app
+[debug] [2022-11-23T12:45:47.517Z] [functions] Runtime ready! Sending request! {"metadata":{"emulator":{"name":"functions"},"message":"[functions] Runtime ready! Sending request!"}}
+[debug] [2022-11-23T12:45:47.517Z] [functions] Got req.url=/spralnica/us-central1/app/updateUser, mapping to path=/updateUser {"metadata":{"emulator":{"name":"functions"},"message":"[functions] Got req.url=/spralnica/us-central1/app/updateUser, mapping to path=/updateUser"}}
+[debug] [2022-11-23T12:45:47.517Z] [worker-pool] submitRequest(triggerId=us-central1-app) {"metadata":{"emulator":{"name":"functions"},"message":"[worker-pool] submitRequest(triggerId=us-central1-app)"}}
+[debug] [2022-11-23T12:45:47.517Z] [worker-us-central1-app-2a7ac5e9-bd79-4141-9e32-d59ea70e7d9f]: BUSY {"metadata":{"emulator":{"name":"functions"},"message":"[worker-us-central1-app-2a7ac5e9-bd79-4141-9e32-d59ea70e7d9f]: BUSY"}}
+[info] i  functions: Beginning execution of "app" {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-app"},"extension":{},"message":"Beginning execution of \"app\""}}
+[info] i  functions: Finished "app" in 0.471052ms {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-app"},"extension":{},"message":"Finished \"app\" in 0.471052ms"}}
+[debug] [2022-11-23T12:45:47.520Z] [worker-us-central1-app-2a7ac5e9-bd79-4141-9e32-d59ea70e7d9f]: IDLE {"metadata":{"emulator":{"name":"functions"},"message":"[worker-us-central1-app-2a7ac5e9-bd79-4141-9e32-d59ea70e7d9f]: IDLE"}}
+[debug] [2022-11-23T12:45:47.520Z] [work-queue] {"queueLength":0,"workRunningCount":2}
+[debug] [2022-11-23T12:45:47.525Z] [work-queue] {"queueLength":1,"workRunningCount":2}
+[debug] [2022-11-23T12:45:47.525Z] [work-queue] {"queueLength":0,"workRunningCount":3}
+[debug] [2022-11-23T12:45:47.526Z] Accepted request POST /spralnica/us-central1/app/updateUser --> us-central1-app
+[debug] [2022-11-23T12:45:47.526Z] [functions] Runtime ready! Sending request! {"metadata":{"emulator":{"name":"functions"},"message":"[functions] Runtime ready! Sending request!"}}
+[debug] [2022-11-23T12:45:47.526Z] [functions] Got req.url=/spralnica/us-central1/app/updateUser, mapping to path=/updateUser {"metadata":{"emulator":{"name":"functions"},"message":"[functions] Got req.url=/spralnica/us-central1/app/updateUser, mapping to path=/updateUser"}}
+[debug] [2022-11-23T12:45:47.526Z] [worker-pool] submitRequest(triggerId=us-central1-app) {"metadata":{"emulator":{"name":"functions"},"message":"[worker-pool] submitRequest(triggerId=us-central1-app)"}}
+[debug] [2022-11-23T12:45:47.526Z] [worker-us-central1-app-2a7ac5e9-bd79-4141-9e32-d59ea70e7d9f]: BUSY {"metadata":{"emulator":{"name":"functions"},"message":"[worker-us-central1-app-2a7ac5e9-bd79-4141-9e32-d59ea70e7d9f]: BUSY"}}
+[info] i  functions: Beginning execution of "app" {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-app"},"extension":{},"message":"Beginning execution of \"app\""}}
+[debug] [2022-11-23T12:45:47.547Z] [worker-us-central1-app-2a7ac5e9-bd79-4141-9e32-d59ea70e7d9f]: IDLE {"metadata":{"emulator":{"name":"functions"},"message":"[worker-us-central1-app-2a7ac5e9-bd79-4141-9e32-d59ea70e7d9f]: IDLE"}}
+[debug] [2022-11-23T12:45:47.547Z] [work-queue] {"queueLength":0,"workRunningCount":2}
+[info] i  functions: Finished "app" in 14.710321ms {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-app"},"extension":{},"message":"Finished \"app\" in 14.710321ms"}}
+[debug] [2022-11-23T12:45:47.576Z] [work-queue] {"queueLength":1,"workRunningCount":2}
+[debug] [2022-11-23T12:45:47.576Z] [work-queue] {"queueLength":0,"workRunningCount":3}
+[debug] [2022-11-23T12:45:47.576Z] Accepted request GET /spralnica/us-central1/app/allUsers --> us-central1-app
+[debug] [2022-11-23T12:45:47.577Z] [functions] Runtime ready! Sending request! {"metadata":{"emulator":{"name":"functions"},"message":"[functions] Runtime ready! Sending request!"}}
+[debug] [2022-11-23T12:45:47.577Z] [functions] Got req.url=/spralnica/us-central1/app/allUsers, mapping to path=/allUsers {"metadata":{"emulator":{"name":"functions"},"message":"[functions] Got req.url=/spralnica/us-central1/app/allUsers, mapping to path=/allUsers"}}
+[debug] [2022-11-23T12:45:47.577Z] [worker-pool] submitRequest(triggerId=us-central1-app) {"metadata":{"emulator":{"name":"functions"},"message":"[worker-pool] submitRequest(triggerId=us-central1-app)"}}
+[debug] [2022-11-23T12:45:47.577Z] [worker-us-central1-app-2a7ac5e9-bd79-4141-9e32-d59ea70e7d9f]: BUSY {"metadata":{"emulator":{"name":"functions"},"message":"[worker-us-central1-app-2a7ac5e9-bd79-4141-9e32-d59ea70e7d9f]: BUSY"}}
+[info] i  functions: Beginning execution of "app" {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-app"},"extension":{},"message":"Beginning execution of \"app\""}}
+[info] >  aaaa {"user":"aaaa","metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-app"},"extension":{},"message":">  aaaa"}}
+[debug] [2022-11-23T12:45:47.586Z] [worker-us-central1-app-2a7ac5e9-bd79-4141-9e32-d59ea70e7d9f]: IDLE {"metadata":{"emulator":{"name":"functions"},"message":"[worker-us-central1-app-2a7ac5e9-bd79-4141-9e32-d59ea70e7d9f]: IDLE"}}
+[debug] [2022-11-23T12:45:47.586Z] [work-queue] {"queueLength":0,"workRunningCount":2}
+[info] i  functions: Finished "app" in 4.937185ms {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-app"},"extension":{},"message":"Finished \"app\" in 4.937185ms"}}
+[debug] [2022-11-23T12:45:51.239Z] [work-queue] {"queueLength":1,"workRunningCount":2}
+[debug] [2022-11-23T12:45:51.239Z] [work-queue] {"queueLength":0,"workRunningCount":3}
+[debug] [2022-11-23T12:45:51.239Z] Accepted request POST /spralnica/us-central1/app/updateUser --> us-central1-app
+[debug] [2022-11-23T12:45:51.240Z] [functions] Runtime ready! Sending request! {"metadata":{"emulator":{"name":"functions"},"message":"[functions] Runtime ready! Sending request!"}}
+[debug] [2022-11-23T12:45:51.240Z] [functions] Got req.url=/spralnica/us-central1/app/updateUser, mapping to path=/updateUser {"metadata":{"emulator":{"name":"functions"},"message":"[functions] Got req.url=/spralnica/us-central1/app/updateUser, mapping to path=/updateUser"}}
+[debug] [2022-11-23T12:45:51.240Z] [worker-pool] submitRequest(triggerId=us-central1-app) {"metadata":{"emulator":{"name":"functions"},"message":"[worker-pool] submitRequest(triggerId=us-central1-app)"}}
+[debug] [2022-11-23T12:45:51.240Z] [worker-us-central1-app-2a7ac5e9-bd79-4141-9e32-d59ea70e7d9f]: BUSY {"metadata":{"emulator":{"name":"functions"},"message":"[worker-us-central1-app-2a7ac5e9-bd79-4141-9e32-d59ea70e7d9f]: BUSY"}}
+[info] i  functions: Beginning execution of "app" {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-app"},"extension":{},"message":"Beginning execution of \"app\""}}
+[debug] [2022-11-23T12:45:51.250Z] [worker-us-central1-app-2a7ac5e9-bd79-4141-9e32-d59ea70e7d9f]: IDLE {"metadata":{"emulator":{"name":"functions"},"message":"[worker-us-central1-app-2a7ac5e9-bd79-4141-9e32-d59ea70e7d9f]: IDLE"}}
+[debug] [2022-11-23T12:45:51.250Z] [work-queue] {"queueLength":0,"workRunningCount":2}
+[info] i  functions: Finished "app" in 6.887654ms {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-app"},"extension":{},"message":"Finished \"app\" in 6.887654ms"}}
+[debug] [2022-11-23T12:45:51.285Z] [work-queue] {"queueLength":1,"workRunningCount":2}
+[debug] [2022-11-23T12:45:51.285Z] [work-queue] {"queueLength":0,"workRunningCount":3}
+[debug] [2022-11-23T12:45:51.285Z] Accepted request GET /spralnica/us-central1/app/allUsers --> us-central1-app
+[debug] [2022-11-23T12:45:51.286Z] [functions] Runtime ready! Sending request! {"metadata":{"emulator":{"name":"functions"},"message":"[functions] Runtime ready! Sending request!"}}
+[debug] [2022-11-23T12:45:51.286Z] [functions] Got req.url=/spralnica/us-central1/app/allUsers, mapping to path=/allUsers {"metadata":{"emulator":{"name":"functions"},"message":"[functions] Got req.url=/spralnica/us-central1/app/allUsers, mapping to path=/allUsers"}}
+[debug] [2022-11-23T12:45:51.287Z] [worker-pool] submitRequest(triggerId=us-central1-app) {"metadata":{"emulator":{"name":"functions"},"message":"[worker-pool] submitRequest(triggerId=us-central1-app)"}}
+[debug] [2022-11-23T12:45:51.287Z] [worker-us-central1-app-2a7ac5e9-bd79-4141-9e32-d59ea70e7d9f]: BUSY {"metadata":{"emulator":{"name":"functions"},"message":"[worker-us-central1-app-2a7ac5e9-bd79-4141-9e32-d59ea70e7d9f]: BUSY"}}
+[info] i  functions: Beginning execution of "app" {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-app"},"extension":{},"message":"Beginning execution of \"app\""}}
+[info] >  aaaa {"user":"aaaa","metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-app"},"extension":{},"message":">  aaaa"}}
+[debug] [2022-11-23T12:45:51.292Z] [worker-us-central1-app-2a7ac5e9-bd79-4141-9e32-d59ea70e7d9f]: IDLE {"metadata":{"emulator":{"name":"functions"},"message":"[worker-us-central1-app-2a7ac5e9-bd79-4141-9e32-d59ea70e7d9f]: IDLE"}}
+[debug] [2022-11-23T12:45:51.292Z] [work-queue] {"queueLength":0,"workRunningCount":2}
+[info] i  functions: Finished "app" in 3.196274ms {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-app"},"extension":{},"message":"Finished \"app\" in 3.196274ms"}}
+[debug] [2022-11-23T12:46:03.672Z] [work-queue] {"queueLength":1,"workRunningCount":2}
+[debug] [2022-11-23T12:46:03.672Z] [work-queue] {"queueLength":0,"workRunningCount":3}
+[debug] [2022-11-23T12:46:03.672Z] Accepted request GET /spralnica/us-central1/app/allUsers --> us-central1-app
+[debug] [2022-11-23T12:46:03.673Z] [functions] Runtime ready! Sending request! {"metadata":{"emulator":{"name":"functions"},"message":"[functions] Runtime ready! Sending request!"}}
+[debug] [2022-11-23T12:46:03.673Z] [functions] Got req.url=/spralnica/us-central1/app/allUsers, mapping to path=/allUsers {"metadata":{"emulator":{"name":"functions"},"message":"[functions] Got req.url=/spralnica/us-central1/app/allUsers, mapping to path=/allUsers"}}
+[debug] [2022-11-23T12:46:03.673Z] [worker-pool] submitRequest(triggerId=us-central1-app) {"metadata":{"emulator":{"name":"functions"},"message":"[worker-pool] submitRequest(triggerId=us-central1-app)"}}
+[debug] [2022-11-23T12:46:03.673Z] [worker-us-central1-app-2a7ac5e9-bd79-4141-9e32-d59ea70e7d9f]: BUSY {"metadata":{"emulator":{"name":"functions"},"message":"[worker-us-central1-app-2a7ac5e9-bd79-4141-9e32-d59ea70e7d9f]: BUSY"}}
+[info] i  functions: Beginning execution of "app" {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-app"},"extension":{},"message":"Beginning execution of \"app\""}}
+[info] >  aaaa {"user":"aaaa","metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-app"},"extension":{},"message":">  aaaa"}}
+[debug] [2022-11-23T12:46:03.681Z] [worker-us-central1-app-2a7ac5e9-bd79-4141-9e32-d59ea70e7d9f]: IDLE {"metadata":{"emulator":{"name":"functions"},"message":"[worker-us-central1-app-2a7ac5e9-bd79-4141-9e32-d59ea70e7d9f]: IDLE"}}
+[debug] [2022-11-23T12:46:03.682Z] [work-queue] {"queueLength":0,"workRunningCount":2}
+[info] i  functions: Finished "app" in 6.392955ms {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-app"},"extension":{},"message":"Finished \"app\" in 6.392955ms"}}
+[debug] [2022-11-23T12:46:27.142Z] [work-queue] {"queueLength":1,"workRunningCount":2}
+[debug] [2022-11-23T12:46:27.142Z] [work-queue] {"queueLength":0,"workRunningCount":3}
+[debug] [2022-11-23T12:46:27.142Z] Accepted request GET /spralnica/us-central1/app/allUsers --> us-central1-app
+[debug] [2022-11-23T12:46:27.143Z] [functions] Runtime ready! Sending request! {"metadata":{"emulator":{"name":"functions"},"message":"[functions] Runtime ready! Sending request!"}}
+[debug] [2022-11-23T12:46:27.143Z] [functions] Got req.url=/spralnica/us-central1/app/allUsers, mapping to path=/allUsers {"metadata":{"emulator":{"name":"functions"},"message":"[functions] Got req.url=/spralnica/us-central1/app/allUsers, mapping to path=/allUsers"}}
+[debug] [2022-11-23T12:46:27.143Z] [worker-pool] submitRequest(triggerId=us-central1-app) {"metadata":{"emulator":{"name":"functions"},"message":"[worker-pool] submitRequest(triggerId=us-central1-app)"}}
+[debug] [2022-11-23T12:46:27.143Z] [worker-us-central1-app-2a7ac5e9-bd79-4141-9e32-d59ea70e7d9f]: BUSY {"metadata":{"emulator":{"name":"functions"},"message":"[worker-us-central1-app-2a7ac5e9-bd79-4141-9e32-d59ea70e7d9f]: BUSY"}}
+[info] i  functions: Beginning execution of "app" {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-app"},"extension":{},"message":"Beginning execution of \"app\""}}
+[info] >  aaaa {"user":"aaaa","metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-app"},"extension":{},"message":">  aaaa"}}
+[debug] [2022-11-23T12:46:27.150Z] [worker-us-central1-app-2a7ac5e9-bd79-4141-9e32-d59ea70e7d9f]: IDLE {"metadata":{"emulator":{"name":"functions"},"message":"[worker-us-central1-app-2a7ac5e9-bd79-4141-9e32-d59ea70e7d9f]: IDLE"}}
+[debug] [2022-11-23T12:46:27.151Z] [work-queue] {"queueLength":0,"workRunningCount":2}
+[info] i  functions: Finished "app" in 5.522765ms {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-app"},"extension":{},"message":"Finished \"app\" in 5.522765ms"}}
+[debug] [2022-11-23T12:46:34.548Z] [work-queue] {"queueLength":1,"workRunningCount":2}
+[debug] [2022-11-23T12:46:34.548Z] [work-queue] {"queueLength":0,"workRunningCount":3}
+[debug] [2022-11-23T12:46:34.548Z] Accepted request GET /spralnica/us-central1/app/allUsers --> us-central1-app
+[debug] [2022-11-23T12:46:34.548Z] [functions] Runtime ready! Sending request! {"metadata":{"emulator":{"name":"functions"},"message":"[functions] Runtime ready! Sending request!"}}
+[debug] [2022-11-23T12:46:34.549Z] [functions] Got req.url=/spralnica/us-central1/app/allUsers, mapping to path=/allUsers {"metadata":{"emulator":{"name":"functions"},"message":"[functions] Got req.url=/spralnica/us-central1/app/allUsers, mapping to path=/allUsers"}}
+[debug] [2022-11-23T12:46:34.549Z] [worker-pool] submitRequest(triggerId=us-central1-app) {"metadata":{"emulator":{"name":"functions"},"message":"[worker-pool] submitRequest(triggerId=us-central1-app)"}}
+[debug] [2022-11-23T12:46:34.549Z] [worker-us-central1-app-2a7ac5e9-bd79-4141-9e32-d59ea70e7d9f]: BUSY {"metadata":{"emulator":{"name":"functions"},"message":"[worker-us-central1-app-2a7ac5e9-bd79-4141-9e32-d59ea70e7d9f]: BUSY"}}
+[info] i  functions: Beginning execution of "app" {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-app"},"extension":{},"message":"Beginning execution of \"app\""}}
+[info] >  aaaa {"user":"aaaa","metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-app"},"extension":{},"message":">  aaaa"}}
+[debug] [2022-11-23T12:46:34.555Z] [worker-us-central1-app-2a7ac5e9-bd79-4141-9e32-d59ea70e7d9f]: IDLE {"metadata":{"emulator":{"name":"functions"},"message":"[worker-us-central1-app-2a7ac5e9-bd79-4141-9e32-d59ea70e7d9f]: IDLE"}}
+[debug] [2022-11-23T12:46:34.555Z] [work-queue] {"queueLength":0,"workRunningCount":2}
+[info] i  functions: Finished "app" in 4.290894ms {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-app"},"extension":{},"message":"Finished \"app\" in 4.290894ms"}}
+[debug] [2022-11-23T12:47:41.057Z] [work-queue] {"queueLength":1,"workRunningCount":2}
+[debug] [2022-11-23T12:47:41.057Z] [work-queue] {"queueLength":0,"workRunningCount":3}
+[debug] [2022-11-23T12:47:41.057Z] Accepted request GET /spralnica/us-central1/app/allUsers --> us-central1-app
+[debug] [2022-11-23T12:47:41.058Z] [functions] Runtime ready! Sending request! {"metadata":{"emulator":{"name":"functions"},"message":"[functions] Runtime ready! Sending request!"}}
+[debug] [2022-11-23T12:47:41.058Z] [functions] Got req.url=/spralnica/us-central1/app/allUsers, mapping to path=/allUsers {"metadata":{"emulator":{"name":"functions"},"message":"[functions] Got req.url=/spralnica/us-central1/app/allUsers, mapping to path=/allUsers"}}
+[debug] [2022-11-23T12:47:41.058Z] [worker-pool] submitRequest(triggerId=us-central1-app) {"metadata":{"emulator":{"name":"functions"},"message":"[worker-pool] submitRequest(triggerId=us-central1-app)"}}
+[debug] [2022-11-23T12:47:41.058Z] [worker-us-central1-app-2a7ac5e9-bd79-4141-9e32-d59ea70e7d9f]: BUSY {"metadata":{"emulator":{"name":"functions"},"message":"[worker-us-central1-app-2a7ac5e9-bd79-4141-9e32-d59ea70e7d9f]: BUSY"}}
+[info] i  functions: Beginning execution of "app" {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-app"},"extension":{},"message":"Beginning execution of \"app\""}}
+[info] >  aaaa {"user":"aaaa","metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-app"},"extension":{},"message":">  aaaa"}}
+[debug] [2022-11-23T12:47:41.066Z] [worker-us-central1-app-2a7ac5e9-bd79-4141-9e32-d59ea70e7d9f]: IDLE {"metadata":{"emulator":{"name":"functions"},"message":"[worker-us-central1-app-2a7ac5e9-bd79-4141-9e32-d59ea70e7d9f]: IDLE"}}
+[debug] [2022-11-23T12:47:41.067Z] [work-queue] {"queueLength":0,"workRunningCount":2}
+[info] i  functions: Finished "app" in 5.888909ms {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-app"},"extension":{},"message":"Finished \"app\" in 5.888909ms"}}
+[debug] [2022-11-23T12:47:43.760Z] [work-queue] {"queueLength":1,"workRunningCount":2}
+[debug] [2022-11-23T12:47:43.760Z] [work-queue] {"queueLength":0,"workRunningCount":3}
+[debug] [2022-11-23T12:47:43.760Z] Accepted request GET /spralnica/us-central1/app/allUsers --> us-central1-app
+[debug] [2022-11-23T12:47:43.761Z] [functions] Runtime ready! Sending request! {"metadata":{"emulator":{"name":"functions"},"message":"[functions] Runtime ready! Sending request!"}}
+[debug] [2022-11-23T12:47:43.761Z] [functions] Got req.url=/spralnica/us-central1/app/allUsers, mapping to path=/allUsers {"metadata":{"emulator":{"name":"functions"},"message":"[functions] Got req.url=/spralnica/us-central1/app/allUsers, mapping to path=/allUsers"}}
+[debug] [2022-11-23T12:47:43.761Z] [worker-pool] submitRequest(triggerId=us-central1-app) {"metadata":{"emulator":{"name":"functions"},"message":"[worker-pool] submitRequest(triggerId=us-central1-app)"}}
+[debug] [2022-11-23T12:47:43.761Z] [worker-us-central1-app-2a7ac5e9-bd79-4141-9e32-d59ea70e7d9f]: BUSY {"metadata":{"emulator":{"name":"functions"},"message":"[worker-us-central1-app-2a7ac5e9-bd79-4141-9e32-d59ea70e7d9f]: BUSY"}}
+[info] i  functions: Beginning execution of "app" {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-app"},"extension":{},"message":"Beginning execution of \"app\""}}
+[info] >  aaaa {"user":"aaaa","metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-app"},"extension":{},"message":">  aaaa"}}
+[debug] [2022-11-23T12:47:43.766Z] [worker-us-central1-app-2a7ac5e9-bd79-4141-9e32-d59ea70e7d9f]: IDLE {"metadata":{"emulator":{"name":"functions"},"message":"[worker-us-central1-app-2a7ac5e9-bd79-4141-9e32-d59ea70e7d9f]: IDLE"}}
+[debug] [2022-11-23T12:47:43.766Z] [work-queue] {"queueLength":0,"workRunningCount":2}
+[info] i  functions: Finished "app" in 3.312604ms {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-app"},"extension":{},"message":"Finished \"app\" in 3.312604ms"}}
+[debug] [2022-11-23T12:48:10.313Z] [work-queue] {"queueLength":1,"workRunningCount":2}
+[debug] [2022-11-23T12:48:10.313Z] [work-queue] {"queueLength":0,"workRunningCount":3}
+[debug] [2022-11-23T12:48:10.313Z] Accepted request GET /spralnica/us-central1/app/allUsers --> us-central1-app
+[debug] [2022-11-23T12:48:10.314Z] [functions] Runtime ready! Sending request! {"metadata":{"emulator":{"name":"functions"},"message":"[functions] Runtime ready! Sending request!"}}
+[debug] [2022-11-23T12:48:10.314Z] [functions] Got req.url=/spralnica/us-central1/app/allUsers, mapping to path=/allUsers {"metadata":{"emulator":{"name":"functions"},"message":"[functions] Got req.url=/spralnica/us-central1/app/allUsers, mapping to path=/allUsers"}}
+[debug] [2022-11-23T12:48:10.314Z] [worker-pool] submitRequest(triggerId=us-central1-app) {"metadata":{"emulator":{"name":"functions"},"message":"[worker-pool] submitRequest(triggerId=us-central1-app)"}}
+[debug] [2022-11-23T12:48:10.314Z] [worker-us-central1-app-2a7ac5e9-bd79-4141-9e32-d59ea70e7d9f]: BUSY {"metadata":{"emulator":{"name":"functions"},"message":"[worker-us-central1-app-2a7ac5e9-bd79-4141-9e32-d59ea70e7d9f]: BUSY"}}
+[info] i  functions: Beginning execution of "app" {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-app"},"extension":{},"message":"Beginning execution of \"app\""}}
+[info] >  aaaa {"user":"aaaa","metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-app"},"extension":{},"message":">  aaaa"}}
+[debug] [2022-11-23T12:48:10.322Z] [worker-us-central1-app-2a7ac5e9-bd79-4141-9e32-d59ea70e7d9f]: IDLE {"metadata":{"emulator":{"name":"functions"},"message":"[worker-us-central1-app-2a7ac5e9-bd79-4141-9e32-d59ea70e7d9f]: IDLE"}}
+[debug] [2022-11-23T12:48:10.323Z] [work-queue] {"queueLength":0,"workRunningCount":2}
+[info] i  functions: Finished "app" in 5.588901ms {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-app"},"extension":{},"message":"Finished \"app\" in 5.588901ms"}}
+[debug] [2022-11-23T12:48:21.906Z] [work-queue] {"queueLength":1,"workRunningCount":2}
+[debug] [2022-11-23T12:48:21.906Z] [work-queue] {"queueLength":0,"workRunningCount":3}
+[debug] [2022-11-23T12:48:21.906Z] Accepted request OPTIONS /spralnica/us-central1/app/allUsers --> us-central1-app
+[debug] [2022-11-23T12:48:21.907Z] [functions] Runtime ready! Sending request! {"metadata":{"emulator":{"name":"functions"},"message":"[functions] Runtime ready! Sending request!"}}
+[debug] [2022-11-23T12:48:21.907Z] [functions] Got req.url=/spralnica/us-central1/app/allUsers, mapping to path=/allUsers {"metadata":{"emulator":{"name":"functions"},"message":"[functions] Got req.url=/spralnica/us-central1/app/allUsers, mapping to path=/allUsers"}}
+[debug] [2022-11-23T12:48:21.907Z] [worker-pool] submitRequest(triggerId=us-central1-app) {"metadata":{"emulator":{"name":"functions"},"message":"[worker-pool] submitRequest(triggerId=us-central1-app)"}}
+[debug] [2022-11-23T12:48:21.907Z] [worker-us-central1-app-2a7ac5e9-bd79-4141-9e32-d59ea70e7d9f]: BUSY {"metadata":{"emulator":{"name":"functions"},"message":"[worker-us-central1-app-2a7ac5e9-bd79-4141-9e32-d59ea70e7d9f]: BUSY"}}
+[info] i  functions: Beginning execution of "app" {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-app"},"extension":{},"message":"Beginning execution of \"app\""}}
+[debug] [2022-11-23T12:48:21.910Z] [worker-us-central1-app-2a7ac5e9-bd79-4141-9e32-d59ea70e7d9f]: IDLE {"metadata":{"emulator":{"name":"functions"},"message":"[worker-us-central1-app-2a7ac5e9-bd79-4141-9e32-d59ea70e7d9f]: IDLE"}}
+[debug] [2022-11-23T12:48:21.911Z] [work-queue] {"queueLength":0,"workRunningCount":2}
+[info] i  functions: Finished "app" in 0.566952ms {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-app"},"extension":{},"message":"Finished \"app\" in 0.566952ms"}}
+[debug] [2022-11-23T12:48:21.915Z] [work-queue] {"queueLength":1,"workRunningCount":2}
+[debug] [2022-11-23T12:48:21.915Z] [work-queue] {"queueLength":0,"workRunningCount":3}
+[debug] [2022-11-23T12:48:21.915Z] Accepted request GET /spralnica/us-central1/app/allUsers --> us-central1-app
+[debug] [2022-11-23T12:48:21.915Z] [functions] Runtime ready! Sending request! {"metadata":{"emulator":{"name":"functions"},"message":"[functions] Runtime ready! Sending request!"}}
+[debug] [2022-11-23T12:48:21.916Z] [functions] Got req.url=/spralnica/us-central1/app/allUsers, mapping to path=/allUsers {"metadata":{"emulator":{"name":"functions"},"message":"[functions] Got req.url=/spralnica/us-central1/app/allUsers, mapping to path=/allUsers"}}
+[debug] [2022-11-23T12:48:21.916Z] [worker-pool] submitRequest(triggerId=us-central1-app) {"metadata":{"emulator":{"name":"functions"},"message":"[worker-pool] submitRequest(triggerId=us-central1-app)"}}
+[debug] [2022-11-23T12:48:21.916Z] [worker-us-central1-app-2a7ac5e9-bd79-4141-9e32-d59ea70e7d9f]: BUSY {"metadata":{"emulator":{"name":"functions"},"message":"[worker-us-central1-app-2a7ac5e9-bd79-4141-9e32-d59ea70e7d9f]: BUSY"}}
+[info] i  functions: Beginning execution of "app" {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-app"},"extension":{},"message":"Beginning execution of \"app\""}}
+[info] >  aaaa {"user":"aaaa","metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-app"},"extension":{},"message":">  aaaa"}}
+[debug] [2022-11-23T12:48:21.926Z] [worker-us-central1-app-2a7ac5e9-bd79-4141-9e32-d59ea70e7d9f]: IDLE {"metadata":{"emulator":{"name":"functions"},"message":"[worker-us-central1-app-2a7ac5e9-bd79-4141-9e32-d59ea70e7d9f]: IDLE"}}
+[debug] [2022-11-23T12:48:21.926Z] [work-queue] {"queueLength":0,"workRunningCount":2}
+[info] i  functions: Finished "app" in 7.194738ms {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-app"},"extension":{},"message":"Finished \"app\" in 7.194738ms"}}
+[debug] [2022-11-23T12:48:44.375Z] [work-queue] {"queueLength":1,"workRunningCount":2}
+[debug] [2022-11-23T12:48:44.376Z] [work-queue] {"queueLength":0,"workRunningCount":3}
+[debug] [2022-11-23T12:48:44.376Z] Accepted request OPTIONS /spralnica/us-central1/app/allUsers --> us-central1-app
+[debug] [2022-11-23T12:48:44.376Z] [functions] Runtime ready! Sending request! {"metadata":{"emulator":{"name":"functions"},"message":"[functions] Runtime ready! Sending request!"}}
+[debug] [2022-11-23T12:48:44.376Z] [functions] Got req.url=/spralnica/us-central1/app/allUsers, mapping to path=/allUsers {"metadata":{"emulator":{"name":"functions"},"message":"[functions] Got req.url=/spralnica/us-central1/app/allUsers, mapping to path=/allUsers"}}
+[debug] [2022-11-23T12:48:44.376Z] [worker-pool] submitRequest(triggerId=us-central1-app) {"metadata":{"emulator":{"name":"functions"},"message":"[worker-pool] submitRequest(triggerId=us-central1-app)"}}
+[debug] [2022-11-23T12:48:44.376Z] [worker-us-central1-app-2a7ac5e9-bd79-4141-9e32-d59ea70e7d9f]: BUSY {"metadata":{"emulator":{"name":"functions"},"message":"[worker-us-central1-app-2a7ac5e9-bd79-4141-9e32-d59ea70e7d9f]: BUSY"}}
+[info] i  functions: Beginning execution of "app" {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-app"},"extension":{},"message":"Beginning execution of \"app\""}}
+[info] i  functions: Finished "app" in 0.502833ms {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-app"},"extension":{},"message":"Finished \"app\" in 0.502833ms"}}
+[debug] [2022-11-23T12:48:44.379Z] [worker-us-central1-app-2a7ac5e9-bd79-4141-9e32-d59ea70e7d9f]: IDLE {"metadata":{"emulator":{"name":"functions"},"message":"[worker-us-central1-app-2a7ac5e9-bd79-4141-9e32-d59ea70e7d9f]: IDLE"}}
+[debug] [2022-11-23T12:48:44.380Z] [work-queue] {"queueLength":0,"workRunningCount":2}
+[debug] [2022-11-23T12:48:44.389Z] [work-queue] {"queueLength":1,"workRunningCount":2}
+[debug] [2022-11-23T12:48:44.390Z] [work-queue] {"queueLength":0,"workRunningCount":3}
+[debug] [2022-11-23T12:48:44.390Z] Accepted request GET /spralnica/us-central1/app/allUsers --> us-central1-app
+[debug] [2022-11-23T12:48:44.390Z] [functions] Runtime ready! Sending request! {"metadata":{"emulator":{"name":"functions"},"message":"[functions] Runtime ready! Sending request!"}}
+[debug] [2022-11-23T12:48:44.390Z] [functions] Got req.url=/spralnica/us-central1/app/allUsers, mapping to path=/allUsers {"metadata":{"emulator":{"name":"functions"},"message":"[functions] Got req.url=/spralnica/us-central1/app/allUsers, mapping to path=/allUsers"}}
+[debug] [2022-11-23T12:48:44.390Z] [worker-pool] submitRequest(triggerId=us-central1-app) {"metadata":{"emulator":{"name":"functions"},"message":"[worker-pool] submitRequest(triggerId=us-central1-app)"}}
+[debug] [2022-11-23T12:48:44.390Z] [worker-us-central1-app-2a7ac5e9-bd79-4141-9e32-d59ea70e7d9f]: BUSY {"metadata":{"emulator":{"name":"functions"},"message":"[worker-us-central1-app-2a7ac5e9-bd79-4141-9e32-d59ea70e7d9f]: BUSY"}}
+[info] i  functions: Beginning execution of "app" {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-app"},"extension":{},"message":"Beginning execution of \"app\""}}
+[info] >  aaaa {"user":"aaaa","metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-app"},"extension":{},"message":">  aaaa"}}
+[debug] [2022-11-23T12:48:44.395Z] [worker-us-central1-app-2a7ac5e9-bd79-4141-9e32-d59ea70e7d9f]: IDLE {"metadata":{"emulator":{"name":"functions"},"message":"[worker-us-central1-app-2a7ac5e9-bd79-4141-9e32-d59ea70e7d9f]: IDLE"}}
+[debug] [2022-11-23T12:48:44.396Z] [work-queue] {"queueLength":0,"workRunningCount":2}
+[info] i  functions: Finished "app" in 3.478795ms {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-app"},"extension":{},"message":"Finished \"app\" in 3.478795ms"}}
+[debug] [2022-11-23T12:49:41.867Z] [work-queue] {"queueLength":1,"workRunningCount":2}
+[debug] [2022-11-23T12:49:41.868Z] [work-queue] {"queueLength":0,"workRunningCount":3}
+[debug] [2022-11-23T12:49:41.868Z] Accepted request OPTIONS /spralnica/us-central1/app/allUsers --> us-central1-app
+[debug] [2022-11-23T12:49:41.868Z] [functions] Runtime ready! Sending request! {"metadata":{"emulator":{"name":"functions"},"message":"[functions] Runtime ready! Sending request!"}}
+[debug] [2022-11-23T12:49:41.868Z] [functions] Got req.url=/spralnica/us-central1/app/allUsers, mapping to path=/allUsers {"metadata":{"emulator":{"name":"functions"},"message":"[functions] Got req.url=/spralnica/us-central1/app/allUsers, mapping to path=/allUsers"}}
+[debug] [2022-11-23T12:49:41.868Z] [worker-pool] submitRequest(triggerId=us-central1-app) {"metadata":{"emulator":{"name":"functions"},"message":"[worker-pool] submitRequest(triggerId=us-central1-app)"}}
+[debug] [2022-11-23T12:49:41.868Z] [worker-us-central1-app-2a7ac5e9-bd79-4141-9e32-d59ea70e7d9f]: BUSY {"metadata":{"emulator":{"name":"functions"},"message":"[worker-us-central1-app-2a7ac5e9-bd79-4141-9e32-d59ea70e7d9f]: BUSY"}}
+[info] i  functions: Beginning execution of "app" {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-app"},"extension":{},"message":"Beginning execution of \"app\""}}
+[info] i  functions: Finished "app" in 0.525593ms {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-app"},"extension":{},"message":"Finished \"app\" in 0.525593ms"}}
+[debug] [2022-11-23T12:49:41.872Z] [worker-us-central1-app-2a7ac5e9-bd79-4141-9e32-d59ea70e7d9f]: IDLE {"metadata":{"emulator":{"name":"functions"},"message":"[worker-us-central1-app-2a7ac5e9-bd79-4141-9e32-d59ea70e7d9f]: IDLE"}}
+[debug] [2022-11-23T12:49:41.872Z] [work-queue] {"queueLength":0,"workRunningCount":2}
+[debug] [2022-11-23T12:49:41.875Z] [work-queue] {"queueLength":1,"workRunningCount":2}
+[debug] [2022-11-23T12:49:41.876Z] [work-queue] {"queueLength":0,"workRunningCount":3}
+[debug] [2022-11-23T12:49:41.876Z] Accepted request GET /spralnica/us-central1/app/allUsers --> us-central1-app
+[debug] [2022-11-23T12:49:41.876Z] [functions] Runtime ready! Sending request! {"metadata":{"emulator":{"name":"functions"},"message":"[functions] Runtime ready! Sending request!"}}
+[debug] [2022-11-23T12:49:41.876Z] [functions] Got req.url=/spralnica/us-central1/app/allUsers, mapping to path=/allUsers {"metadata":{"emulator":{"name":"functions"},"message":"[functions] Got req.url=/spralnica/us-central1/app/allUsers, mapping to path=/allUsers"}}
+[debug] [2022-11-23T12:49:41.876Z] [worker-pool] submitRequest(triggerId=us-central1-app) {"metadata":{"emulator":{"name":"functions"},"message":"[worker-pool] submitRequest(triggerId=us-central1-app)"}}
+[debug] [2022-11-23T12:49:41.877Z] [worker-us-central1-app-2a7ac5e9-bd79-4141-9e32-d59ea70e7d9f]: BUSY {"metadata":{"emulator":{"name":"functions"},"message":"[worker-us-central1-app-2a7ac5e9-bd79-4141-9e32-d59ea70e7d9f]: BUSY"}}
+[info] i  functions: Beginning execution of "app" {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-app"},"extension":{},"message":"Beginning execution of \"app\""}}
+[info] >  aaaa {"user":"aaaa","metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-app"},"extension":{},"message":">  aaaa"}}
+[debug] [2022-11-23T12:49:41.884Z] [worker-us-central1-app-2a7ac5e9-bd79-4141-9e32-d59ea70e7d9f]: IDLE {"metadata":{"emulator":{"name":"functions"},"message":"[worker-us-central1-app-2a7ac5e9-bd79-4141-9e32-d59ea70e7d9f]: IDLE"}}
+[debug] [2022-11-23T12:49:41.885Z] [work-queue] {"queueLength":0,"workRunningCount":2}
+[info] i  functions: Finished "app" in 5.337111ms {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-app"},"extension":{},"message":"Finished \"app\" in 5.337111ms"}}
+[debug] [2022-11-23T12:49:53.899Z] [work-queue] {"queueLength":1,"workRunningCount":2}
+[debug] [2022-11-23T12:49:53.899Z] [work-queue] {"queueLength":0,"workRunningCount":3}
+[debug] [2022-11-23T12:49:53.900Z] Accepted request OPTIONS /spralnica/us-central1/app/allUsers --> us-central1-app
+[debug] [2022-11-23T12:49:53.900Z] [functions] Runtime ready! Sending request! {"metadata":{"emulator":{"name":"functions"},"message":"[functions] Runtime ready! Sending request!"}}
+[debug] [2022-11-23T12:49:53.900Z] [functions] Got req.url=/spralnica/us-central1/app/allUsers, mapping to path=/allUsers {"metadata":{"emulator":{"name":"functions"},"message":"[functions] Got req.url=/spralnica/us-central1/app/allUsers, mapping to path=/allUsers"}}
+[debug] [2022-11-23T12:49:53.900Z] [worker-pool] submitRequest(triggerId=us-central1-app) {"metadata":{"emulator":{"name":"functions"},"message":"[worker-pool] submitRequest(triggerId=us-central1-app)"}}
+[debug] [2022-11-23T12:49:53.900Z] [worker-us-central1-app-2a7ac5e9-bd79-4141-9e32-d59ea70e7d9f]: BUSY {"metadata":{"emulator":{"name":"functions"},"message":"[worker-us-central1-app-2a7ac5e9-bd79-4141-9e32-d59ea70e7d9f]: BUSY"}}
+[info] i  functions: Beginning execution of "app" {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-app"},"extension":{},"message":"Beginning execution of \"app\""}}
+[info] i  functions: Finished "app" in 0.547773ms {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-app"},"extension":{},"message":"Finished \"app\" in 0.547773ms"}}
+[debug] [2022-11-23T12:49:53.903Z] [worker-us-central1-app-2a7ac5e9-bd79-4141-9e32-d59ea70e7d9f]: IDLE {"metadata":{"emulator":{"name":"functions"},"message":"[worker-us-central1-app-2a7ac5e9-bd79-4141-9e32-d59ea70e7d9f]: IDLE"}}
+[debug] [2022-11-23T12:49:53.904Z] [work-queue] {"queueLength":0,"workRunningCount":2}
+[debug] [2022-11-23T12:49:53.908Z] [work-queue] {"queueLength":1,"workRunningCount":2}
+[debug] [2022-11-23T12:49:53.908Z] [work-queue] {"queueLength":0,"workRunningCount":3}
+[debug] [2022-11-23T12:49:53.908Z] Accepted request GET /spralnica/us-central1/app/allUsers --> us-central1-app
+[debug] [2022-11-23T12:49:53.909Z] [functions] Runtime ready! Sending request! {"metadata":{"emulator":{"name":"functions"},"message":"[functions] Runtime ready! Sending request!"}}
+[debug] [2022-11-23T12:49:53.909Z] [functions] Got req.url=/spralnica/us-central1/app/allUsers, mapping to path=/allUsers {"metadata":{"emulator":{"name":"functions"},"message":"[functions] Got req.url=/spralnica/us-central1/app/allUsers, mapping to path=/allUsers"}}
+[debug] [2022-11-23T12:49:53.909Z] [worker-pool] submitRequest(triggerId=us-central1-app) {"metadata":{"emulator":{"name":"functions"},"message":"[worker-pool] submitRequest(triggerId=us-central1-app)"}}
+[debug] [2022-11-23T12:49:53.909Z] [worker-us-central1-app-2a7ac5e9-bd79-4141-9e32-d59ea70e7d9f]: BUSY {"metadata":{"emulator":{"name":"functions"},"message":"[worker-us-central1-app-2a7ac5e9-bd79-4141-9e32-d59ea70e7d9f]: BUSY"}}
+[info] i  functions: Beginning execution of "app" {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-app"},"extension":{},"message":"Beginning execution of \"app\""}}
+[info] >  aaaa {"user":"aaaa","metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-app"},"extension":{},"message":">  aaaa"}}
+[debug] [2022-11-23T12:49:53.919Z] [worker-us-central1-app-2a7ac5e9-bd79-4141-9e32-d59ea70e7d9f]: IDLE {"metadata":{"emulator":{"name":"functions"},"message":"[worker-us-central1-app-2a7ac5e9-bd79-4141-9e32-d59ea70e7d9f]: IDLE"}}
+[debug] [2022-11-23T12:49:53.919Z] [work-queue] {"queueLength":0,"workRunningCount":2}
+[info] i  functions: Finished "app" in 7.030315ms {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-app"},"extension":{},"message":"Finished \"app\" in 7.030315ms"}}
