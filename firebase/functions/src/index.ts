@@ -45,7 +45,7 @@ app.get("/allUsers", async (req: Request, res: Response) => {
           room: user.customClaims?.room,
           role: user.customClaims?.role,
           confirmed: user.customClaims?.confirmed,
-          banStatus: user.disabled,
+          disabled: user.disabled,
         };
       });
 
@@ -93,6 +93,21 @@ app.post("/registerUser", async (request: Request, response: Response) => {
     });
 });
 
+app.post("/deleteUser", async (request: Request, response: Response) => {
+  const data = request.body;
+  const uuid: string = data.uuid;
+
+  const adminAuth = getAuth();
+  adminAuth
+    .deleteUser(uuid)
+    .then(() => {
+      response.sendStatus(200);
+    })
+    .catch((err: Error) => {
+      response.status(503).send(JSON.stringify({ step: "delete", ...err }));
+    });
+});
+
 app.post("/setConfirmed", async (request: Request, response: Response) => {
   console.log("setConfirmed");
 
@@ -126,6 +141,62 @@ app.post("/setConfirmed", async (request: Request, response: Response) => {
     });
 });
 
+app.post("/updateUser", async (request: Request, response: Response) => {
+  const data = request.body;
+  const uuid: string = data.uuid;
+  const name: string | undefined = data.name;
+  const surname: string | undefined = data.surname;
+  const room: string | undefined = data.room;
+  const role: string | undefined = data.role;
+  const email: string | undefined = data.email;
+  const phone: string | undefined = data.phone;
+
+  const adminAuth = getAuth();
+
+  // update claims
+  adminAuth
+    .getUser(uuid)
+    .then((user) => {
+      const claims = user.customClaims;
+      const updatedClaims = {
+        name: name || claims?.name,
+        surname: surname || claims?.surname,
+        room: room || claims?.room,
+        role: role || claims?.role,
+        confirmed: claims?.confirmed,
+      };
+
+      adminAuth
+        .setCustomUserClaims(uuid, updatedClaims)
+        .then(() => {
+          response.sendStatus(200);
+        })
+        .catch((err: Error) => {
+          response.status(503).send(JSON.stringify({ step: "update", ...err }));
+        });
+    })
+    .catch((err: Error) => {
+      response
+        .status(503)
+        .send(JSON.stringify({ step: "update-claims", ...err }));
+    });
+
+  // update email / phone
+  adminAuth
+    .getUser(uuid)
+    .then((user) => {
+      adminAuth.updateUser(uuid, {
+        phoneNumber: phone || user.phoneNumber,
+        email: email || user.email,
+      });
+    })
+    .catch((err: Error) => {
+      response
+        .status(503)
+        .send(JSON.stringify({ step: "update-email-phone", ...err }));
+    });
+});
+
 exports.app = https.onRequest(app);
 
 // export const user = https.onRequest((request: Request, response: Response) => {
@@ -146,7 +217,7 @@ exports.app = https.onRequest(app);
 //         room: user.customClaims?.room,
 //         role: user.customClaims?.role,
 //         confirmed: user.customClaims?.confirmed,
-//         banStatus: user.disabled,
+//         disabled: user.disabled,
 //       };
 
 //       response.send(JSON.stringify(filtered));
@@ -173,7 +244,7 @@ exports.app = https.onRequest(app);
 //             surname: user.customClaims?.surname,
 //             room: user.customClaims?.room,
 //             confirmed: user.customClaims?.confirmed,
-//             banStatus: user.disabled,
+//             disabled: user.disabled,
 //           };
 
 //           response.send(JSON.stringify(filtered));
@@ -188,71 +259,6 @@ exports.app = https.onRequest(app);
 //       response.status(503).send(JSON.stringify({ step: "me", ...err }));
 //     });
 // });
-
-// export const deleteUser = https.onRequest(
-//   (request: Request, response: Response) => {
-//     const data = request.body;
-//     const uuid: string = data.uuid;
-
-//     const adminAuth = getAuth();
-//     adminAuth
-//       .deleteUser(uuid)
-//       .then(() => {
-//         response.sendStatus(200);
-//       })
-//       .catch((err: Error) => {
-//         response.status(503).send(JSON.stringify({ step: "delete", ...err }));
-//       });
-//   }
-// );
-
-// export const setRole = https.onRequest(
-//   (request: Request, response: Response) => {
-//     const data = request.body;
-//     const uuid: string = data.uuid;
-//     const role: string = data.role;
-
-//     const adminAuth = getAuth();
-//     adminAuth
-//       .getUser(uuid)
-//       .then((user) => {
-//         const updatedClaims = { role, ...user.customClaims };
-//         adminAuth
-//           .setCustomUserClaims(uuid, updatedClaims)
-//           .then(() => {
-//             response.sendStatus(200);
-//           })
-//           .catch((err: Error) => {
-//             response.status(503).send(JSON.stringify({ step: "role", ...err }));
-//           });
-//       })
-//       .catch((err: Error) => {
-//         response
-//           .status(503)
-//           .send(JSON.stringify({ step: "role-getuser", ...err }));
-//       });
-//   }
-// );
-
-// export const setBan = https.onRequest(
-//   (request: Request, response: Response) => {
-//     const data = request.body;
-//     const uuid: string = data.uuid;
-//     const banned: boolean = data.banned;
-
-//     const adminAuth = getAuth();
-//     adminAuth
-//       .updateUser(uuid, {
-//         disabled: banned,
-//       })
-//       .then(() => {
-//         response.sendStatus(200);
-//       })
-//       .catch((err: Error) => {
-//         response.status(503).send(JSON.stringify({ step: "ban", ...err }));
-//       });
-//   }
-// );
 
 // /*
 //   tid - random generated

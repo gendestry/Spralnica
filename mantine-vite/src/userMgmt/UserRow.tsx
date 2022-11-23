@@ -12,6 +12,7 @@ import { IconEdit } from "@tabler/icons";
 import { useState } from "react";
 import { useConfirmUser } from "../api/editusers";
 import { IUser } from "../api/listUsers";
+import { MyModal } from "./Modal";
 
 interface IUserRowProps {
   item: IUser;
@@ -81,11 +82,17 @@ export const UserRow = ({ item, i }: IUserRowProps) => {
   }
 
   return (
-    <tr key={item.uuid}>
+    <tr
+      key={item.uuid}
+      style={{
+        opacity: item.disabled ? 0.2 : 1,
+      }}
+    >
       <td>
-        <Button leftIcon={<IconEdit />} variant="light" color={mainCol}>
+        {/* <Button leftIcon={<IconEdit />} variant="light" color={mainCol}>
           {i + 1}
-        </Button>
+        </Button> */}
+        <MyModal mainCol={mainCol} user={item} />
       </td>
       <td>{user}</td>
       <td>
@@ -93,14 +100,15 @@ export const UserRow = ({ item, i }: IUserRowProps) => {
           {item.room}
         </Badge>
       </td>
+      <td>{item.uuid}</td>
 
-      <td>
+      {/* <td>
         {!item.disabled ? (
           <Badge color="green">Aktiven</Badge>
         ) : (
           <Badge color="red">Onemogočen</Badge>
         )}
-      </td>
+      </td> */}
     </tr>
   );
 };

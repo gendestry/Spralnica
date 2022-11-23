@@ -56,7 +56,7 @@ export function UsersRolesTable() {
             <th></th>
             <th>Oseba</th>
             <th>Številka sobe</th>
-            <th>Status</th>
+            <th>Telefon</th>
           </tr>
         </thead>
         {error && (

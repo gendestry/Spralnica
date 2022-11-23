@@ -147,7 +147,7 @@ export function AccordionLabel({
 
 export function AccordionList() {
   const items = data.map((item, i) => (
-    <Accordion.Item value={"item_" + i} key={item.machine}>
+    <Accordion.Item value={"item_" + i} key={"item_" + i}>
       <Accordion.Control>
         <AccordionLabel {...item} />
       </Accordion.Control>
@@ -189,7 +189,7 @@ export function AccordionList() {
   ));
 
   return (
-    <Accordion w="100%" chevronPosition="right" variant="contained">
+    <Accordion w="100%" chevronPosition="right" variant="default">
       {items}
     </Accordion>
   );

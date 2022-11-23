@@ -26,7 +26,7 @@ interface IRowProps {
   data: string;
 }
 
-const InfoRow = ({ data, dKey }: IRowProps) => {
+export const InfoRow = ({ data, dKey }: IRowProps) => {
   return (
     <tr>
       <td>
@@ -37,7 +37,7 @@ const InfoRow = ({ data, dKey }: IRowProps) => {
   );
 };
 
-const TerminRow = ({ data }: { data: Date }) => {
+export const TerminRow = ({ data }: { data: Date }) => {
   return (
     <tr>
       <td>
