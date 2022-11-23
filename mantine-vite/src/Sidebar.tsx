@@ -86,8 +86,8 @@ const mockdata = [
   { icon: IconDeviceDesktopAnalytics, label: "Admin", path: "/admin" },
   { icon: IconCalendarStats, label: "Spranje", path: "/spranje" },
   { icon: IconUser, label: "Uporabnik", path: "/uporabnik" },
-  { icon: IconExclamationMark, label: "Pravilnik", path: "/uporabnik" },
-  { icon: IconBook, label: "Navodila", path: "/uporabnik" },
+  { icon: IconExclamationMark, label: "Pravilnik", path: "/pravilnik" },
+  { icon: IconBook, label: "Navodila", path: "/navodila" },
 ];
 
 export function NavbarMinimal() {

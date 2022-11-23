@@ -20,6 +20,8 @@ import { Spranje } from "./spranje/Spranje";
 import { ProtectedPath } from "./ProtectedPath";
 import { User } from "./User";
 import { Home } from "./views/home/Home";
+import { Pravilnik } from "./views/pravilnik/Pravilnik";
+import { Navodila } from "./views/navodila/Navodila";
 
 export default function App() {
   return (
@@ -62,6 +64,22 @@ export default function App() {
                 element={
                   <ProtectedPath redirect={<Login />}>
                     <User />
+                  </ProtectedPath>
+                }
+              />
+              <Route
+                path="pravilnik"
+                element={
+                  <ProtectedPath redirect={<Login />}>
+                    <Pravilnik />
+                  </ProtectedPath>
+                }
+              />
+              <Route
+                path="navodila"
+                element={
+                  <ProtectedPath redirect={<Login />}>
+                    <Navodila />
                   </ProtectedPath>
                 }
               />
