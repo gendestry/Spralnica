@@ -19,9 +19,6 @@ import {
 import { auth } from "./firebase";
 import { Outlet, useNavigate } from "react-router-dom";
 import { NavbarMinimal } from "./Sidebar";
-import { UsersRolesTable } from "./userMgmt/UserList";
-import { collection, getDocs } from "firebase/firestore";
-import { IUser } from "./userMgmt/listUsers";
 
 export default function AppShellDemo() {
   const theme = useMantineTheme();

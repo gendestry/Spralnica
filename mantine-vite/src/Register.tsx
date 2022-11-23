@@ -28,14 +28,12 @@ import { showNotification } from "@mantine/notifications";
 import { auth } from "./firebase";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { useRegisterUser } from "./api/registerUser";
+import { IUser } from "./api/listUsers";
 
-interface IForms {
-  name: string;
-  surname: string;
-  room: number | undefined;
-  email: string;
+type BasicUser = Omit<IUser, "disabled" | "uuid" | "confirmed" | "role">;
+export interface IRegisterForm extends BasicUser {
   password: string;
-  phone: string;
 }
 
 function roomNumberInRange(val: number) {
@@ -52,11 +50,14 @@ export function AuthenticationForm(props: PaperProps) {
   const [loading, setLoading] = useState(false);
   const redirect = useNavigate();
 
-  const form = useForm<IForms>({
+  //swr registration
+  const { error, loading: regLoad, registerUser } = useRegisterUser();
+
+  const form = useForm<IRegisterForm>({
     initialValues: {
       name: "",
       surname: "",
-      room: undefined,
+      room: 0,
       email: "enei@enei.enei",
       password: "eneienei",
       phone: "+386",
@@ -90,25 +91,35 @@ export function AuthenticationForm(props: PaperProps) {
       <Title order={1} py={30}></Title>
       <Paper radius="md" p="xl" withBorder {...props}>
         <form
+          autoComplete="on"
           onSubmit={form.onSubmit((a) => {
-            console.log("Submitted", a);
             setLoading(true);
-            signInWithEmailAndPassword(auth, a.email, a.password)
-              .then((userCredential) => {
-                redirect("/");
-              })
-              .catch((error) => {
-                const errorCode = error.code;
-                const errorMessage = error.message;
-                showNotification({
-                  title: `Prijavna napaka ${errorCode}`,
-                  message: errorMessage,
-                  color: "red",
+            if (type == "register") {
+              registerUser(a)
+                .then(() => {
+                  setLoading(false);
+                  redirect("/");
+                  console.log("redirecting");
+                })
+                .finally(() => setLoading(false));
+            } else {
+              signInWithEmailAndPassword(auth, a.email, a.password)
+                .then((userCredential) => {
+                  redirect("/");
+                })
+                .catch((error) => {
+                  const errorCode = error.code;
+                  const errorMessage = error.message;
+                  showNotification({
+                    title: `Prijavna napaka ${errorCode}`,
+                    message: errorMessage,
+                    color: "red",
+                  });
+                })
+                .finally(() => {
+                  setLoading(false);
                 });
-              })
-              .finally(() => {
-                setLoading(false);
-              });
+            }
           })}
         >
           <Stack>
@@ -138,7 +149,7 @@ export function AuthenticationForm(props: PaperProps) {
                   label="Telefon"
                   type="tel"
                   placeholder="+386 40 123 456"
-                  value={form.values.surname}
+                  value={form.values.phone}
                   onChange={(event) =>
                     form.setFieldValue("phone", event.currentTarget.value)
                   }
@@ -149,7 +160,7 @@ export function AuthenticationForm(props: PaperProps) {
                   label="Številka sobe"
                   placeholder="401"
                   value={form.values.room}
-                  onChange={(num) => form.setFieldValue("room", num)}
+                  onChange={(num) => form.setFieldValue("room", num || 0)}
                   hideControls
                   error={form.errors.room}
                 />

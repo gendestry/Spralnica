@@ -20,6 +20,9 @@ import {
   IconSettings,
   IconLogout,
   IconSwitchHorizontal,
+  IconHome,
+  IconExclamationMark,
+  IconBook,
 } from "@tabler/icons";
 import { useNavigate } from "react-router-dom";
 import { auth } from "./firebase";
@@ -79,13 +82,16 @@ function NavbarLink({ icon: Icon, label, active, onClick }: NavbarLinkProps) {
 }
 
 const mockdata = [
+  { icon: IconHome, label: "Home", path: "/" },
   { icon: IconDeviceDesktopAnalytics, label: "Admin", path: "/admin" },
   { icon: IconCalendarStats, label: "Spranje", path: "/spranje" },
   { icon: IconUser, label: "Uporabnik", path: "/uporabnik" },
+  { icon: IconExclamationMark, label: "Pravilnik", path: "/uporabnik" },
+  { icon: IconBook, label: "Navodila", path: "/uporabnik" },
 ];
 
 export function NavbarMinimal() {
-  const [active, setActive] = useState(2);
+  const [active, setActive] = useState(0);
   const redirect = useNavigate();
 
   const links = mockdata.map((link, index) => (

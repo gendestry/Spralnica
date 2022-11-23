@@ -16,9 +16,11 @@ import {
   Tooltip,
   ActionIcon,
   Badge,
+  Alert,
 } from "@mantine/core";
 import { IconCheck, IconCopy, IconTrash } from "@tabler/icons";
 import React from "react";
+import { useFetchUser } from "./api/getUser";
 import { useFirebaseUser } from "./firebase";
 
 interface IRowProps {
@@ -84,8 +86,9 @@ const PresidentInfo = () => {
 
 export const User = () => {
   const user = useFirebaseUser();
+  const { data, error } = useFetchUser(user?.uid || "");
 
-  if (!user) {
+  if (!user || !data) {
     return <Paper>No connected user</Paper>;
   }
 
@@ -95,10 +98,12 @@ export const User = () => {
         <Stack spacing={"md"}>
           <Flex align="center" m="lg" mb={"2rem"} justify="center">
             <Avatar radius="xl" size="lg" color="blue">
-              302
+              {data.room}
             </Avatar>
             <Box m={"xl"} />
-            <Title>Lan Vukušič</Title>
+            <Title>
+              {data.name} {data.surname}
+            </Title>
           </Flex>
 
           {/* <Divider my="sm" label={"kontakt"} labelPosition="right" />
@@ -109,8 +114,8 @@ export const User = () => {
           <Divider my="sm" label={"Kontakt"} labelPosition="right" />
           <Table>
             <tbody>
-              <InfoRow dKey="telefon" data={"00386 31 500 400"} />
-              <InfoRow dKey="e-mail" data={"rando.randy@rand.com"} />
+              <InfoRow dKey="telefon" data={data.phone} />
+              <InfoRow dKey="e-mail" data={data.email} />
             </tbody>
           </Table>
           <Divider my="sm" label={"Termini"} labelPosition="right" />
@@ -121,6 +126,7 @@ export const User = () => {
               <TerminRow data={new Date("12-11-2022")} />
             </tbody>
           </Table>
+          {data.disabled && <Alert>OJOJ BANAN SI</Alert>}
           <PresidentInfo />
         </Stack>
       </Paper>

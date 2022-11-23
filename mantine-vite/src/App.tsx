@@ -19,6 +19,7 @@ import { UsersRolesTable } from "./userMgmt/UserList";
 import { Spranje } from "./spranje/Spranje";
 import { ProtectedPath } from "./ProtectedPath";
 import { User } from "./User";
+import { Home } from "./views/home/Home";
 
 export default function App() {
   return (
@@ -32,6 +33,14 @@ export default function App() {
           <Routes>
             <Route path="/login" element={<Login />} />
             <Route path="/" element={<AppShell />}>
+              <Route
+                index
+                element={
+                  <ProtectedPath redirect={<Login />}>
+                    <Home />
+                  </ProtectedPath>
+                }
+              />
               <Route
                 path="admin"
                 element={

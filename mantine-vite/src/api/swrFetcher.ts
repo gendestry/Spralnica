@@ -6,7 +6,6 @@ export const fetcher = axios.create({
   timeout: 4000,
   headers: {
     "Content-Type": "application/json",
-    Connection: "Keep-Alive",
     Authorization: `Bearer ${auth?.currentUser?.uid || ""}`,
   },
 });
