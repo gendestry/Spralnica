@@ -264,10 +264,9 @@ app.post("/addTermin", async (request: Request, response: Response) => {
 app.get("/getTermin/:id", async (request: Request, response: Response) => {
   const id = request.params.id;
   const database = getFirestore();
-
   database.collection("termin").doc(id).get().then((doc) => {
     if (doc.exists) {
-      response.send(JSON.stringify(doc.data()));
+      response.send(JSON.stringify({ id: doc.id, ...doc.data() }));
     } else {
       response.sendStatus(404);
     }
@@ -285,12 +284,11 @@ app.get("/getTerminsByUser/:uuid/:active?", async (request: Request, response: R
 
   if(active) {
     const date = Math.floor(new Date().getTime() / 1000);
-    console.log(date);
     database.collection("termin").where("uuid", "==", uuid).where("date", ">=", date).
     get().then((querySnapshot) => {
       const termin: any[] = [];
       querySnapshot.forEach((doc) => {
-        termin.push(doc.data());
+        termin.push({ id: doc.id, ...doc.data() });
       });
       response.send(JSON.stringify(termin));
     }).then(() => {
@@ -303,7 +301,7 @@ app.get("/getTerminsByUser/:uuid/:active?", async (request: Request, response: R
     database.collection("termin").where("uuid", "==", uuid).get().then((querySnapshot) => {
       const termin: any[] = [];
       querySnapshot.forEach((doc) => {
-        termin.push(doc.data());
+        termin.push({ id: doc.id, ...doc.data() });
       });
       response.send(JSON.stringify(termin));
     }).then(() => {
@@ -322,7 +320,7 @@ app.get("/getTerminsInRange/:start/:end", async (request: Request, response: Res
   database.collection("termin").where("date", ">=", start).where("date", "<=", end).get().then((querySnapshot) => {
     const termin: any[] = [];
     querySnapshot.forEach((doc) => {
-      termin.push(doc.data());
+      termin.push({ id: doc.id, ...doc.data() });
     });
     response.send(JSON.stringify(termin));
   }).then(() => {
