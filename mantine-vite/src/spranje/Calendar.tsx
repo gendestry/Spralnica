@@ -7,6 +7,7 @@ import {
   Flex,
   Badge,
   Avatar,
+  RingProgress,
 } from "@mantine/core";
 import { Calendar } from "@mantine/dates";
 
@@ -29,10 +30,25 @@ export function Cal({ date, setDate }: ICalProps) {
         size="xl"
         renderDay={(date) => {
           const day = date.getDate();
+          const isPast = date < today;
           return (
-            <Flex align="center" justify="space-around">
+            <Flex
+              align="center"
+              justify="center"
+              opacity={isPast ? "0.2" : "1"}
+            >
+              <RingProgress
+                size={80}
+                thickness={6}
+                roundCaps
+                label={day}
+                sections={[
+                  { value: Math.random() * 40, color: "cyan" },
+                  { value: Math.random() * 40, color: "green" },
+                ]}
+              />
               {/* display of free spaces */}
-              <Flex align="center" direction="column">
+              {/* <Flex align="center" direction="column">
                 <Avatar color="blue" size="sm">
                   <Text opacity={0.5} size={"sm"}>
                     {Math.floor(Math.random() * 8)}
@@ -43,15 +59,14 @@ export function Cal({ date, setDate }: ICalProps) {
                     {Math.floor(Math.random() * 8)}
                   </Text>
                 </Avatar>
-              </Flex>
+              </Flex> */}
 
-              {/* current day display */}
+              {/* current day display
               {date.toDateString() === today.toDateString() ? (
                 <Avatar>{day}</Avatar>
               ) : (
                 <Box>{day}</Box>
-              )}
-              <Box></Box>
+              )} */}
             </Flex>
           );
         }}

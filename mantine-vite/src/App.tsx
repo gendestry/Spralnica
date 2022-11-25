@@ -8,9 +8,6 @@ import {
   Title,
 } from "@mantine/core";
 import { NotificationsProvider } from "@mantine/notifications";
-import { initializeApp } from "firebase/app";
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
-import { useEffect } from "react";
 import { AuthenticationForm as Login } from "./Register";
 import AppShell from "./Shell";
 
