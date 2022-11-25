@@ -30,14 +30,14 @@ app.use(bodyParser.json());
 //   next();
 // });
 
+// res.set("Access-Control-Allow-Origin", "*");
+// res.set("content-type", "application/json");
+
 // firebase stuff
 admin.initializeApp({ credential: applicationDefault() });
 
-app.get("/allUsers", async (req: Request, res: Response) => {
-  res.set("Access-Control-Allow-Origin", "*");
-  res.set("content-type", "application/json");
+app.get("/allUsers", async (request: Request, response: Response) => {
   const defaultAuth = getAuth();
-
   defaultAuth
     .listUsers()
     .then((usersList: ListUsersResult) => {
@@ -55,20 +55,17 @@ app.get("/allUsers", async (req: Request, res: Response) => {
         };
       });
 
-      res.send(JSON.stringify(filtered));
+      response.send(JSON.stringify(filtered));
     })
     .catch((err: Error) => {
-      res.status(503).send(JSON.stringify({ step: "list", ...err }));
+      response.status(503).send(JSON.stringify({ step: "list", ...err }));
     });
 });
 
-app.get("/user/:id", async (req: Request, res: Response) => {
-  res.set("Access-Control-Allow-Origin", "*");
-  res.set("content-type", "application/json");
-
+app.get("/user/:id", async (request: Request, response: Response) => {
   const defaultAuth = getAuth();
   defaultAuth
-    .getUser(req.params.id)
+    .getUser(request.params.id)
     .then((user) => {
       const filtered = {
         uuid: user.uid,
@@ -82,18 +79,15 @@ app.get("/user/:id", async (req: Request, res: Response) => {
         disabled: user.disabled,
       };
 
-      res.send(JSON.stringify(filtered));
+      response.send(JSON.stringify(filtered));
     })
     .catch((err: Error) => {
-      res.status(503).send(JSON.stringify({ step: "user", ...err }));
+      response.status(503).send(JSON.stringify({ step: "user", ...err }));
     });
 });
 
-app.get("/me", async (req: Request, res: Response) => {
-  res.set("Access-Control-Allow-Origin", "*");
-  res.set("content-type", "application/json");
-
-  const auth = req.headers.authorization;
+app.get("/me", async (request: Request, response: Response) => {
+  const auth = request.headers.authorization;
   getAuth()
     .verifyIdToken(auth || "")
     .then((decodedToken) => {
@@ -112,15 +106,14 @@ app.get("/me", async (req: Request, res: Response) => {
             disabled: user.disabled,
           }
           
-          res.send(JSON.stringify(filtered));
+          response.send(JSON.stringify(filtered));
         }).catch((err: Error) => {
-          res.status(503).send(JSON.stringify({ step: "me-getuser", ...err }));
+          response.status(503).send(JSON.stringify({ step: "me-getuser", ...err }));
         });
     }).catch((err: Error) => {
-      res.status(503).send(JSON.stringify({ step: "me-getauth", ...err }));
+      response.status(503).send(JSON.stringify({ step: "me-getauth", ...err }));
     });
 });
-
 
 app.post("/registerUser", async (request: Request, response: Response) => {
   const data = request.body;
@@ -251,7 +244,7 @@ Termin
 app.post("/addTermin", async (request: Request, response: Response) => {
   const data = request.body;
   const uuid: string = data.uuid;
-  const date: string = data.date;
+  const date: number = data.date;
   const termin: number = data.termin;
   const washer: number = data.washer;
 
@@ -269,11 +262,9 @@ app.post("/addTermin", async (request: Request, response: Response) => {
 });
 
 app.get("/getTermin/:id", async (request: Request, response: Response) => {
-  response.set("Access-Control-Allow-Origin", "*");
-  response.set("content-type", "application/json");
-
   const id = request.params.id;
   const database = getFirestore();
+
   database.collection("termin").doc(id).get().then((doc) => {
     if (doc.exists) {
       response.send(JSON.stringify(doc.data()));
@@ -287,29 +278,47 @@ app.get("/getTermin/:id", async (request: Request, response: Response) => {
   });
 });
 
-app.get("/getTerminsByUser/:uuid", async (request: Request, response: Response) => {
-  response.set("Access-Control-Allow-Origin", "*");
-  response.set("content-type", "application/json");
-
+app.get("/getTerminsByUser/:uuid/:active?", async (request: Request, response: Response) => {
   const uuid = request.params.uuid;
+  const active = request.params?.active;
   const database = getFirestore();
-  database.collection("termin").where("uuid", "==", uuid).get().then((querySnapshot) => {
-    const termin: any[] = [];
-    querySnapshot.forEach((doc) => {
-      termin.push(doc.data());
+
+  if(active) {
+    const date = Math.floor(new Date().getTime() / 1000);
+    console.log(date);
+    database.collection("termin").where("uuid", "==", uuid).where("date", ">=", date).
+    get().then((querySnapshot) => {
+      const termin: any[] = [];
+      querySnapshot.forEach((doc) => {
+        termin.push(doc.data());
+      });
+      response.send(JSON.stringify(termin));
+    }).then(() => {
+      response.sendStatus(200);
+    }).catch((err: Error) => {
+      response.status(503).send(JSON.stringify({ step: "getTerminByUserA", ...err }));
     });
-    response.send(JSON.stringify(termin));
-  }).then(() => {
-    response.sendStatus(200);
-  }).catch((err: Error) => {
-    response.status(503).send(JSON.stringify({ step: "getTerminByUser", ...err }));
-  });
+  }
+  else {
+    database.collection("termin").where("uuid", "==", uuid).get().then((querySnapshot) => {
+      const termin: any[] = [];
+      querySnapshot.forEach((doc) => {
+        termin.push(doc.data());
+      });
+      response.send(JSON.stringify(termin));
+    }).then(() => {
+      response.sendStatus(200);
+    }).catch((err: Error) => {
+      response.status(503).send(JSON.stringify({ step: "getTerminByUser", ...err }));
+    });
+  }
 });
 
 app.get("/getTerminsInRange/:start/:end", async (request: Request, response: Response) => {
   const start: string = request.params.start;
   const end: string = request.params.end;
   const database = getFirestore();
+
   database.collection("termin").where("date", ">=", start).where("date", "<=", end).get().then((querySnapshot) => {
     const termin: any[] = [];
     querySnapshot.forEach((doc) => {
@@ -327,6 +336,7 @@ app.post("/deleteTermin", async (request: Request, response: Response) => {
   const data = request.body;
   const id: string = data.id;
   const database = getFirestore();
+  
   database.collection("termin").doc(id).delete().then(() => {
     response.sendStatus(200);
   }).catch((err: Error) => {
