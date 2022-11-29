@@ -36,21 +36,21 @@ app.use(bodyParser.json());
 // firebase stuff
 admin.initializeApp({ credential: applicationDefault() });
 
-// returns an array of start and end times for each day 
+// returns an array of start and end times for each day
 // in the month in seconds
 // [start, end) or better date >= start && date < end
-function daysInMonth (month: number, year: number) {
-	let daysCount = new Date(year, month, 0).getDate(); // number of days in the month
-	let epochTime = Math.floor(new Date(year, month - 1).getTime() / 1000); // epoch in seconds not ms
-	const secPerDay = 86400;
+function daysInMonth(month: number, year: number) {
+  let daysCount = new Date(year, month, 0).getDate(); // number of days in the month
+  let epochTime = Math.floor(new Date(year, month - 1).getTime() / 1000); // epoch in seconds not ms
+  const secPerDay = 86400;
 
-	let arr = [];
-	for(let i = 0; i < daysCount; i++) {
-		let current = epochTime + (i * secPerDay);
-		arr.push([current, current + secPerDay])
-	}
+  let arr = [];
+  for (let i = 0; i < daysCount; i++) {
+    let current = epochTime + i * secPerDay;
+    arr.push([current, current + secPerDay]);
+  }
 
-	return arr;
+  return arr;
 }
 
 app.get("/allUsers", async (request: Request, response: Response) => {
@@ -396,26 +396,49 @@ app.get("/getTerminsMonthly/:month/:year", async (request, response) => {
   const year: number = parseInt(request.params.year);
   const dates = daysInMonth(month, year);
 
+  console.log(dates);
+
   const database = getFirestore();
   const collection = database.collection("termin");
 
+  const promises: Promise<any>[] = [];
   const allTermins: any[] = [];
-  for(let range of dates) {
-    collection.where("date", ">=", range[0]).where("date", "<", range[1])
-    .get().then((querySnapshot) => {
-      const termins: any[] = [];
-      querySnapshot.forEach((doc) => {
-        termins.push({ id: doc.id, ...doc.data() });
-      });
-      allTermins.push(termins);
-    }).catch((err: Error) => {
-      response
-        .status(503)
-        .send(JSON.stringify({ step: "getTerminMonthly", ...err }));
-    });
+  for (let range of dates) {
+    promises.push(
+      collection
+        .where("date", ">=", range[0])
+        .where("date", "<", range[1])
+        .get()
+    );
+    // .then((querySnapshot) => {
+    //   const termins: any[] = [];
+    //   querySnapshot.forEach((doc) => {
+    //     termins.push({ id: doc.id, ...doc.data() });
+    //   });
+    //   allTermins.push(termins);
+    // }).catch((err: Error) => {
+    //   response
+    //     .status(503)
+    //     .send(JSON.stringify({ step: "getTerminMonthly", ...err }));
+    // });
   }
-
-  response.send(JSON.stringify(allTermins));
+  Promise.allSettled(promises).then((results) => {
+    results.forEach((result) => {
+      if (result.status === "fulfilled") {
+        const querySnapshot = result.value;
+        const termins: any[] = [];
+        querySnapshot.forEach((doc: any) => {
+          termins.push({ id: doc.id, ...doc.data() });
+        });
+        allTermins.push(termins);
+      } else {
+        response
+          .status(503)
+          .send(JSON.stringify({ step: "getTerminMonthly", ...result.reason }));
+      }
+    });
+    response.send(JSON.stringify(allTermins));
+  });
 });
 
 app.post("/deleteTermin", async (request: Request, response: Response) => {

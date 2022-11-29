@@ -8,8 +8,12 @@ import {
   Badge,
   Avatar,
   RingProgress,
+  Notification,
 } from "@mantine/core";
 import { Calendar } from "@mantine/dates";
+import { useState } from "react";
+import { useGetTerminsMonthly } from "../api/getTermin";
+import "dayjs/locale/sl";
 
 interface ICalProps {
   date: Date;
@@ -21,52 +25,65 @@ export function Cal({ date, setDate }: ICalProps) {
   const maxDate = new Date();
   maxDate.setMonth(today.getMonth() + 1);
 
+  const [thisMonth, setMonth] = useState(today);
+  const { data, error } = useGetTerminsMonthly(
+    thisMonth.getMonth() + 1,
+    thisMonth.getFullYear()
+  );
+
   return (
     <>
       <Calendar
         // value={date}
+        locale="sl"
+        lang="sl"
+        weekdayLabelFormat="ddd"
+        firstDayOfWeek="monday"
+        month={thisMonth}
+        onMonthChange={setMonth}
         onChange={setDate}
         fullWidth
         size="xl"
         renderDay={(date) => {
           const day = date.getDate();
+          const month = date.getMonth();
           const isPast = date < today;
           return (
             <Flex
               align="center"
               justify="center"
-              opacity={isPast ? "0.2" : "1"}
+              opacity={isPast ? "0.8" : "1"}
             >
-              <RingProgress
-                size={80}
-                thickness={6}
-                roundCaps
-                label={day}
-                sections={[
-                  { value: Math.random() * 40, color: "cyan" },
-                  { value: Math.random() * 40, color: "green" },
-                ]}
-              />
-              {/* display of free spaces */}
-              {/* <Flex align="center" direction="column">
-                <Avatar color="blue" size="sm">
-                  <Text opacity={0.5} size={"sm"}>
-                    {Math.floor(Math.random() * 8)}
-                  </Text>
-                </Avatar>
-                <Avatar color="orange" size="sm">
-                  <Text opacity={0.5} size={"sm"}>
-                    {Math.floor(Math.random() * 8)}
-                  </Text>
-                </Avatar>
-              </Flex> */}
-
-              {/* current day display
-              {date.toDateString() === today.toDateString() ? (
-                <Avatar>{day}</Avatar>
+              {!isPast && data && month == thisMonth.getMonth() ? (
+                <RingProgress
+                  m={0}
+                  p={0}
+                  size={52}
+                  thickness={5}
+                  roundCaps
+                  label={day}
+                  sections={[
+                    {
+                      value:
+                        ((data[day - 1] || []).filter((t) => t.washer == 0)
+                          .length /
+                          8) *
+                        50,
+                      color: "cyan",
+                    },
+                    {
+                      value:
+                        ((data[day - 1] || []).filter((t) => t.washer == 1)
+                          .length /
+                          8) *
+                        50,
+                      color: "orange",
+                    },
+                  ].filter((s) => s.value > 0)}
+                />
               ) : (
                 <Box>{day}</Box>
-              )} */}
+              )}
             </Flex>
           );
         }}
@@ -101,6 +118,14 @@ export function Cal({ date, setDate }: ICalProps) {
           },
         })}
       />
+      {/* <Notification
+        loading={!data && !error}
+        title="Uploading data to the server"
+        disallowClose
+      >
+        Please wait until data is uploaded, you cannot close this notification
+        yet
+      </Notification> */}
     </>
   );
 }

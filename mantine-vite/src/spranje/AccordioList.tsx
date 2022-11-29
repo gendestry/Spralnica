@@ -146,6 +146,8 @@ export function AccordionLabel({
 }
 
 export function AccordionList() {
+  // const addTermin/;
+
   const items = data.map((item, i) => (
     <Accordion.Item value={"item_" + i} key={"item_" + i}>
       <Accordion.Control>
@@ -182,7 +184,17 @@ export function AccordionList() {
               </Table>
             </Stack>
           )}
-          {!item.user && <Button variant="light"> Prijava na termin</Button>}
+          {!item.user && (
+            <Button
+              variant="light"
+              onClick={() => {
+                console.log("add termin");
+              }}
+            >
+              {" "}
+              Prijava na termin
+            </Button>
+          )}
         </Text>
       </Accordion.Panel>
     </Accordion.Item>
