@@ -67,3 +67,26 @@ export const useGetTerminsInRange = (start: number, end: number) => {
     getTerminsInRange(start, end)
   );
 };
+
+const getTerminsMonthly = (month: number, year: number) => {
+  const url = `/getTerminsMonthly/${month}/${year}`;
+  return new Promise<ITermin[][]>((resolve, reject) => {
+    fetcher
+      .get<ITermin[][]>(url)
+      .then((res) => {
+        resolve(res.data);
+      })
+      .catch((e) => {
+        reject(e);
+      })
+      .finally(() => {
+        // store.dispatch(popLoad());
+      });
+  });
+};
+
+export const useGetTerminsMonthly = (month: number, year: number) => {
+  return useSWR<ITermin[][]>("getTerminsMonthly/" + month + "/" + year, () =>
+    getTerminsMonthly(month, year)
+  );
+}
