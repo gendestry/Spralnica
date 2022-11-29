@@ -41,6 +41,7 @@ export const TerminTable = ({ uuid }: ITerminTableProps) => {
                 id={termin.id}
                 key={termin.id + i}
                 data={new Date(termin.date * 1000)}
+                uuid={termin.uuid}
               />
             ))}
         </tbody>

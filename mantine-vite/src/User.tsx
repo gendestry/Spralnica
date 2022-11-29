@@ -41,7 +41,15 @@ export const InfoRow = ({ data, dKey }: IRowProps) => {
   );
 };
 
-export const TerminRow = ({ data, id }: { data: Date; id: string }) => {
+export const TerminRow = ({
+  data,
+  id,
+  uuid,
+}: {
+  data: Date;
+  id: string;
+  uuid: string;
+}) => {
   const { delTermin, error, loading } = useDeleteTermin();
   return (
     <tr>
@@ -55,7 +63,7 @@ export const TerminRow = ({ data, id }: { data: Date; id: string }) => {
           loading={loading}
           disabled={error != null}
           onClick={() => {
-            delTermin(id);
+            delTermin(id, uuid);
           }}
         >
           <IconTrash size={18} />

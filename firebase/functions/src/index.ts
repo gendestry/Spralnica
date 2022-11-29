@@ -63,8 +63,6 @@ app.get("/allUsers", async (request: Request, response: Response) => {
 });
 
 app.get("/user/:id", async (request: Request, response: Response) => {
-  console.log(request.params.id, "ID");
-
   const defaultAuth = getAuth();
   defaultAuth
     .getUser(request.params.id)
@@ -274,9 +272,54 @@ app.post("/addTermin", async (request: Request, response: Response) => {
 app.get("/getTermin/:id", async (request: Request, response: Response) => {
   const id = request.params.id;
   const database = getFirestore();
-  database.collection("termin").doc(id).get().then((doc) => {
-    if (doc.exists) {
-      response.send(JSON.stringify({ id: doc.id, ...doc.data() }));
+  database
+    .collection("termin")
+    .doc(id)
+    .get()
+    .then((doc) => {
+      if (doc.exists) {
+        response.send(JSON.stringify({ id: doc.id, ...doc.data() }));
+      } else {
+        response.sendStatus(404);
+      }
+    })
+    .then(() => {
+      response.sendStatus(200);
+    })
+    .catch((err: Error) => {
+      response.status(503).send(JSON.stringify({ step: "getTermin", ...err }));
+    });
+});
+
+app.get(
+  "/getTerminsByUser/:uuid/:active?",
+  async (request: Request, response: Response) => {
+    const uuid = request.params.uuid;
+    const active = request.params?.active;
+    const database = getFirestore();
+
+    if (active) {
+      const date = Math.floor(new Date().getTime() / 1000);
+      database
+        .collection("termin")
+        .where("uuid", "==", uuid)
+        .where("date", ">=", date)
+        .get()
+        .then((querySnapshot) => {
+          const termin: any[] = [];
+          querySnapshot.forEach((doc) => {
+            termin.push({ id: doc.id, ...doc.data() });
+          });
+          response.send(JSON.stringify(termin));
+        })
+        .then(() => {
+          response.sendStatus(200);
+        })
+        .catch((err: Error) => {
+          response
+            .status(503)
+            .send(JSON.stringify({ step: "getTerminByUserA", ...err }));
+        });
     } else {
       database
         .collection("termin")
@@ -285,7 +328,7 @@ app.get("/getTermin/:id", async (request: Request, response: Response) => {
         .then((querySnapshot) => {
           const termin: any[] = [];
           querySnapshot.forEach((doc) => {
-            termin.push(doc.data());
+            termin.push({ id: doc.id, ...doc.data() });
           });
           response.send(JSON.stringify(termin));
         })
@@ -298,59 +341,38 @@ app.get("/getTermin/:id", async (request: Request, response: Response) => {
             .send(JSON.stringify({ step: "getTerminByUser", ...err }));
         });
     }
-  }).then(() => {
-    response.sendStatus(200);
-  }).catch((err: Error) => {
-    response.status(503).send(JSON.stringify({ step: "getTermin", ...err }));
-  });
-});
-
-app.get("/getTerminsByUser/:uuid/:active?", async (request: Request, response: Response) => {
-  const uuid = request.params.uuid;
-  const active = request.params?.active;
-  const database = getFirestore();
-
-  if(active) {
-    const date = Math.floor(new Date().getTime() / 1000);
-    database.collection("termin").where("uuid", "==", uuid).where("date", ">=", date).
-    get().then((querySnapshot) => {
-      const termin: any[] = [];
-      querySnapshot.forEach((doc) => {
-        termin.push({ id: doc.id, ...doc.data() });
-      });
-      response.send(JSON.stringify(termin));
-    }).then(() => {
-      response.sendStatus(200);
-    }).catch((err: Error) => {
-      response.status(503).send(JSON.stringify({ step: "getTerminByUserA", ...err }));
-    });
   }
-  else {
-    database.collection("termin").where("uuid", "==", uuid).get().then((querySnapshot) => {
-      const termin: any[] = [];
-      querySnapshot.forEach((doc) => {
-        termin.push({ id: doc.id, ...doc.data() });
+);
+
+app.get(
+  "/getTerminsInRange/:start/:end",
+  async (request: Request, response: Response) => {
+    const start: string = request.params.start;
+    const end: string = request.params.end;
+    const database = getFirestore();
+
+    database
+      .collection("termin")
+      .where("date", ">=", start)
+      .where("date", "<=", end)
+      .get()
+      .then((querySnapshot) => {
+        const termin: any[] = [];
+        querySnapshot.forEach((doc) => {
+          termin.push({ id: doc.id, ...doc.data() });
+        });
+        response.send(JSON.stringify(termin));
+      })
+      .then(() => {
+        response.sendStatus(200);
+      })
+      .catch((err: Error) => {
+        response
+          .status(503)
+          .send(JSON.stringify({ step: "getTerminInRange", ...err }));
       });
   }
-});
-
-app.get("/getTerminsInRange/:start/:end", async (request: Request, response: Response) => {
-  const start: string = request.params.start;
-  const end: string = request.params.end;
-  const database = getFirestore();
-
-  database.collection("termin").where("date", ">=", start).where("date", "<=", end).get().then((querySnapshot) => {
-    const termin: any[] = [];
-    querySnapshot.forEach((doc) => {
-      termin.push({ id: doc.id, ...doc.data() });
-    });
-    response.send(JSON.stringify(termin));
-  }).then(() => {
-    response.sendStatus(200);
-  }).catch((err: Error) => {
-    response.status(503).send(JSON.stringify({ step: "getTerminInRange", ...err }));
-  });
-});
+);
 
 app.post("/deleteTermin", async (request: Request, response: Response) => {
   const data = request.body;

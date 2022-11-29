@@ -1,4 +1,4 @@
-import useSWR from "swr";
+import useSWR, { mutate } from "swr";
 import { ITermin } from "./addTermin";
 import { fetcher } from "./swrFetcher";
 
@@ -40,7 +40,7 @@ const getTerminsByUser = (uuid: string, active: boolean = true) => {
   });
 };
 export const useGetTerminsByUser = (uuid: string, active: boolean = true) => {
-  const stillActive = active ? "/active" : "";
+  // const stillActive = active ? "/active" : "";
   return useSWR<ITermin[]>("getTerminsByUser/" + uuid, () =>
     getTerminsByUser(uuid, active)
   );
