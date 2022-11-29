@@ -1,8 +1,9 @@
+import useSWR from "swr";
 import { ITermin } from "./addTermin";
 import { fetcher } from "./swrFetcher";
 
-export const getTermin = (id: string) => {
-  const url = `/termin/${id}`;
+const getTermin = (id: string) => {
+  const url = `/getTermin/${id}`;
   return new Promise<ITermin>((resolve, reject) => {
     fetcher
       .get<ITermin>(url)
@@ -16,11 +17,14 @@ export const getTermin = (id: string) => {
         // store.dispatch(popLoad());
       });
   });
-}
+};
+export const useGetTermin = (uuid: string) => {
+  return useSWR<ITermin>("getTermin/" + uuid, () => getTermin(uuid));
+};
 
-export const getTreminsByUser = (uuid: string, active: boolean = true) => {
+const getTerminsByUser = (uuid: string, active: boolean = true) => {
   const stillActive = active ? "/active" : "";
-  const url = `/terminByUser/${uuid}${stillActive}`;
+  const url = `/getTerminsByUser/${uuid}${stillActive}`;
   return new Promise<ITermin[]>((resolve, reject) => {
     fetcher
       .get<ITermin[]>(url)
@@ -34,10 +38,16 @@ export const getTreminsByUser = (uuid: string, active: boolean = true) => {
         // store.dispatch(popLoad());
       });
   });
-}
+};
+export const useGetTerminsByUser = (uuid: string, active: boolean = true) => {
+  const stillActive = active ? "/active" : "";
+  return useSWR<ITermin[]>("getTerminsByUser/" + uuid, () =>
+    getTerminsByUser(uuid, active)
+  );
+};
 
-export const getTerminsInRange = (start: number, end: number) => {
-  const url = `/terminInRange/${start}/${end}`;
+const getTerminsInRange = (start: number, end: number) => {
+  const url = `/getTerminsInRange/${start}/${end}`;
   return new Promise<ITermin[]>((resolve, reject) => {
     fetcher
       .get<ITermin[]>(url)
@@ -51,4 +61,9 @@ export const getTerminsInRange = (start: number, end: number) => {
         // store.dispatch(popLoad());
       });
   });
-}
+};
+export const useGetTerminsInRange = (start: number, end: number) => {
+  return useSWR<ITermin[]>("getTerminsInRange/" + start + "/" + end, () =>
+    getTerminsInRange(start, end)
+  );
+};

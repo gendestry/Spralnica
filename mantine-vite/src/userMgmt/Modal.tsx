@@ -14,8 +14,10 @@ import {
   Select,
   Text,
   Switch,
+  Alert,
 } from "@mantine/core";
 import {
+  IconAlertCircle,
   IconAt,
   IconDoor,
   IconEdit,
@@ -27,6 +29,8 @@ import { InfoRow, TerminRow } from "../User";
 import { useForm, UseFormReturnType } from "@mantine/form";
 import { IUser } from "../api/listUsers";
 import { useEditUser } from "../api/editUser";
+import { useGetTerminsByUser } from "../api/getTermin";
+import { TerminTable } from "./TerminTable";
 
 export interface IModalProps {
   mainCol: string;
@@ -57,6 +61,8 @@ export function MyModal({ mainCol, user }: IModalProps) {
     console.log(newUser);
     editUserProps(newUser).then(() => {
       setOpened(false);
+      console.log("success");
+
       // form.reset();
     });
   };
@@ -70,15 +76,26 @@ export function MyModal({ mainCol, user }: IModalProps) {
           form.reset();
         }}
         title={
-          <Flex align="center" m="lg" mb={"2rem"} justify="center">
+          <Flex m="lg" mb={"2rem"} direction="row" align={"center"}>
+            {/* <Flex align="center" justify="center"> */}
             <Avatar radius="xl" size="lg" color="blue">
               {user.room}
             </Avatar>
             <Box m={"xl"} />
-            <Title>{`${user.name} ${user.surname}`}</Title>
+            <Box>
+              <Title>{`${user.name} ${user.surname}`}</Title>
+              {/* <Text py={"xs"} size="xs" opacity={0.4}>
+                {user.uuid}
+              </Text> */}
+            </Box>
+            {/* </Flex> */}
           </Flex>
         }
       >
+        <Text size="xs" opacity={0.4}>
+          <strong>UUID: </strong>
+          {user.uuid}
+        </Text>
         <form
           onSubmit={form.onSubmit((values) => {
             handleSubmit(values);
@@ -135,13 +152,6 @@ export function MyModal({ mainCol, user }: IModalProps) {
                 { value: "user", label: "user" },
               ]}
             />
-            <Divider label={"Termini"} labelPosition="right" />
-            <Table>
-              <TerminRow data={new Date()} />
-              <TerminRow data={new Date("05-11-2022")} />
-              <TerminRow data={new Date("12-11-2022")} />
-            </Table>
-
             <Flex my="md">
               <Button
                 variant="light"
@@ -153,10 +163,10 @@ export function MyModal({ mainCol, user }: IModalProps) {
               >
                 Shrani
               </Button>
-              {/* <Button color="red" variant="outline" m={"sm"}>
-                Ban
-              </Button> */}
             </Flex>
+            <Divider label={"Termini"} labelPosition="right" />
+
+            <TerminTable uuid={user.uuid} />
           </Stack>
         </form>
       </Modal>

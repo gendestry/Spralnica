@@ -20,8 +20,10 @@ import {
 } from "@mantine/core";
 import { IconCheck, IconCopy, IconTrash } from "@tabler/icons";
 import React from "react";
+import { useDeleteTermin } from "./api/deleteTermin";
 import { useFetchUser } from "./api/getUser";
 import { useFirebaseUser } from "./firebase";
+import { TerminTable } from "./userMgmt/TerminTable";
 
 interface IRowProps {
   dKey: string;
@@ -39,7 +41,8 @@ export const InfoRow = ({ data, dKey }: IRowProps) => {
   );
 };
 
-export const TerminRow = ({ data }: { data: Date }) => {
+export const TerminRow = ({ data, id }: { data: Date; id: string }) => {
+  const { delTermin, error, loading } = useDeleteTermin();
   return (
     <tr>
       <td>
@@ -48,7 +51,13 @@ export const TerminRow = ({ data }: { data: Date }) => {
         </Badge>
       </td>
       <td>
-        <ActionIcon>
+        <ActionIcon
+          loading={loading}
+          disabled={error != null}
+          onClick={() => {
+            delTermin(id);
+          }}
+        >
           <IconTrash size={18} />
         </ActionIcon>
       </td>
@@ -105,7 +114,6 @@ export const User = () => {
               {data.name} {data.surname}
             </Title>
           </Flex>
-
           {/* <Divider my="sm" label={"kontakt"} labelPosition="right" />
           <Table>
             <InfoRow dKey="telefon" data={user.displayName || "zan gejj"} />
@@ -118,15 +126,8 @@ export const User = () => {
               <InfoRow dKey="e-mail" data={data.email} />
             </tbody>
           </Table>
-          <Divider my="sm" label={"Termini"} labelPosition="right" />
-          <Table>
-            <tbody>
-              <TerminRow data={new Date()} />
-              <TerminRow data={new Date("05-11-2022")} />
-              <TerminRow data={new Date("12-11-2022")} />
-            </tbody>
-          </Table>
           {data.disabled && <Alert>OJOJ BANAN SI</Alert>}
+          <TerminTable uuid={data.uuid}></TerminTable>
           <PresidentInfo />
         </Stack>
       </Paper>

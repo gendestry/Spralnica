@@ -1,11 +1,16 @@
+import { useNavigate } from "react-router-dom";
 import { useFirebaseUser } from "./firebase";
 
 interface IProtectedprops {
   children: React.ReactNode;
-  redirect: React.ReactNode;
 }
 
-export const ProtectedPath = ({ children, redirect }: IProtectedprops) => {
+export const ProtectedPath = ({ children }: IProtectedprops) => {
+  const navigate = useNavigate();
   const user = useFirebaseUser();
-  return <>{user ? children : redirect}</>;
+  if (!user) {
+    navigate("/login");
+    return <></>;
+  }
+  return <>{children}</>;
 };

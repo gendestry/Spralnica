@@ -106,7 +106,6 @@ export function AuthenticationForm(props: PaperProps) {
               signInWithEmailAndPassword(auth, a.email, a.password)
                 .then((userCredential) => {
                   console.log(userCredential);
-
                   redirect("/");
                 })
                 .catch((error) => {

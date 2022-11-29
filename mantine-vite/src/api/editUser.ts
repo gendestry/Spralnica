@@ -4,7 +4,7 @@ import { mutate } from "swr";
 import { IUser } from "./listUsers";
 import { fetcher } from "./swrFetcher";
 
-export const editUser = (user: IUser) => {
+export const editUser = (user: Partial<IUser>) => {
   const url = "/updateUser";
 
   return new Promise((resolve, reject) => {
@@ -38,7 +38,7 @@ export const useEditUser = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const editUserProps = (user: IUser) => {
+  const editUserProps = (user: Partial<IUser>) => {
     return new Promise<void>((resolve, reject) => {
       setLoading(true);
       editUser(user)

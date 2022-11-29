@@ -21,7 +21,8 @@ interface IUserRowProps {
 }
 
 export const UserRow = ({ item: userIn, i }: IUserRowProps) => {
-  const { error, loading, mutateUser } = useConfirmUser(userIn.uuid);
+  // const { error, loading, mutateUser } = useConfirmUser(userIn.uuid);
+  const { error, loading, editUserProps } = useEditUser();
 
   const mainCol = userIn.role === "admin" ? "red" : "";
 
@@ -39,7 +40,6 @@ export const UserRow = ({ item: userIn, i }: IUserRowProps) => {
     </Group>
   );
 
-  // REEEMOVEEE FALSEEE
   if (!userIn.confirmed) {
     return (
       <tr key={userIn.uuid}>
@@ -70,7 +70,8 @@ export const UserRow = ({ item: userIn, i }: IUserRowProps) => {
               size="xs"
               loading={loading}
               onClick={() => {
-                confirm("Zelite potrditi osebo?") && mutateUser();
+                confirm("Zelite potrditi osebo?") &&
+                  editUserProps({ uuid: userIn.uuid, confirmed: true });
               }}
               color={"teal"}
             >

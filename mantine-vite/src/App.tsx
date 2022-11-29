@@ -35,7 +35,7 @@ export default function App() {
               <Route
                 index
                 element={
-                  <ProtectedPath redirect={<Login />}>
+                  <ProtectedPath>
                     <Home />
                   </ProtectedPath>
                 }
@@ -43,7 +43,7 @@ export default function App() {
               <Route
                 path="admin"
                 element={
-                  <ProtectedPath redirect={<Login />}>
+                  <ProtectedPath>
                     <UsersRolesTable />
                   </ProtectedPath>
                 }
@@ -51,7 +51,7 @@ export default function App() {
               <Route
                 path="spranje"
                 element={
-                  <ProtectedPath redirect={<Login />}>
+                  <ProtectedPath>
                     <Spranje />
                   </ProtectedPath>
                 }
@@ -59,7 +59,7 @@ export default function App() {
               <Route
                 path="uporabnik"
                 element={
-                  <ProtectedPath redirect={<Login />}>
+                  <ProtectedPath>
                     <User />
                   </ProtectedPath>
                 }
@@ -67,7 +67,7 @@ export default function App() {
               <Route
                 path="pravilnik"
                 element={
-                  <ProtectedPath redirect={<Login />}>
+                  <ProtectedPath>
                     <Pravilnik />
                   </ProtectedPath>
                 }
@@ -75,7 +75,7 @@ export default function App() {
               <Route
                 path="navodila"
                 element={
-                  <ProtectedPath redirect={<Login />}>
+                  <ProtectedPath>
                     <Navodila />
                   </ProtectedPath>
                 }
