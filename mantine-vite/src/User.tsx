@@ -90,7 +90,7 @@ const PresidentInfo = () => {
               withArrow
               position="right"
             >
-              <ActionIcon color={copied ? "teal" : "gray"} onClick={copy}>
+              <ActionIcon color={copied ? undefined : "gray"} onClick={copy}>
                 {copied ? <IconCheck size={16} /> : <IconCopy size={16} />}
               </ActionIcon>
             </Tooltip>
@@ -114,7 +114,7 @@ export const User = () => {
       <Paper p={"2rem"}>
         <Stack spacing={"md"}>
           <Flex align="center" m="lg" mb={"2rem"} justify="center">
-            <Avatar radius="xl" size="lg" color="blue">
+            <Avatar radius="xl" size="lg">
               {data.room}
             </Avatar>
             <Box m={"xl"} />

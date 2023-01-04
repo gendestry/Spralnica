@@ -14,27 +14,34 @@ import { Calendar } from "@mantine/dates";
 import { useState } from "react";
 import { useGetTerminsMonthly } from "../api/getTermin";
 import "dayjs/locale/sl";
+import { useMediaQuery } from "@mantine/hooks";
+import { useIsMobile } from "../hooks/media";
+import { ITermin } from "../api/addTermin";
 
 interface ICalProps {
   date: Date;
   setDate: (date: Date) => void;
+  data: ITermin[][];
+  month: Date;
+  setMonth: (date: Date) => void;
 }
 
-export function Cal({ date, setDate }: ICalProps) {
-  const today = new Date();
+export function Cal({
+  date,
+  setDate,
+  data,
+  month: thisMonth,
+  setMonth,
+}: ICalProps) {
+  const today = new Date(new Date().setHours(0, 0, 0, 0));
   const maxDate = new Date();
   maxDate.setMonth(today.getMonth() + 1);
 
-  const [thisMonth, setMonth] = useState(today);
-  const { data, error } = useGetTerminsMonthly(
-    thisMonth.getMonth() + 1,
-    thisMonth.getFullYear()
-  );
+  const mobile = useIsMobile();
 
   return (
     <>
       <Calendar
-        // value={date}
         locale="sl"
         lang="sl"
         weekdayLabelFormat="ddd"
@@ -43,7 +50,7 @@ export function Cal({ date, setDate }: ICalProps) {
         onMonthChange={setMonth}
         onChange={setDate}
         fullWidth
-        size="xl"
+        size={mobile ? "md" : "xl"}
         renderDay={(date) => {
           const day = date.getDate();
           const month = date.getMonth();
@@ -53,15 +60,29 @@ export function Cal({ date, setDate }: ICalProps) {
               align="center"
               justify="center"
               opacity={isPast ? "0.8" : "1"}
+              //
             >
               {!isPast && data && month == thisMonth.getMonth() ? (
                 <RingProgress
                   m={0}
                   p={0}
-                  size={52}
-                  thickness={5}
+                  size={mobile ? 40 : 60}
+                  thickness={mobile ? 4 : 6}
                   roundCaps
-                  label={day}
+                  label={
+                    <Text
+                      size={mobile ? "sm" : "lg"}
+                      weight={day == today.getDate() ? 800 : 400}
+                      color={day == today.getDate() ? "cyan" : "gray"}
+                      pt="2px"
+                      sx={(theme) => ({
+                        color:
+                          day == today.getDate() ? theme.primaryColor : "gray",
+                      })}
+                    >
+                      {day}
+                    </Text>
+                  }
                   sections={[
                     {
                       value:

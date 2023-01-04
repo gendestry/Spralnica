@@ -12,5 +12,5 @@ export const ProtectedPath = ({ children }: IProtectedprops) => {
     navigate("/login");
     return <></>;
   }
-  return <>{children}</>;
+  return children as JSX.Element;
 };

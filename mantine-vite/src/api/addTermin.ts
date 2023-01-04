@@ -12,11 +12,13 @@ export interface ITermin {
   washer: number;
 }
 
-const addTermin = (termin: ITermin) => {
+type AddTermin = Omit<ITermin, "id">;
+
+const addTermin = (termin: AddTermin) => {
   const url = "/addTermin";
   return new Promise<void>((resolve, reject) => {
     fetcher
-      .post<ITermin>(url, termin)
+      .post<AddTermin>(url, termin)
       .then((res) => {
         resolve();
       })
@@ -29,21 +31,20 @@ const addTermin = (termin: ITermin) => {
   });
 };
 
-export const useDeleteTermin = () => {
+export const useAddTermin = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<Error | null>(null);
 
-  const delTermin = (termin: ITermin) => {
+  const addTerminF = (termin: AddTermin) => {
     return new Promise<void>((resolve, reject) => {
       setLoading(true);
-      addTermin()
+      addTermin(termin)
         .then(() => {
-          mutate("getTerminsByUser/" + uuid);
-
+          mutate("getTerminsByUser/");
           showNotification({
             color: "green",
-            title: "Posodobljeno!",
-            message: `Izbrisan termin`,
+            title: "Dodano!",
+            message: `Dodan termin`,
           });
           resolve();
         })
@@ -52,7 +53,7 @@ export const useDeleteTermin = () => {
           showNotification({
             color: "red",
             title: "Napaka!",
-            message: `Napaka pri izbrisu ${e.message}`,
+            message: `Napaka pri dodajanju ${e.message}`,
           });
           reject(e);
         })
@@ -65,6 +66,6 @@ export const useDeleteTermin = () => {
   return {
     loading,
     error,
-    delTermin,
+    addTerminF,
   };
 };

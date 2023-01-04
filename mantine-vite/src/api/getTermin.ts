@@ -89,4 +89,4 @@ export const useGetTerminsMonthly = (month: number, year: number) => {
   return useSWR<ITermin[][]>("getTerminsMonthly/" + month + "/" + year, () =>
     getTerminsMonthly(month, year)
   );
-}
+};

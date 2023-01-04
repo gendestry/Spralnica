@@ -36,6 +36,89 @@ app.use(bodyParser.json());
 // firebase stuff
 admin.initializeApp({ credential: applicationDefault() });
 
+app.get("/seed", async (req: Request, res: Response) => {
+  seedUsers();
+  seedTermins();
+  res.send("seeded");
+});
+
+function seedUsers() {
+  const adminAuth = getAuth();
+  const users: any[] = [
+    {
+      email: "lan.vukusic@penis.good",
+      name: "Lan",
+      surname: "Vukušič",
+      room: 302,
+      password: "geslo123",
+      phone: "+386 41 123 456",
+    },
+    {
+      email: "zan@oberstar.eu.org",
+      name: "Žan",
+      surname: "Oberstar",
+      room: 310,
+      password: "geslo123",
+      phone: "+386 41 123 457",
+    },
+    {
+      email: "enei@slugic.net",
+      name: "Enej",
+      surname: "Šlugić",
+      room: 310,
+      password: "geslo123",
+      phone: "+386 41 123 458",
+    },
+  ];
+
+  for (let user of users) {
+    const email: string = user.email;
+    const name: string = user.name;
+    const surname: string = user.surname;
+    const room: number = user.room;
+    const password: string = user.password;
+    const phone: string = user.phone;
+
+    adminAuth
+      .createUser({
+        email: email,
+        password: password,
+        phoneNumber: phone,
+      })
+      .then((user) => {
+        adminAuth.setCustomUserClaims(user.uid, {
+          name: name,
+          surname: surname,
+          room: room,
+          role: "user",
+          confirmed: false,
+        });
+      });
+  }
+}
+
+function seedTermins() {
+  const database = getFirestore();
+  const days = 14;
+  for (let neki = 0; neki < 7; neki++) {
+    for (let i = 0; i < days; i++) {
+      const secPerDay = 86400;
+      const dateGenerated = Math.floor(new Date().getTime() / 1000);
+      const uuid: string = "seeded";
+      const date: number = dateGenerated + i * secPerDay;
+      const termin: number = neki;
+      const washer: number = Math.floor(Math.random() * 2);
+
+      database.collection("termin").add({
+        uuid: uuid,
+        date: date,
+        termin: termin,
+        washer: washer,
+      });
+    }
+  }
+}
+
 // returns an array of start and end times for each day
 // in the month in seconds
 // [start, end) or better date >= start && date < end
@@ -379,9 +462,6 @@ app.get(
           termin.push({ id: doc.id, ...doc.data() });
         });
         response.send(JSON.stringify(termin));
-      })
-      .then(() => {
-        response.sendStatus(200);
       })
       .catch((err: Error) => {
         response

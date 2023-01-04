@@ -58,12 +58,8 @@ export function MyModal({ mainCol, user }: IModalProps) {
   }, [user]);
 
   const handleSubmit = (newUser: IUser) => {
-    console.log(newUser);
     editUserProps(newUser).then(() => {
       setOpened(false);
-      console.log("success");
-
-      // form.reset();
     });
   };
 

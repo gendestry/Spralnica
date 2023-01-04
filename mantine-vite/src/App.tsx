@@ -19,13 +19,14 @@ import { User } from "./User";
 import { Home } from "./views/home/Home";
 import { Pravilnik } from "./views/pravilnik/Pravilnik";
 import { Navodila } from "./views/navodila/Navodila";
+import { NotFound } from "./NotFound";
 
 export default function App() {
   return (
     <MantineProvider
       withGlobalStyles
       withNormalizeCSS
-      theme={{ colorScheme: "dark" }}
+      theme={{ colorScheme: "dark", primaryColor: "cyan" }}
     >
       <NotificationsProvider>
         <BrowserRouter>
@@ -51,9 +52,9 @@ export default function App() {
               <Route
                 path="spranje"
                 element={
-                  <ProtectedPath>
-                    <Spranje />
-                  </ProtectedPath>
+                  // <ProtectedPath>
+                  <Spranje />
+                  // </ProtectedPath>
                 }
               />
               <Route
@@ -81,6 +82,9 @@ export default function App() {
                 }
               />
             </Route>
+
+            {/* handle 404 */}
+            <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
       </NotificationsProvider>

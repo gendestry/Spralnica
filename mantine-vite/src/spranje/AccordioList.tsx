@@ -8,21 +8,37 @@ import {
   Flex,
   Title,
   Button,
+  Box,
+  createStyles,
 } from "@mantine/core";
-import { user } from "firebase-functions/v1/auth";
+import { IconPhoneCall, IconAt, IconLanguage, IconDoor } from "@tabler/icons";
+import { useAddTermin } from "../api/addTermin";
 import { IUser } from "../api/listUsers";
 
-interface AccordionLabelProps {
+export interface RowProps {
   hourFrom: number;
   hourTo: number;
-  user?: IUser;
-  machine: 1 | 2;
+  uuid?: string;
+  machine: number;
 }
 
-const data: AccordionLabelProps[] = [
+const useStyles = createStyles((theme) => ({
+  icon: {
+    color:
+      theme.colorScheme === "dark"
+        ? theme.colors.dark[3]
+        : theme.colors.gray[5],
+  },
+
+  name: {
+    fontFamily: `Greycliff CF, ${theme.fontFamily}`,
+  },
+}));
+
+export const terminDUmmy: RowProps[] = [
   {
-    hourFrom: 8,
-    hourTo: 9,
+    hourFrom: 0,
+    hourTo: 3,
     machine: 1,
     user: {
       uuid: "asasduqnqajsdwa",
@@ -37,36 +53,8 @@ const data: AccordionLabelProps[] = [
     },
   },
   {
-    hourFrom: 9,
-    hourTo: 10,
-    machine: 1,
-    user: undefined,
-  },
-  {
-    hourFrom: 10,
-    hourTo: 11,
-    machine: 1,
-    user: {
-      uuid: "sdasdawdwdasdwa",
-      name: "Zan",
-      surname: "Gej",
-      email: "zan@gej.com",
-      confirmed: true,
-      role: "admin",
-      disabled: false,
-      room: 399,
-      phone: "+38631366200",
-    },
-  },
-  {
-    hourFrom: 11,
-    hourTo: 12,
-    machine: 1,
-    user: undefined,
-  },
-  {
-    hourFrom: 8,
-    hourTo: 9,
+    hourFrom: 3,
+    hourTo: 6,
     machine: 1,
     user: {
       uuid: "asasduqnqajsdwa",
@@ -81,15 +69,79 @@ const data: AccordionLabelProps[] = [
     },
   },
   {
+    hourFrom: 6,
+    hourTo: 9,
+    machine: 2,
+    user: {
+      uuid: "asasduqnqajsdwa",
+      name: "Janez",
+      surname: "novak",
+      email: "janez@novak.com",
+      confirmed: true,
+      role: "user",
+      disabled: false,
+      room: 302,
+      phone: "+38631366200",
+    },
+  },
+  {
     hourFrom: 9,
-    hourTo: 10,
+    hourTo: 12,
+    machine: 1,
+    user: {
+      uuid: "asasduqnqajsdwa",
+      name: "Janez",
+      surname: "novak",
+      email: "janez@novak.com",
+      confirmed: true,
+      role: "user",
+      disabled: false,
+      room: 302,
+      phone: "+38631366200",
+    },
+  },
+  {
+    hourFrom: 12,
+    hourTo: 15,
+    machine: 1,
+    user: {
+      uuid: "asasduqnqajsdwa",
+      name: "Janez",
+      surname: "novak",
+      email: "janez@novak.com",
+      confirmed: true,
+      role: "user",
+      disabled: false,
+      room: 302,
+      phone: "+38631366200",
+    },
+  },
+  {
+    hourFrom: 15,
+    hourTo: 18,
+    machine: 1,
+    user: {
+      uuid: "asasduqnqajsdwa",
+      name: "Janez",
+      surname: "novak",
+      email: "janez@novak.com",
+      confirmed: true,
+      role: "user",
+      disabled: false,
+      room: 302,
+      phone: "+38631366200",
+    },
+  },
+  {
+    hourFrom: 18,
+    hourTo: 21,
     machine: 1,
     user: undefined,
   },
   {
-    hourFrom: 10,
-    hourTo: 11,
-    machine: 1,
+    hourFrom: 21,
+    hourTo: 24,
+    machine: 2,
     user: {
       uuid: "sdasdawdwdasdwa",
       name: "Zan",
@@ -101,18 +153,8 @@ const data: AccordionLabelProps[] = [
       room: 399,
       phone: "+38631366200",
     },
-  },
-  {
-    hourFrom: 11,
-    hourTo: 12,
-    machine: 1,
-    user: undefined,
   },
 ];
-
-function machineToColor(machine: 1 | 2) {
-  return machine === 1 ? "teal" : "orange";
-}
 
 function usertoAvatar(user: IUser) {
   const col = user.role == "admin" ? "purple" : "blue";
@@ -123,85 +165,112 @@ function usertoAvatar(user: IUser) {
   );
 }
 
-export function AccordionLabel({
-  hourFrom,
-  hourTo,
-  machine,
-  user,
-}: AccordionLabelProps) {
-  return (
-    <Group noWrap align="center">
-      {user && usertoAvatar(user)}
-      {!user && (
-        <Avatar radius="xl" size="md">
-          {machine}
-        </Avatar>
-      )}
-      <div>
-        <Text>{`${hourFrom} - ${hourTo}h`}</Text>
-        {/* {user && <Text>{`${user.name}${user.surname}`}</Text>} */}
-      </div>
-    </Group>
-  );
-}
+// export function AccordionLabel({ hourFrom, hourTo, machine, user }: RowProps) {
+//   return (
+//     <Group noWrap align="center">
+//       {user && usertoAvatar(user)}
+//       {!user && (
+//         <Avatar
+//           radius="xl"
+//           size="md"
+//           color={machine == 1 ? "orange" : "cyan"}
+//           variant="outline"
+//         >
+//           {/* {machine} */}
+//           <Box
+//             style={{
+//               borderRadius: "100%",
+//               backgroundColor: machine == 1 ? "orange" : "cyan",
+//               height: "0.3rem",
+//               width: "0.3rem",
+//             }}
+//           />
+//         </Avatar>
+//       )}
+//       <div>
+//         <Text>{`${hourFrom} - ${hourTo}h`}</Text>
+//       </div>
+//     </Group>
+//   );
+// }
 
 export function AccordionList() {
-  // const addTermin/;
+  const { addTermin, error, loading } = useAddTermin();
+  const { classes } = useStyles();
 
-  const items = data.map((item, i) => (
+  const items = terminDUmmy.map((item, i) => (
     <Accordion.Item value={"item_" + i} key={"item_" + i}>
       <Accordion.Control>
         <AccordionLabel {...item} />
       </Accordion.Control>
       <Accordion.Panel>
-        <Text size="sm">
-          {item.user && (
-            <Stack>
-              <Title size="h4">
-                {item.user.name} {item.user.surname}
-              </Title>
-              <Table>
-                <tbody>
-                  <tr>
-                    <td>
-                      <Text weight={800}>Tel:</Text>{" "}
-                    </td>
-                    <td>{item.user.phone}</td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <Text weight={800}>Mail:</Text>{" "}
-                    </td>
-                    <td>{item.user.email}</td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <Text weight={800}>Soba:</Text>{" "}
-                    </td>
-                    <td>{item.user.room}</td>
-                  </tr>
-                </tbody>
-              </Table>
-            </Stack>
-          )}
-          {!item.user && (
+        {item.user && (
+          <>
+            <Text size="lg" weight={500} className={classes.name}>
+              {item.user.name} {item.user.surname}
+            </Text>
+
+            <Group noWrap spacing={10} mt={3}>
+              <IconAt stroke={1.5} size={16} className={classes.icon} />
+              <Text size="xs" color="dimmed">
+                {item.user.email}
+              </Text>
+            </Group>
+
+            <Group noWrap spacing={10} mt={5}>
+              <IconPhoneCall stroke={1.5} size={16} className={classes.icon} />
+              <Text size="xs" color="dimmed">
+                {item.user.phone}
+              </Text>
+            </Group>
+
+            <Group noWrap spacing={10} mt={5}>
+              <IconDoor stroke={1.5} size={16} className={classes.icon} />
+              <Text size="xs" color="dimmed">
+                {item.user.room}
+              </Text>
+            </Group>
+          </>
+        )}
+        {!item.user && (
+          <Box m="md">
+            <Text>
+              Prijavi se na termin od <strong>{item.hourFrom}:00</strong> do{" "}
+              <strong>{item.hourTo}:00 </strong>
+              ure
+            </Text>
+            <Box m="md" />
             <Button
               variant="light"
+              loading={loading}
               onClick={() => {
-                console.log("add termin");
+                console.log(item.user);
+
+                item.user &&
+                  addTermin({
+                    uuid: item.user.uuid,
+                    washer: item.machine,
+                    termin: i,
+                    date: new Date().getDate(),
+                  });
               }}
             >
-              {" "}
-              Prijava na termin
+              Prijava
             </Button>
-          )}
-        </Text>
+          </Box>
+        )}
       </Accordion.Panel>
     </Accordion.Item>
   ));
 
   return (
-    <Accordion w="100%" chevronPosition="right" variant="default">
+    <Accordion
+      chevronPosition="right"
+      variant="default"
+      style={{
+        flex: 1,
+      }}
+    >
       {items}
     </Accordion>
   );

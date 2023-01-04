@@ -1,44 +1,47 @@
 import { useEffect, useState } from "react";
-import { User, deleteUser } from "firebase/auth";
 
 import {
   AppShell,
   Navbar,
   Header,
-  Footer,
-  Aside,
   Text,
   MediaQuery,
   Burger,
   useMantineTheme,
-  Button,
-  Badge,
   Flex,
   Box,
 } from "@mantine/core";
-import { auth } from "./firebase";
 import { Outlet, useNavigate } from "react-router-dom";
 import { NavbarMinimal } from "./Sidebar";
+import { useMediaQuery } from "@mantine/hooks";
+import { useIsMobile } from "./hooks/media";
 
 export default function AppShellDemo() {
   const theme = useMantineTheme();
   const [opened, setOpened] = useState(false);
-  const [loading, setLoading] = useState(false);
-
-  console.log(auth.currentUser);
+  const mobile = useIsMobile();
 
   return (
     <AppShell
+      navbarOffsetBreakpoint="sm"
+      asideOffsetBreakpoint="sm"
+      padding={0}
       styles={{
+        root: {
+          height: "100vh",
+        },
         main: {
           background:
             theme.colorScheme === "dark"
               ? theme.colors.dark[8]
               : theme.colors.gray[0],
+          display: "flex",
+          overflow: "hidden",
+        },
+        body: {
+          height: "100%",
         },
       }}
-      // navbarOffsetBreakpoint="sm"
-      // asideOffsetBreakpoint="sm"
       navbar={
         <Navbar
           p="md"
@@ -61,6 +64,7 @@ export default function AppShellDemo() {
       //     nogice
       //   </Footer>
       // }
+
       header={
         <Header height={{ base: 50, md: 70 }} p="md">
           <div
@@ -114,10 +118,21 @@ export default function AppShellDemo() {
         </Header>
       }
     >
-      {/* <Cal /> */}
-      <Box pl={{ sm: "0", md: "6rem" }}>
-        <Outlet />
-        {/* <UsersRolesTable data={getUsers()} /> */}
+      <Box
+        style={{
+          overflowY: "hidden",
+          overflowX: "hidden",
+          boxSizing: "border-box",
+          height: "100%",
+          flex: 1,
+        }}
+        // bg="blue"
+        pl={mobile ? "0" : "5.3rem"}
+      >
+        {/* {mobile ? "mobile" : "desktop"} */}
+        <Box h="100%" p="md">
+          <Outlet />
+        </Box>
       </Box>
     </AppShell>
   );

@@ -40,16 +40,17 @@ export function UsersRolesTable() {
   const { data, error } = useFetchUsers();
 
   return (
-    <ScrollArea>
+    <ScrollArea m="lg">
+      {/* <Flex direction="column"> */}
       <Flex m={32} align="center" justify="center">
         <InputWithButton
+          disabled={data?.length == 0}
           value={search}
           onChange={(e) => {
             setSearch(e.currentTarget.value);
           }}
         />
       </Flex>
-
       <Table verticalSpacing="sm">
         <thead>
           <tr>
@@ -101,5 +102,6 @@ export function UsersRolesTable() {
         )}
       </Table>
     </ScrollArea>
+    // </Flex>
   );
 }

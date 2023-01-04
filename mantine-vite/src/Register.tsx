@@ -30,6 +30,8 @@ import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useRegisterUser } from "./api/registerUser";
 import { IUser } from "./api/listUsers";
+import { addUser } from "./store/store";
+import { user } from "firebase-functions/v1/auth";
 
 type BasicUser = Omit<IUser, "disabled" | "uuid" | "confirmed" | "role">;
 export interface IRegisterForm extends BasicUser {
@@ -106,6 +108,13 @@ export function AuthenticationForm(props: PaperProps) {
               signInWithEmailAndPassword(auth, a.email, a.password)
                 .then((userCredential) => {
                   console.log(userCredential);
+                  addUser({
+                    email: userCredential?.user?.email || "",
+                    name: userCredential?.user?.displayName || "",
+                    phone: userCredential?.user?.phoneNumber || "",
+                    role: "",
+                    uuid: userCredential?.user?.uid || "",
+                  });
                   redirect("/");
                 })
                 .catch((error) => {

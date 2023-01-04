@@ -1,11 +1,11 @@
-import { Badge, Flex, Grid, Group } from "@mantine/core";
-import { AccordionList } from "./AccordioList";
+import { ITermin } from "../api/addTermin";
+import { TableDay } from "./TableDay";
 
-export const Day = () => {
-  return (
-    <Group spacing={"md"} align="flex-start" noWrap>
-      <AccordionList />
-      <AccordionList />
-    </Group>
-  );
+export const Day = ({ date, data }: { date: Date; data: ITermin[] }) => {
+  const from = new Date(date);
+  from.setHours(0, 0, 0, 0);
+
+  console.log({ from });
+
+  return <TableDay termini={data} date={from} />;
 };
