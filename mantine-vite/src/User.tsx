@@ -42,11 +42,13 @@ export const InfoRow = ({ data, dKey }: IRowProps) => {
 };
 
 export const TerminRow = ({
-  data,
+  washer,
+  date,
   id,
   uuid,
 }: {
-  data: Date;
+  washer: number;
+  date: Date;
   id: string;
   uuid: string;
 }) => {
@@ -54,8 +56,8 @@ export const TerminRow = ({
   return (
     <tr>
       <td>
-        <Badge color="orange" size="lg">
-          {data.toLocaleDateString() + " " + data.toLocaleTimeString()}
+        <Badge color={washer === 1 ? "blue" : "orange"} size="lg">
+          {date.toLocaleDateString() + " " + date.toLocaleTimeString()}
         </Badge>
       </td>
       <td>
@@ -74,6 +76,7 @@ export const TerminRow = ({
 };
 
 const PresidentInfo = () => {
+  const mail = "predsednik@gmail.com";
   return (
     <Stack>
       <Text opacity={0.5} mt={"4rem"}>
@@ -81,9 +84,9 @@ const PresidentInfo = () => {
       </Text>
       <Flex align="center">
         <Text pr={"1rem"} weight={800}>
-          predsednik@gmail.com
+          {mail}
         </Text>
-        <CopyButton value="https://mantine.dev" timeout={2000}>
+        <CopyButton value={mail} timeout={2000}>
           {({ copied, copy }) => (
             <Tooltip
               label={copied ? "Copied" : "Copy"}
@@ -109,6 +112,15 @@ export const User = () => {
     return <Paper>No connected user</Paper>;
   }
 
+  if (error) {
+    return (
+      <Alert>
+        <Text>Ups, prišlo je do napake</Text>
+        <Text>{error.message}</Text>
+      </Alert>
+    );
+  }
+
   return (
     <Container size="sm">
       <Paper p={"2rem"}>
@@ -122,11 +134,6 @@ export const User = () => {
               {data.name} {data.surname}
             </Title>
           </Flex>
-          {/* <Divider my="sm" label={"kontakt"} labelPosition="right" />
-          <Table>
-            <InfoRow dKey="telefon" data={user.displayName || "zan gejj"} />
-            <InfoRow dKey="e-mail" data={user.displayName || "zan gejj"} />
-          </Table> */}
           <Divider my="sm" label={"Kontakt"} labelPosition="right" />
           <Table>
             <tbody>
@@ -135,7 +142,7 @@ export const User = () => {
             </tbody>
           </Table>
           {data.disabled && <Alert>OJOJ BANAN SI</Alert>}
-          <TerminTable uuid={data.uuid}></TerminTable>
+          <TerminTable uuid={user?.uid} />
           <PresidentInfo />
         </Stack>
       </Paper>

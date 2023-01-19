@@ -10,6 +10,7 @@ interface ITerminTableProps {
 
 export const TerminTable = ({ uuid }: ITerminTableProps) => {
   const { data: termini, error: terminErr } = useGetTerminsByUser(uuid);
+  console.log("termini", termini?.length);
 
   return (
     <>
@@ -38,9 +39,10 @@ export const TerminTable = ({ uuid }: ITerminTableProps) => {
           {termini &&
             termini.map((termin, i) => (
               <TerminRow
+                washer={termin.washer}
                 id={termin.id}
                 key={termin.id + i}
-                data={new Date(termin.date * 1000)}
+                date={new Date(termin.date * 1000)}
                 uuid={termin.uuid}
               />
             ))}

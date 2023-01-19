@@ -34,7 +34,15 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-const ReservationTd = ({ date, termin }: { date: Date; termin: number }) => {
+const ReservationTd = ({
+  washer,
+  date,
+  termin,
+}: {
+  washer: number;
+  date: Date;
+  termin: number;
+}) => {
   const mobile = useIsMobile();
   const { addTerminF, loading, error } = useAddTermin();
   const selfUser = useStore(me);
@@ -51,7 +59,7 @@ const ReservationTd = ({ date, termin }: { date: Date; termin: number }) => {
               uuid: selfUser?.uuid || "",
               date: date.getTime() / 1000,
               termin: termin,
-              washer: 1,
+              washer: washer,
             });
         }}
         size={mobile ? "xs" : "md"}
@@ -253,7 +261,7 @@ export const TableDay = ({
                       uuid={left.uuid}
                     />
                   ) : (
-                    <ReservationTd termin={i} date={date} />
+                    <ReservationTd washer={1} termin={i} date={date} />
                   )}
                 </td>
                 <td>
@@ -264,7 +272,7 @@ export const TableDay = ({
                       uuid={right.uuid}
                     />
                   ) : (
-                    <ReservationTd termin={i} date={date} />
+                    <ReservationTd washer={2} termin={i} date={date} />
                   )}
                 </td>
                 <td>

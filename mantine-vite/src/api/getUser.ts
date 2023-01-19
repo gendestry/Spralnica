@@ -20,5 +20,7 @@ export const fetchUser = (uuid: string) => {
 };
 
 export const useFetchUser = (uuid: string) => {
+  console.log("useFetchUser", uuid);
+
   return useSWR<IUser>("users", () => fetchUser(uuid));
 };

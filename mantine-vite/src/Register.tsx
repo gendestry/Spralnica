@@ -107,7 +107,6 @@ export function AuthenticationForm(props: PaperProps) {
             } else {
               signInWithEmailAndPassword(auth, a.email, a.password)
                 .then((userCredential) => {
-                  console.log(userCredential);
                   addUser({
                     email: userCredential?.user?.email || "",
                     name: userCredential?.user?.displayName || "",

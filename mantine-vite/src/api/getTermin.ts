@@ -22,8 +22,10 @@ export const useGetTermin = (uuid: string) => {
   return useSWR<ITermin>("getTermin/" + uuid, () => getTermin(uuid));
 };
 
-const getTerminsByUser = (uuid: string, active: boolean = true) => {
-  const stillActive = active ? "/active" : "";
+const getTerminsByUser = (uuid: string, active?: boolean) => {
+  // const stillActive = active ? "/active" : "";
+  const stillActive = "";
+
   const url = `/getTerminsByUser/${uuid}${stillActive}`;
   return new Promise<ITermin[]>((resolve, reject) => {
     fetcher

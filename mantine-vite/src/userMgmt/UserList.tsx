@@ -27,17 +27,21 @@ function filterSearch(search: string, users: IUser[]): IUser[] {
   if (search === "") {
     return users;
   }
-  return users.filter((user) => {
-    return JSON.stringify(Object.values(user))
-      .toLowerCase()
-      .includes(search.toLowerCase());
-  });
+  return (
+    users.filter((user) => {
+      return JSON.stringify(Object.values(user))
+        .toLowerCase()
+        .includes(search.toLowerCase());
+    }) || []
+  );
 }
 
 export function UsersRolesTable() {
   const [search, setSearch] = useState("");
 
   const { data, error } = useFetchUsers();
+
+  const filtered = filterSearch(search, data || []);
 
   return (
     <ScrollArea m="lg">
@@ -95,9 +99,10 @@ export function UsersRolesTable() {
         {!data && !error && <tbody>{skeletalRows}</tbody>}
         {!error && (
           <tbody>
-            {filterSearch(search, data || []).map((user, i) => (
-              <UserRow i={i} key={user.uuid} item={user} />
-            ))}
+            {filtered.map &&
+              filtered.map((user, i) => (
+                <UserRow i={i} key={user.uuid} item={user} />
+              ))}
           </tbody>
         )}
       </Table>

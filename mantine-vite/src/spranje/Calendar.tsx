@@ -86,7 +86,7 @@ export function Cal({
                   sections={[
                     {
                       value:
-                        ((data[day - 1] || []).filter((t) => t.washer == 0)
+                        ((data[day - 1] || []).filter((t) => t.washer == 1)
                           .length /
                           8) *
                         50,
@@ -94,7 +94,7 @@ export function Cal({
                     },
                     {
                       value:
-                        ((data[day - 1] || []).filter((t) => t.washer == 1)
+                        ((data[day - 1] || []).filter((t) => t.washer == 2)
                           .length /
                           8) *
                         50,

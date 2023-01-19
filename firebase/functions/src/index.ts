@@ -107,7 +107,7 @@ function seedTermins() {
       const uuid: string = "seeded";
       const date: number = dateGenerated + i * secPerDay;
       const termin: number = neki;
-      const washer: number = Math.floor(Math.random() * 2);
+      const washer: number = Math.floor(Math.random() * 2) + 1;
 
       database.collection("termin").add({
         uuid: uuid,
@@ -127,11 +127,18 @@ function daysInMonth(month: number, year: number) {
   let epochTime = Math.floor(new Date(year, month - 1).getTime() / 1000); // epoch in seconds not ms
   const secPerDay = 86400;
 
+  // console.log(month, year);
+  // console.log(daysCount);
+  // console.log(new Date(year, month - 1).getTime() / 1000);
+
   let arr = [];
-  for (let i = 0; i < daysCount; i++) {
+  for (let i = -1; i < daysCount - 1; i++) {
+    // bug fixed!
     let current = epochTime + i * secPerDay;
     arr.push([current, current + secPerDay]);
   }
+
+  // console.log(arr);
 
   return arr;
 }
@@ -183,39 +190,6 @@ app.get("/user/:id", async (request: Request, response: Response) => {
     })
     .catch((err: Error) => {
       response.status(503).send(JSON.stringify({ step: "user", ...err }));
-    });
-});
-
-app.get("/me", async (request: Request, response: Response) => {
-  const auth = request.headers.authorization;
-  getAuth()
-    .verifyIdToken(auth || "")
-    .then((decodedToken) => {
-      const uuid = decodedToken.uid;
-      getAuth()
-        .getUser(uuid)
-        .then((user) => {
-          const filtered = {
-            uuid: user.uid,
-            email: user.email,
-            phone: user.phoneNumber,
-            name: user.customClaims?.name,
-            surname: user.customClaims?.surname,
-            room: user.customClaims?.room,
-            confirmed: user.customClaims?.confirmed,
-            disabled: user.disabled,
-          };
-
-          response.send(JSON.stringify(filtered));
-        })
-        .catch((err: Error) => {
-          response
-            .status(503)
-            .send(JSON.stringify({ step: "me-getuser", ...err }));
-        });
-    })
-    .catch((err: Error) => {
-      response.status(503).send(JSON.stringify({ step: "me-getauth", ...err }));
     });
 });
 
@@ -476,7 +450,8 @@ app.get("/getTerminsMonthly/:month/:year", async (request, response) => {
   const year: number = parseInt(request.params.year);
   const dates = daysInMonth(month, year);
 
-  console.log(dates);
+  // console.log(month, year);
+  // console.log(dates);
 
   const database = getFirestore();
   const collection = database.collection("termin");
