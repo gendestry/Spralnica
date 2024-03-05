@@ -15,13 +15,9 @@ import {
   NumberInput,
   Title,
   Flex,
+  Alert,
 } from "@mantine/core";
-import {
-  createUserWithEmailAndPassword,
-  getAuth,
-  onAuthStateChanged,
-  signInWithEmailAndPassword,
-} from "firebase/auth";
+
 import { showNotification } from "@mantine/notifications";
 
 // import BG from "../public/leaves.png";
@@ -31,7 +27,7 @@ import { useState } from "react";
 import { useRegisterUser } from "./api/registerUser";
 import { IUser } from "./api/listUsers";
 import { addUser } from "./store/store";
-import { user } from "firebase-functions/v1/auth";
+import { supabaseClient } from "./supabase/supabaseClient";
 
 type BasicUser = Omit<IUser, "disabled" | "uuid" | "confirmed" | "role">;
 export interface IRegisterForm extends BasicUser {
@@ -49,11 +45,8 @@ function roomNumberInRange(val: number) {
 
 export function AuthenticationForm(props: PaperProps) {
   const [type, toggle] = useToggle(["login", "register"]);
-  const [loading, setLoading] = useState(false);
-  const redirect = useNavigate();
 
-  //swr registration
-  const { error, loading: regLoad, registerUser } = useRegisterUser();
+  const { error, loading, registerUser, login } = useRegisterUser();
 
   const form = useForm<IRegisterForm>({
     initialValues: {
@@ -94,40 +87,11 @@ export function AuthenticationForm(props: PaperProps) {
       <Paper radius="md" p="xl" withBorder {...props}>
         <form
           autoComplete="on"
-          onSubmit={form.onSubmit((a) => {
-            setLoading(true);
+          onSubmit={form.onSubmit(async (user) => {
             if (type == "register") {
-              registerUser(a)
-                .then(() => {
-                  setLoading(false);
-                  redirect("/");
-                  console.log("redirecting");
-                })
-                .finally(() => setLoading(false));
+              registerUser(user);
             } else {
-              signInWithEmailAndPassword(auth, a.email, a.password)
-                .then((userCredential) => {
-                  addUser({
-                    email: userCredential?.user?.email || "",
-                    name: userCredential?.user?.displayName || "",
-                    phone: userCredential?.user?.phoneNumber || "",
-                    role: "",
-                    uuid: userCredential?.user?.uid || "",
-                  });
-                  redirect("/");
-                })
-                .catch((error) => {
-                  const errorCode = error.code;
-                  const errorMessage = error.message;
-                  showNotification({
-                    title: `Prijavna napaka ${errorCode}`,
-                    message: errorMessage,
-                    color: "red",
-                  });
-                })
-                .finally(() => {
-                  setLoading(false);
-                });
+              login(user);
             }
           })}
         >
@@ -198,6 +162,11 @@ export function AuthenticationForm(props: PaperProps) {
               }
             />
           </Stack>
+          {error && (
+            <Alert color="red" title="Error">
+              {JSON.stringify(error, null, 2)}
+            </Alert>
+          )}
 
           <Group position="apart" mt="xl">
             <Anchor

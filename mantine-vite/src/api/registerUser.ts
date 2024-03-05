@@ -1,39 +1,7 @@
-import { showNotification } from "@mantine/notifications";
 import { useState } from "react";
 import { mutate } from "swr";
 import { IRegisterForm } from "../Register";
-import { IUser } from "./listUsers";
-import { fetcher } from "./swrFetcher";
-
-export const register = (user: IRegisterForm) => {
-  const url = "/registerUser";
-
-  return new Promise((resolve, reject) => {
-    const payload = user;
-
-    fetcher
-      .post(url, payload)
-      .then((res) => {
-        resolve(res.data);
-        showNotification({
-          color: "green",
-          title: "Uporabnik registriran!",
-          message: `Yo ${user.name}! vabljen.`,
-        });
-      })
-      .catch((e: Error) => {
-        reject(e);
-        showNotification({
-          color: "red",
-          title: "Napaka!",
-          message: `Napaka pri registraciji ${e.name}}`,
-        });
-      })
-      .finally(() => {
-        // store.dispatch(popLoad());
-      });
-  });
-};
+import { supabaseClient } from "../supabase/supabaseClient";
 
 export const useRegisterUser = () => {
   const [loading, setLoading] = useState(false);
@@ -42,7 +10,41 @@ export const useRegisterUser = () => {
   const registerUser = (user: IRegisterForm) => {
     return new Promise<void>((resolve, reject) => {
       setLoading(true);
-      register(user)
+      supabaseClient.auth
+        .signUp({
+          email: user.email,
+          password: user.password,
+          options: {
+            data: {
+              name: user.name,
+              surname: user.surname,
+              room: user.room,
+              phone: user.phone,
+            },
+          },
+        })
+        .then(() => {
+          mutate("users");
+          resolve();
+        })
+        .catch((e) => {
+          setError(e);
+          reject(e);
+        })
+        .finally(() => {
+          setLoading(false);
+        });
+    });
+  };
+
+  const login = (user: { email: string; password: string }) => {
+    return new Promise<void>((resolve, reject) => {
+      setLoading(true);
+      supabaseClient.auth
+        .signInWithPassword({
+          email: user.email,
+          password: user.password,
+        })
         .then(() => {
           mutate("users");
           resolve();
@@ -61,5 +63,6 @@ export const useRegisterUser = () => {
     loading,
     error,
     registerUser,
+    login,
   };
 };
