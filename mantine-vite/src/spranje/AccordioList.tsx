@@ -167,7 +167,7 @@ function usertoAvatar(user: IUser) {
 
 // export function AccordionLabel({ hourFrom, hourTo, machine, user }: RowProps) {
 //   return (
-//     <Group noWrap align="center">
+//     <Group wrap="nowrap" align="center">
 //       {user && usertoAvatar(user)}
 //       {!user && (
 //         <Avatar
@@ -210,21 +210,21 @@ export function AccordionList() {
               {item.user.name} {item.user.surname}
             </Text>
 
-            <Group noWrap spacing={10} mt={3}>
+            <Group wrap="nowrap" gap={10} mt={3}>
               <IconAt stroke={1.5} size={16} className={classes.icon} />
               <Text size="xs" color="dimmed">
                 {item.user.email}
               </Text>
             </Group>
 
-            <Group noWrap spacing={10} mt={5}>
+            <Group wrap="nowrap" gap={10} mt={5}>
               <IconPhoneCall stroke={1.5} size={16} className={classes.icon} />
               <Text size="xs" color="dimmed">
                 {item.user.phone}
               </Text>
             </Group>
 
-            <Group noWrap spacing={10} mt={5}>
+            <Group wrap="nowrap" gap={10} mt={5}>
               <IconDoor stroke={1.5} size={16} className={classes.icon} />
               <Text size="xs" color="dimmed">
                 {item.user.room}

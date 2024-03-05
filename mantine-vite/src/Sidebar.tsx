@@ -1,4 +1,4 @@
-import { Flex, Stack, Tooltip, UnstyledButton } from "@mantine/core";
+import { Button, Flex, Stack, Tooltip, Text, ActionIcon } from "@mantine/core";
 import {
   IconBook,
   IconCalendarStats,
@@ -23,9 +23,13 @@ interface NavbarLinkProps {
 function NavbarLink({ icon: Icon, label, active, onClick }: NavbarLinkProps) {
   return (
     <Tooltip label={label} position="right">
-      <UnstyledButton onClick={onClick}>
-        <Icon stroke={1.5} />
-      </UnstyledButton>
+      <ActionIcon
+        onClick={onClick}
+        variant={active ? "filled" : "light"}
+        size="lg"
+      >
+        <Icon style={{ width: "70%", height: "70%" }} stroke={1.5} />
+      </ActionIcon>
     </Tooltip>
   );
 }
@@ -57,7 +61,7 @@ export function NavbarMinimal() {
 
   return (
     <Flex justify={"space-between"} direction="column" h="100%">
-      <Stack justify="center" gap={0}>
+      <Stack justify="center" gap="md">
         {links}
       </Stack>
       <Stack justify="center" gap={0}>

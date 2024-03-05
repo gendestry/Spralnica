@@ -7,6 +7,8 @@ import {
   Box,
   Select,
   Avatar,
+  TableTd,
+  TableTr,
 } from "@mantine/core";
 import { IconEdit } from "@tabler/icons";
 import { useState } from "react";
@@ -42,23 +44,23 @@ export const UserRow = ({ item: userIn, i }: IUserRowProps) => {
 
   if (!userIn.confirmed) {
     return (
-      <tr key={userIn.uuid}>
-        <td>
+      <TableTr key={userIn.uuid}>
+        <TableTd>
           <Button leftSection={<IconEdit />} variant="light" color={mainCol}>
             {i + 1}
           </Button>
-        </td>
-        <td>{user}</td>
+        </TableTd>
+        <TableTd>{user}</TableTd>
 
-        <td>
+        <TableTd>
           <Text>
             <Badge color={mainCol} size="lg">
               {userIn.room}
             </Badge>
           </Text>
-        </td>
+        </TableTd>
 
-        <td colSpan={2}>
+        <TableTd colSpan={2}>
           <Box
             style={{
               backgroundColor: "rgba(0, 255, 50, 0.1)",
@@ -78,27 +80,27 @@ export const UserRow = ({ item: userIn, i }: IUserRowProps) => {
               {error ? "Ponovi" : "Potrdi"}
             </Button>
           </Box>
-        </td>
-      </tr>
+        </TableTd>
+      </TableTr>
     );
   }
 
   return (
-    <tr key={userIn.uuid}>
-      <td>
+    <TableTr key={userIn.uuid}>
+      <TableTd>
         {/* <Button leftIcon={<IconEdit />} variant="light" color={mainCol}>
           {i + 1}
         </Button> */}
         <MyModal mainCol={mainCol} user={userIn} />
-      </td>
-      <td
+      </TableTd>
+      <TableTd
         style={{
           opacity: userIn.disabled ? 0.2 : 1,
         }}
       >
         {user}
-      </td>
-      <td
+      </TableTd>
+      <TableTd
         style={{
           opacity: userIn.disabled ? 0.2 : 1,
         }}
@@ -106,22 +108,22 @@ export const UserRow = ({ item: userIn, i }: IUserRowProps) => {
         <Badge color={mainCol} size="lg">
           {userIn.room}
         </Badge>
-      </td>
-      <td
+      </TableTd>
+      <TableTd
         style={{
           opacity: userIn.disabled ? 0.2 : 1,
         }}
       >
         {userIn.phone}
-      </td>
+      </TableTd>
 
-      {/* <td>
+      {/* <TableTd>
         {!item.disabled ? (
           <Badge color="green">Aktiven</Badge>
         ) : (
           <Badge color="red">Onemogočen</Badge>
         )}
-      </td> */}
-    </tr>
+      </TableTd> */}
+    </TableTr>
   );
 };

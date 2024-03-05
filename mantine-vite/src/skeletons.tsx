@@ -1,48 +1,48 @@
-import { Skeleton } from "@mantine/core";
+import { Skeleton, TableTd, TableTr } from "@mantine/core";
 
 export const skeletalRows = (
   <>
-    <tr>
-      <td>
+    <TableTr>
+      <TableTd>
         <Skeleton height={14} my={10} radius="xl" />
-      </td>
-      <td>
+      </TableTd>
+      <TableTd>
         <Skeleton height={14} my={10} radius="xl" />
-      </td>
-      <td>
+      </TableTd>
+      <TableTd>
         <Skeleton height={14} my={10} radius="xl" />
-      </td>
-      <td>
+      </TableTd>
+      <TableTd>
         <Skeleton height={14} my={10} radius="xl" />
-      </td>
-    </tr>
-    <tr>
-      <td>
+      </TableTd>
+    </TableTr>
+    <TableTr>
+      <TableTd>
         <Skeleton height={14} my={10} radius="xl" />
-      </td>
-      <td>
+      </TableTd>
+      <TableTd>
         <Skeleton height={14} my={10} radius="xl" />
-      </td>
-      <td>
+      </TableTd>
+      <TableTd>
         <Skeleton height={14} my={10} radius="xl" />
-      </td>
-      <td>
+      </TableTd>
+      <TableTd>
         <Skeleton height={14} my={10} radius="xl" />
-      </td>
-    </tr>
-    <tr>
-      <td>
+      </TableTd>
+    </TableTr>
+    <TableTr>
+      <TableTd>
         <Skeleton height={14} my={10} radius="xl" />
-      </td>
-      <td>
+      </TableTd>
+      <TableTd>
         <Skeleton height={14} my={10} radius="xl" />
-      </td>
-      <td>
+      </TableTd>
+      <TableTd>
         <Skeleton height={14} my={10} radius="xl" />
-      </td>
-      <td>
+      </TableTd>
+      <TableTd>
         <Skeleton height={14} my={10} radius="xl" />
-      </td>
-    </tr>
+      </TableTd>
+    </TableTr>
   </>
 );

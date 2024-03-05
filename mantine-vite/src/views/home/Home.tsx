@@ -8,6 +8,7 @@ import {
   Center,
 } from "@mantine/core";
 import "./rotate.css";
+import { IconBook, IconWash } from "@tabler/icons";
 
 export const Home = () => {
   return (
@@ -57,9 +58,13 @@ export const Home = () => {
             </Text>
           </Flex>
           <Text>Gerbičeva 59, 1000 Ljubljana, Slovenija</Text>
-          <Group gap={"md"}>
-            <Button>Pranje</Button>
-            <Button>Pravila</Button>
+          <Group gap="xl">
+            <Button leftSection={<IconWash />} variant="light">
+              Pranje
+            </Button>
+            <Button leftSection={<IconBook />} variant="light">
+              Pravila
+            </Button>
           </Group>
         </Stack>
       </Center>

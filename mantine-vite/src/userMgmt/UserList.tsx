@@ -1,4 +1,14 @@
-import { Alert, Flex, ScrollArea, Table } from "@mantine/core";
+import {
+  Alert,
+  Flex,
+  ScrollArea,
+  Table,
+  TableTbody,
+  TableTd,
+  TableTh,
+  TableThead,
+  TableTr,
+} from "@mantine/core";
 import { IconAlertCircle } from "@tabler/icons";
 import { useState } from "react";
 import { IUser, useFetchUsers } from "../api/listUsers";
@@ -43,18 +53,18 @@ export function UsersRolesTable() {
         />
       </Flex>
       <Table verticalSpacing="sm">
-        <thead>
-          <tr>
-            <th></th>
-            <th>Oseba</th>
-            <th>Številka sobe</th>
-            <th>Telefon</th>
-          </tr>
-        </thead>
+        <TableThead>
+          <TableTr>
+            <TableTh></TableTh>
+            <TableTh>Oseba</TableTh>
+            <TableTh>Številka sobe</TableTh>
+            <TableTh>Telefon</TableTh>
+          </TableTr>
+        </TableThead>
         {error && (
-          <tbody>
-            <tr>
-              <td colSpan={4}>
+          <TableTbody>
+            <TableTr>
+              <TableTd colSpan={4}>
                 <Alert
                   icon={<IconAlertCircle size={16} />}
                   title="Jebiga"
@@ -63,14 +73,14 @@ export function UsersRolesTable() {
                 >
                   Neki je šlo narobe. Probi osvežit stran. Detajli v konzoli.
                 </Alert>
-              </td>
-            </tr>
-          </tbody>
+              </TableTd>
+            </TableTr>
+          </TableTbody>
         )}
         {data && data.length == 0 && (
-          <tbody>
-            <tr>
-              <td colSpan={4}>
+          <TableTbody>
+            <TableTr>
+              <TableTd colSpan={4}>
                 <Alert
                   icon={<IconAlertCircle size={16} />}
                   title="Ni uporabnikov"
@@ -79,18 +89,18 @@ export function UsersRolesTable() {
                   V bazi ni bil najden noben registriran uporabnik. Naj se kdo
                   registrira ...
                 </Alert>
-              </td>
-            </tr>
-          </tbody>
+              </TableTd>
+            </TableTr>
+          </TableTbody>
         )}
-        {!data && !error && <tbody>{skeletalRows}</tbody>}
+        {!data && !error && <TableTbody>{skeletalRows}</TableTbody>}
         {!error && (
-          <tbody>
+          <TableTbody>
             {filtered.map &&
               filtered.map((user, i) => (
                 <UserRow i={i} key={user.uuid} item={user} />
               ))}
-          </tbody>
+          </TableTbody>
         )}
       </Table>
     </ScrollArea>

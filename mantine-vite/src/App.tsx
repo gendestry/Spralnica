@@ -18,6 +18,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 const theme = createTheme({
   /** Put your mantine theme override here */
+  focusRing: "never",
 });
 
 export default function App() {

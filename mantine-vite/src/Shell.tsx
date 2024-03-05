@@ -1,10 +1,9 @@
-import { useState } from "react";
-
 import { Outlet } from "react-router-dom";
 import { NavbarMinimal } from "./Sidebar";
 import { useIsMobile } from "./hooks/media";
 import {
   AppShell,
+  Text,
   Box,
   Burger,
   Flex,
@@ -23,7 +22,7 @@ export default function AppShellDemo() {
     <AppShell
       header={{ height: 80 }}
       navbar={{
-        width: 300,
+        width: "4rem",
         breakpoint: "sm",
         collapsed: { mobile: !opened },
       }}
@@ -39,7 +38,14 @@ export default function AppShellDemo() {
       >
         <Group align="center" w="100%" justify="space-between" p="md">
           <Burger opened={opened} onClick={toggle} hiddenFrom="sm" size="sm" />
-          SPRALNICA
+          <Text
+            size="2rem"
+            fw={900}
+            variant="gradient"
+            gradient={{ from: "blue", to: "red", deg: 194 }}
+          >
+            Spralnica
+          </Text>
           <ActionToggle />
         </Group>
       </AppShell.Header>
