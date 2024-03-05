@@ -1,28 +1,25 @@
 import {
-  Text,
+  ActionIcon,
+  Alert,
+  Avatar,
+  Badge,
   Box,
   Container,
-  Image,
+  CopyButton,
+  Divider,
+  Flex,
+  LoadingOverlay,
   Paper,
   Stack,
-  Title,
-  Flex,
   Table,
-  Divider,
-  Avatar,
-  Group,
-  Button,
-  CopyButton,
+  Text,
+  Title,
   Tooltip,
-  ActionIcon,
-  Badge,
-  Alert,
 } from "@mantine/core";
 import { IconCheck, IconCopy, IconTrash } from "@tabler/icons";
-import React from "react";
 import { useDeleteTermin } from "./api/deleteTermin";
 import { useFetchUser } from "./api/getUser";
-import { useFirebaseUser } from "./firebase";
+import { useUser } from "./supabase/loader";
 import { TerminTable } from "./userMgmt/TerminTable";
 
 interface IRowProps {
@@ -83,7 +80,7 @@ const PresidentInfo = () => {
         v primeru nepravilnih podatkov ali sprememb kontaktirajte predsednika
       </Text>
       <Flex align="center">
-        <Text pr={"1rem"} weight={800}>
+        <Text pr={"1rem"} w={800}>
           {mail}
         </Text>
         <CopyButton value={mail} timeout={2000}>
@@ -105,8 +102,12 @@ const PresidentInfo = () => {
 };
 
 export const User = () => {
-  const user = useFirebaseUser();
-  const { data, error } = useFetchUser(user?.uid || "");
+  const { user, loading } = useUser();
+  const { data, error } = useFetchUser(user?.id || "");
+
+  if (loading) {
+    return <LoadingOverlay visible></LoadingOverlay>;
+  }
 
   if (!user || !data) {
     return <Paper>No connected user</Paper>;
@@ -124,7 +125,7 @@ export const User = () => {
   return (
     <Container size="sm">
       <Paper p={"2rem"}>
-        <Stack spacing={"md"}>
+        <Stack gap={"md"}>
           <Flex align="center" m="lg" mb={"2rem"} justify="center">
             <Avatar radius="xl" size="lg">
               {data.room}
@@ -142,7 +143,7 @@ export const User = () => {
             </tbody>
           </Table>
           {data.disabled && <Alert>OJOJ BANAN SI</Alert>}
-          <TerminTable uuid={user?.uid} />
+          <TerminTable uuid={user.id} />
           <PresidentInfo />
         </Stack>
       </Paper>

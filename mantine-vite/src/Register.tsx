@@ -22,12 +22,13 @@ import { showNotification } from "@mantine/notifications";
 
 // import BG from "../public/leaves.png";
 import { auth } from "./firebase";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useRegisterUser } from "./api/registerUser";
 import { IUser } from "./api/listUsers";
 import { addUser } from "./store/store";
 import { supabaseClient } from "./supabase/supabaseClient";
+import { useUser } from "./supabase/loader";
 
 type BasicUser = Omit<IUser, "disabled" | "uuid" | "confirmed" | "role">;
 export interface IRegisterForm extends BasicUser {
@@ -72,6 +73,12 @@ export function AuthenticationForm(props: PaperProps) {
           : "Neveljavna številka sobe.",
     },
   });
+
+  const { user } = useUser();
+
+  if (user) {
+    return <Navigate to="/"></Navigate>;
+  }
 
   return (
     <Flex
@@ -133,7 +140,15 @@ export function AuthenticationForm(props: PaperProps) {
                   label="Številka sobe"
                   placeholder="401"
                   value={form.values.room}
-                  onChange={(num) => form.setFieldValue("room", num || 0)}
+                  onChange={(num) => {
+                    let i = 0;
+                    if (typeof num == "string") {
+                      i = parseInt(num);
+                    } else {
+                      i = num;
+                    }
+                    form.setFieldValue("room", i);
+                  }}
                   hideControls
                   error={form.errors.room}
                 />
@@ -168,7 +183,7 @@ export function AuthenticationForm(props: PaperProps) {
             </Alert>
           )}
 
-          <Group position="apart" mt="xl">
+          <Group justify="apart" mt="xl">
             <Anchor
               component="button"
               type="button"

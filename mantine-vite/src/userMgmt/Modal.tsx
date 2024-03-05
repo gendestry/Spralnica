@@ -1,23 +1,19 @@
-import { forwardRef, useEffect, useState } from "react";
 import {
-  Modal,
-  Button,
-  Group,
   Avatar,
   Box,
+  Button,
   Divider,
   Flex,
-  Stack,
-  Table,
-  Title,
   Input,
+  Modal,
   Select,
-  Text,
+  Stack,
   Switch,
-  Alert,
+  Text,
+  Title,
 } from "@mantine/core";
+import { useForm } from "@mantine/form";
 import {
-  IconAlertCircle,
   IconAt,
   IconDoor,
   IconEdit,
@@ -25,11 +21,9 @@ import {
   IconPhone,
   IconUserCircle,
 } from "@tabler/icons";
-import { InfoRow, TerminRow } from "../User";
-import { useForm, UseFormReturnType } from "@mantine/form";
-import { IUser } from "../api/listUsers";
+import { useEffect, useState } from "react";
 import { useEditUser } from "../api/editUser";
-import { useGetTerminsByUser } from "../api/getTermin";
+import { IUser } from "../api/listUsers";
 import { TerminTable } from "./TerminTable";
 
 export interface IModalProps {
@@ -80,11 +74,7 @@ export function MyModal({ mainCol, user }: IModalProps) {
             <Box m={"xl"} />
             <Box>
               <Title>{`${user.name} ${user.surname}`}</Title>
-              {/* <Text py={"xs"} size="xs" opacity={0.4}>
-                {user.uuid}
-              </Text> */}
             </Box>
-            {/* </Flex> */}
           </Flex>
         }
       >
@@ -97,35 +87,35 @@ export function MyModal({ mainCol, user }: IModalProps) {
             handleSubmit(values);
           })}
         >
-          <Stack spacing={"xs"}>
+          <Stack gap={"xs"}>
             <Divider label={"Kontakt"} labelPosition="right" />
             {/* <Input icon={<IconAt />} placeholder="email" /> */}
             <Input
-              icon={<IconAt size={16} />}
+              leftSection={<IconAt size={16} />}
               placeholder="ime"
               __staticSelector=""
               value={"lan.vukusic@gmail.com"}
               {...form.getInputProps("email")}
             />
             <Input
-              icon={<IconUserCircle size={16} />}
+              leftSection={<IconUserCircle size={16} />}
               placeholder="ime"
               __staticSelector=""
               {...form.getInputProps("name")}
             />
             <Input
-              icon={<IconUserCircle size={16} />}
+              leftSection={<IconUserCircle size={16} />}
               placeholder="priimek"
               {...form.getInputProps("surname")}
             />
             <Input
-              icon={<IconPhone size={16} />}
+              leftSection={<IconPhone size={16} />}
               placeholder="telefon"
               type="tel"
               {...form.getInputProps("phone")}
             />
             <Input
-              icon={<IconDoor size={16} />}
+              leftSection={<IconDoor size={16} />}
               placeholder="350"
               type="number"
               {...form.getInputProps("room")}
@@ -142,7 +132,7 @@ export function MyModal({ mainCol, user }: IModalProps) {
               {...form.getInputProps("role")}
               label="Uporabniški tip"
               placeholder="Uporabniški tip"
-              icon={<IconLock size={14} />}
+              leftSection={<IconLock size={14} />}
               data={[
                 { value: "admin", label: "admin" },
                 { value: "user", label: "user" },
@@ -168,7 +158,7 @@ export function MyModal({ mainCol, user }: IModalProps) {
       </Modal>
 
       <Button
-        leftIcon={<IconEdit />}
+        leftSection={<IconEdit />}
         variant="light"
         color={mainCol}
         onClick={() => setOpened(true)}

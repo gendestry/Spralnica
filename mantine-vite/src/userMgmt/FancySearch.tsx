@@ -11,7 +11,7 @@ export function InputWithButton(props: TextInputProps) {
 
   return (
     <TextInput
-      icon={<IconSearch size={18} stroke={1.5} />}
+      leftSection={<IconSearch size={18} stroke={1.5} />}
       radius="xl"
       size="lg"
       opacity={props.disabled ? 0.5 : 1}

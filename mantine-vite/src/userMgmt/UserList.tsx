@@ -1,23 +1,10 @@
-import {
-  Avatar,
-  Badge,
-  Table,
-  Group,
-  Text,
-  Select,
-  ScrollArea,
-  Skeleton,
-  Checkbox,
-  Flex,
-  Alert,
-  Box,
-} from "@mantine/core";
-import { useEffect, useState } from "react";
-import { skeletalRows } from "../skeletons";
-import { UserRow } from "./UserRow";
-import { InputWithButton } from "./FancySearch";
-import { fetchUsers, IUser, useFetchUsers } from "../api/listUsers";
+import { Alert, Flex, ScrollArea, Table } from "@mantine/core";
 import { IconAlertCircle } from "@tabler/icons";
+import { useState } from "react";
+import { IUser, useFetchUsers } from "../api/listUsers";
+import { skeletalRows } from "../skeletons";
+import { InputWithButton } from "./FancySearch";
+import { UserRow } from "./UserRow";
 
 interface UsersTableProps {
   data?: Promise<IUser[]>;

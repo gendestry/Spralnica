@@ -27,10 +27,10 @@ export const UserRow = ({ item: userIn, i }: IUserRowProps) => {
   const mainCol = userIn.role === "admin" ? "red" : "";
 
   const user = (
-    <Group spacing="sm">
+    <Group gap="sm">
       <Avatar color={mainCol}>{userIn.role === "admin" ? "AD" : "UP"}</Avatar>
       <div>
-        <Text size="sm" weight={500} color={mainCol}>
+        <Text size="sm" w={500} color={mainCol}>
           {userIn.name} {userIn.surname}
         </Text>
         <Text size="xs" color="dimmed">
@@ -44,7 +44,7 @@ export const UserRow = ({ item: userIn, i }: IUserRowProps) => {
     return (
       <tr key={userIn.uuid}>
         <td>
-          <Button leftIcon={<IconEdit />} variant="light" color={mainCol}>
+          <Button leftSection={<IconEdit />} variant="light" color={mainCol}>
             {i + 1}
           </Button>
         </td>

@@ -1,19 +1,3 @@
-import {
-  Alert,
-  Badge,
-  Box,
-  Button,
-  createStyles,
-  Flex,
-  Group,
-  LoadingOverlay,
-  Modal,
-  ScrollArea,
-  Stack,
-  Table,
-  Text,
-  Title,
-} from "@mantine/core";
 import { IconAlertCircle, IconCheck, IconFlag, IconTrash } from "@tabler/icons";
 import { useState } from "react";
 import { ITermin, useAddTermin } from "../api/addTermin";
@@ -24,15 +8,22 @@ import { UserButton } from "./UserButton";
 import { useStore } from "@nanostores/react";
 import { useFetchUser } from "../api/getUser";
 import { generateTermini } from "./terminiUtil";
-
-const useStyles = createStyles((theme) => ({
-  name: {
-    color:
-      theme.colorScheme === "dark"
-        ? theme.colors[theme.primaryColor][6]
-        : theme.colors[theme.primaryColor][4],
-  },
-}));
+import {
+  Flex,
+  Button,
+  Alert,
+  LoadingOverlay,
+  useStyles,
+  Modal,
+  Title,
+  Badge,
+  Stack,
+  Box,
+  Group,
+  ScrollArea,
+  Table,
+  Text,
+} from "@mantine/core";
 
 const ReservationTd = ({
   washer,
@@ -65,7 +56,7 @@ const ReservationTd = ({
         size={mobile ? "xs" : "md"}
         loading={loading}
         disabled={selfUser == null}
-        leftIcon={mobile ? undefined : <IconCheck />}
+        leftSection={mobile ? undefined : <IconCheck />}
       >
         Rezerviraj
       </Button>
@@ -94,7 +85,7 @@ const ReservationTdUser = ({
     );
   }
   if (!user) {
-    return <LoadingOverlay visible={true} overlayBlur={2} />;
+    return <LoadingOverlay visible={true} />;
   }
 
   return (
@@ -122,7 +113,6 @@ const ReservationModal = ({
   uuid,
 }: ReservationModalProps) => {
   const { data: user, error: userErr, mutate } = useFetchUser(uuid);
-  const { classes } = useStyles();
   const { addTerminF, error: terminErr, loading } = useAddTermin();
 
   return (
@@ -145,25 +135,23 @@ const ReservationModal = ({
       </Alert>
 
       <Flex align="center" justify="space-between">
-        <Title className={classes.name}>
-          {user?.name + " " + user?.surname}
-        </Title>
+        <Title>{user?.name + " " + user?.surname}</Title>
         <Badge size="xl" mt="2">
           {user?.room}
         </Badge>
       </Flex>
-      <Stack spacing="xs" align="flex-start">
+      <Stack gap="xs" align="flex-start">
         <Box>
           <Text>{user?.email}</Text>
           <Text>{user?.phone}</Text>
         </Box>
       </Stack>
 
-      <Group mt="xl" position="apart">
+      <Group mt="xl" justify="apart">
         <Button.Group>
           <Button
             variant="light"
-            rightIcon={<IconFlag />}
+            rightSection={<IconFlag />}
             color="red"
             onClick={() => {
               confirm("Ali si prepričan, da želiš prijaviti osebo?") &&
@@ -175,7 +163,7 @@ const ReservationModal = ({
           </Button>
           <Button
             variant="light"
-            rightIcon={<IconTrash />}
+            rightSection={<IconTrash />}
             color="red"
             onClick={() => {
               confirm("Ali si prepričan, da želiš prijaviti osebo?") &&

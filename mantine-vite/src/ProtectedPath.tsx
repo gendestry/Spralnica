@@ -1,16 +1,27 @@
-import { useNavigate } from "react-router-dom";
-import { useFirebaseUser } from "./firebase";
+import { Flex, LoadingOverlay } from "@mantine/core";
+import { User } from "@supabase/supabase-js";
+import { PropsWithChildren } from "react";
+import { Navigate } from "react-router-dom";
+import { useUser } from "./supabase/loader";
 
-interface IProtectedprops {
-  children: React.ReactNode;
+interface ProtectedPathProps extends PropsWithChildren {
+  redirectUrl: string;
+  shouldRedirect?: (arg0: User | null) => boolean;
 }
 
-export const ProtectedPath = ({ children }: IProtectedprops) => {
-  const navigate = useNavigate();
-  const user = useFirebaseUser();
-  if (!user) {
-    navigate("/login");
-    return <></>;
+export const ProtectedPath = ({
+  children,
+  redirectUrl,
+}: ProtectedPathProps): JSX.Element => {
+  const { user, loading } = useUser();
+
+  if (loading) {
+    return <LoadingOverlay visible={true} />;
   }
-  return children as JSX.Element;
+
+  if (!user) {
+    return <Navigate to={redirectUrl} />;
+  }
+
+  return <Flex>{children}</Flex>;
 };
