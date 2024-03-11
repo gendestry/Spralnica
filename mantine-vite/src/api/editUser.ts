@@ -1,35 +1,45 @@
 import { showNotification } from "@mantine/notifications";
 import { useState } from "react";
 import { mutate } from "swr";
-import { IUser } from "./listUsers";
-import { fetcher } from "./swrFetcher";
+import { IUser } from "./getUser";
+import { supabaseClient } from "../supabase/supabaseClient";
+import { cache } from "swr/dist/utils/config";
 
 export const editUser = (user: Partial<IUser>) => {
-  const url = "/updateUser";
-
   return new Promise((resolve, reject) => {
-    const payload = user;
-
-    fetcher
-      .post(url, payload)
+    supabaseClient
+      .rpc("edituser", {
+        param_id: user.id!,
+        param_name: user.name || undefined,
+        param_surname: user.surname || undefined,
+        param_email: user.email || undefined,
+        param_room: user.room || undefined,
+        param_phone: user.phone || undefined,
+        param_confirmed: user.confirmed || undefined,
+        param_disabled: user.disabled || undefined,
+      })
       .then((res) => {
-        resolve(res.data);
-        showNotification({
-          color: "green",
-          title: "Posodobljeno!",
-          message: `Uporabnik ${user.name} posodobljen!`,
-        });
-      })
-      .catch((e: Error) => {
-        reject(e);
-        showNotification({
-          color: "red",
-          title: "Napaka!",
-          message: `Napaka pri posodobitvi${e.message}`,
-        });
-      })
-      .finally(() => {
-        // store.dispatch(popLoad());
+        if (res.error) {
+          reject(res.error);
+          console.log(res.error);
+          showNotification({
+            color: "red",
+            title: "Napaka!",
+            message: `Napaka pri posodobitvi uporabnika!`,
+          });
+        } else {
+          resolve(res.data);
+          mutate(
+            (key: any) => Array.isArray(key) && key.includes("users"),
+            undefined,
+            { revalidate: true }
+          );
+          showNotification({
+            color: "green",
+            title: "Posodobljeno!",
+            message: `Uporabnik posodobljen!`,
+          });
+        }
       });
   });
 };
@@ -43,7 +53,11 @@ export const useEditUser = () => {
       setLoading(true);
       editUser(user)
         .then(() => {
-          mutate("users");
+          mutate(
+            (key: any) => Array.isArray(key) && key.includes("users"),
+            undefined,
+            { revalidate: true }
+          );
           resolve();
         })
         .catch((e) => {

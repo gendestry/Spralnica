@@ -1,15 +1,14 @@
 import { Alert, Table } from "@mantine/core";
 import { IconAlertCircle } from "@tabler/icons";
 import { useGetTerminsByUser } from "../api/getTermin";
-
 import { TerminRow } from "../User";
 
 interface ITerminTableProps {
-  uuid: string;
+  uid: number;
 }
 
-export const TerminTable = ({ uuid }: ITerminTableProps) => {
-  const { data: termini, error: terminErr } = useGetTerminsByUser(uuid);
+export const TerminTable = ({ uid }: ITerminTableProps) => {
+  const { data: termini, error: terminErr } = useGetTerminsByUser(uid);
   console.log("termini", termini?.length);
 
   return (
@@ -31,7 +30,7 @@ export const TerminTable = ({ uuid }: ITerminTableProps) => {
           title="Ni terminov"
           variant="outline"
         >
-          Nobenih najdenih prihodnjih terminov
+          Uporabnik nima aktivnih terminov.
         </Alert>
       )}
       <Table>
@@ -42,8 +41,8 @@ export const TerminTable = ({ uuid }: ITerminTableProps) => {
                 washer={termin.washer}
                 id={termin.id}
                 key={termin.id + i}
-                date={new Date(termin.date * 1000)}
-                uuid={termin.uuid}
+                date={new Date(termin.start_at || 0 * 1000)}
+                uid={termin.user_id}
               />
             ))}
         </tbody>

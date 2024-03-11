@@ -1,46 +1,42 @@
 import { showNotification } from "@mantine/notifications";
 import { useState } from "react";
 import { mutate } from "swr";
-import { fetcher } from "./swrFetcher";
+import { supabaseClient } from "../supabase/supabaseClient";
 
-export const confirmUser = ({ uuid }: { uuid: string }) => {
-  const url = "/setConfirmed";
+export const confirmUser = ({ id }: { id: number }) => {
 
   return new Promise((resolve, reject) => {
-    const payload = { uuid, confirmed: true };
-    console.log(payload, url);
-
-    fetcher
-      .post(url, payload)
+    supabaseClient
+      .from("user_info")
+      .update({ confirmed: true })
+      .eq("id", id)
       .then((res) => {
-        showNotification({
-          color: "green",
-          title: "Sprejeto!",
-          message: `Uporabnik ${uuid} sprejet!`,
-        });
-        resolve(res.data);
+        if (res.error) {
+          reject(res.error);
+          showNotification({
+            color: "red",
+            title: "Napaka!",
+            message: `Napaka pri sprejemu uporabnika!`,
+          });
+        } else {
+          resolve(res.data);
+          showNotification({
+            color: "green",
+            title: "Sprejeto!",
+            message: `Uporabnik ${id} sprejet!`,
+          });
+        }
       })
-      .catch((e: Error) => {
-        reject(e);
-        showNotification({
-          color: "red",
-          title: "Napaka!",
-          message: `Napaka ${e.message} pri sprejemu uporabnika!`,
-        });
-      })
-      .finally(() => {
-        // store.dispatch(popLoad());
-      });
-  });
+    });
 };
 
-export const useConfirmUser = (uuid: string) => {
+export const useConfirmUser = (id: number) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
   const mutateUser = () => {
     setLoading(true);
-    confirmUser({ uuid })
+    confirmUser({ id })
       .then(() => {
         mutate("users");
       })

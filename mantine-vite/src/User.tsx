@@ -42,12 +42,12 @@ export const TerminRow = ({
   washer,
   date,
   id,
-  uuid,
+  uid,
 }: {
   washer: number;
   date: Date;
-  id: string;
-  uuid: string;
+  id: number;
+  uid: number;
 }) => {
   const { delTermin, error, loading } = useDeleteTermin();
   return (
@@ -62,7 +62,7 @@ export const TerminRow = ({
           loading={loading}
           disabled={error != null}
           onClick={() => {
-            delTermin(id, uuid);
+            delTermin(id, uid);
           }}
         >
           <IconTrash size={18} />
@@ -143,7 +143,7 @@ export const User = () => {
             </tbody>
           </Table>
           {data.disabled && <Alert>OJOJ BANAN SI</Alert>}
-          <TerminTable uuid={user.id} />
+          <TerminTable uid={user.id} />
           <PresidentInfo />
         </Stack>
       </Paper>

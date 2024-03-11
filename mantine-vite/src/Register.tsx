@@ -21,19 +21,18 @@ import {
 import { showNotification } from "@mantine/notifications";
 
 // import BG from "../public/leaves.png";
-import { auth } from "./firebase";
 import { Navigate, useNavigate } from "react-router-dom";
-import { useState } from "react";
 import { useRegisterUser } from "./api/registerUser";
-import { IUser } from "./api/listUsers";
-import { addUser } from "./store/store";
-import { supabaseClient } from "./supabase/supabaseClient";
 import { useUser } from "./supabase/loader";
 
-type BasicUser = Omit<IUser, "disabled" | "uuid" | "confirmed" | "role">;
-export interface IRegisterForm extends BasicUser {
+export type IRegisterUser = {
+  name: string;
+  surname: string;
+  room: number;
+  email: string;
   password: string;
-}
+  phone: string;
+};
 
 function roomNumberInRange(val: number) {
   return (
@@ -49,7 +48,7 @@ export function AuthenticationForm(props: PaperProps) {
 
   const { error, loading, registerUser, login } = useRegisterUser();
 
-  const form = useForm<IRegisterForm>({
+  const form = useForm<IRegisterUser>({
     initialValues: {
       name: "",
       surname: "",
@@ -67,10 +66,14 @@ export function AuthenticationForm(props: PaperProps) {
         /^\S+@\S+$/.test(val) ? null : "Neveljaven email naslov.",
       password: (val) =>
         val.length < 8 ? "Geslo mora vsebovati vsaj 8 znakov." : null,
-      room: (val: number | undefined) =>
+      room: (val) =>
         type == "login" || (val && roomNumberInRange(val))
           ? null
           : "Neveljavna številka sobe.",
+      phone: (val) =>
+        type === "register" && val.replace(/\s/g, "").length != 12
+          ? "Telefon mora vsebovati 12 znakov (presledki niso pomembni)."
+          : null,
     },
   });
 
@@ -131,9 +134,12 @@ export function AuthenticationForm(props: PaperProps) {
                   placeholder="+386 40 123 456"
                   value={form.values.phone}
                   onChange={(event) =>
-                    form.setFieldValue("phone", event.currentTarget.value)
+                    form.setFieldValue(
+                      "phone",
+                      event.currentTarget.value.replace(/\s/g, "")
+                    )
                   }
-                  error={form.errors.surname}
+                  error={form.errors.phone}
                 />
 
                 <NumberInput

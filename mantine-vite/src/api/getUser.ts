@@ -1,26 +1,25 @@
 import useSWR from "swr";
-import { IUser } from "./listUsers";
-import { fetcher } from "./swrFetcher";
+import { Tables } from "../supabase/supabase";
+import { supabaseClient } from "../supabase/supabaseClient";
 
-export const fetchUser = (uuid: string) => {
-  const url = `/user/${uuid}`;
+export type IUser = Tables<"listallusers">;
+export type IUserList = Tables<"listusers">[];
+export type IUserAllList = Tables<"listallusers">[];
+
+export const fetchUser = (id: number) => {
   return new Promise<IUser>((resolve, reject) => {
-    fetcher
-      .get<IUser>(url)
-      .then((res) => {
-        resolve(res.data);
-      })
-      .catch((e) => {
-        reject(e);
-      })
-      .finally(() => {
-        // store.dispatch(popLoad());
-      });
+    supabaseClient.rpc("getuserbyid", { uid: id }).then((res) => {
+      if (res.error) {
+        reject(res.error);
+      } else {
+        resolve(res.data[0]);
+      }
+    });
   });
 };
 
-export const useFetchUser = (uuid: string) => {
-  console.log("useFetchUser", uuid);
+export const useFetchUser = (uid: number) => {
+  console.log("useFetchUser", uid);
 
-  return useSWR<IUser>("users", () => fetchUser(uuid));
+  return useSWR<IUser>("users", () => fetchUser(uid));
 };

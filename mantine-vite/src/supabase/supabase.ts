@@ -1,4 +1,3 @@
-
 export type Json =
   | string
   | number
@@ -8,85 +7,13 @@ export type Json =
   | Json[]
 
 export type Database = {
-  graphql_public: {
-    Tables: {
-      [_ in never]: never
-    }
-    Views: {
-      [_ in never]: never
-    }
-    Functions: {
-      graphql: {
-        Args: {
-          operationName?: string
-          query?: string
-          variables?: Json
-          extensions?: Json
-        }
-        Returns: Json
-      }
-    }
-    Enums: {
-      [_ in never]: never
-    }
-    CompositeTypes: {
-      [_ in never]: never
-    }
-  }
   public: {
     Tables: {
-      customers: {
-        Row: {
-          fullname: string
-          id: number
-        }
-        Insert: {
-          fullname: string
-          id?: number
-        }
-        Update: {
-          fullname?: string
-          id?: number
-        }
-        Relationships: []
-      }
-      nabava: {
-        Row: {
-          cena: number
-          created_at: string
-          id: string
-          minister: string
-          stevilo_piv: number
-        }
-        Insert: {
-          cena: number
-          created_at?: string
-          id?: string
-          minister?: string
-          stevilo_piv: number
-        }
-        Update: {
-          cena?: number
-          created_at?: string
-          id?: string
-          minister?: string
-          stevilo_piv?: number
-        }
-        Relationships: [
-          {
-            foreignKeyName: "public_nabava_minister_fkey"
-            columns: ["minister"]
-            isOneToOne: false
-            referencedRelation: "users"
-            referencedColumns: ["id"]
-          }
-        ]
-      }
-      transactions: {
+      beer_transactions: {
         Row: {
           customer_id: number
           id: number
-          minister: string | null
+          minister_id: number
           ordered: number
           ordered_at: string
           paid: number
@@ -94,279 +21,268 @@ export type Database = {
         Insert: {
           customer_id: number
           id?: number
-          minister?: string | null
-          ordered?: number
+          minister_id: number
+          ordered: number
           ordered_at?: string
           paid: number
         }
         Update: {
           customer_id?: number
           id?: number
-          minister?: string | null
+          minister_id?: number
           ordered?: number
           ordered_at?: string
           paid?: number
         }
         Relationships: [
           {
-            foreignKeyName: "public_transactions_minister_fkey"
-            columns: ["minister"]
+            foreignKeyName: "public_beer_transactions_customer_id_fkey"
+            columns: ["customer_id"]
             isOneToOne: false
-            referencedRelation: "users"
+            referencedRelation: "listallusers"
             referencedColumns: ["id"]
           },
           {
-            foreignKeyName: "transactions_customer_id_fkey"
+            foreignKeyName: "public_beer_transactions_customer_id_fkey"
             columns: ["customer_id"]
             isOneToOne: false
-            referencedRelation: "customers"
+            referencedRelation: "listusers"
             referencedColumns: ["id"]
           },
           {
-            foreignKeyName: "transactions_customer_id_fkey"
+            foreignKeyName: "public_beer_transactions_customer_id_fkey"
             columns: ["customer_id"]
             isOneToOne: false
-            referencedRelation: "everything_sum"
+            referencedRelation: "user_info"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "public_beer_transactions_minister_id_fkey"
+            columns: ["minister_id"]
+            isOneToOne: false
+            referencedRelation: "listallusers"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "public_beer_transactions_minister_id_fkey"
+            columns: ["minister_id"]
+            isOneToOne: false
+            referencedRelation: "listusers"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "public_beer_transactions_minister_id_fkey"
+            columns: ["minister_id"]
+            isOneToOne: false
+            referencedRelation: "user_info"
             referencedColumns: ["id"]
           }
         ]
       }
-    }
-    Views: {
-      everything: {
+      termins: {
         Row: {
-          fullname: string | null
-          ordered: number | null
-          ordered_at: string | null
-          paid: number | null
+          created_at: string
+          end_at: string
+          id: number
+          start_at: string
+          user_id: number
+          washer: number
         }
-        Relationships: []
-      }
-      everything_sum: {
-        Row: {
-          fullname: string | null
-          id: number | null
-          total_ordered: number | null
-          total_paid: number | null
+        Insert: {
+          created_at?: string
+          end_at: string
+          id?: number
+          start_at: string
+          user_id: number
+          washer: number
         }
-        Relationships: []
-      }
-      named_transactions: {
-        Row: {
-          customer_id: number | null
-          fullname: string | null
-          id: number | null
-          ordered: number | null
-          ordered_at: string | null
-          paid: number | null
+        Update: {
+          created_at?: string
+          end_at?: string
+          id?: number
+          start_at?: string
+          user_id?: number
+          washer?: number
         }
         Relationships: [
           {
-            foreignKeyName: "transactions_customer_id_fkey"
-            columns: ["customer_id"]
+            foreignKeyName: "public_termin_user_id_fkey"
+            columns: ["user_id"]
             isOneToOne: false
-            referencedRelation: "customers"
+            referencedRelation: "listallusers"
             referencedColumns: ["id"]
           },
           {
-            foreignKeyName: "transactions_customer_id_fkey"
-            columns: ["customer_id"]
+            foreignKeyName: "public_termin_user_id_fkey"
+            columns: ["user_id"]
             isOneToOne: false
-            referencedRelation: "everything_sum"
+            referencedRelation: "listusers"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "public_termin_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "user_info"
             referencedColumns: ["id"]
           }
         ]
       }
-      total_summary: {
+      user_info: {
         Row: {
-          total_cena: number | null
-          total_ordered: number | null
-          total_paid: number | null
-          total_stevilo_piv: number | null
-        }
-        Relationships: []
-      }
-    }
-    Functions: {
-      [_ in never]: never
-    }
-    Enums: {
-      [_ in never]: never
-    }
-    CompositeTypes: {
-      [_ in never]: never
-    }
-  }
-  storage: {
-    Tables: {
-      buckets: {
-        Row: {
-          allowed_mime_types: string[] | null
-          avif_autodetection: boolean | null
-          created_at: string | null
-          file_size_limit: number | null
-          id: string
-          name: string
-          owner: string | null
-          owner_id: string | null
-          public: boolean | null
-          updated_at: string | null
-        }
-        Insert: {
-          allowed_mime_types?: string[] | null
-          avif_autodetection?: boolean | null
-          created_at?: string | null
-          file_size_limit?: number | null
-          id: string
-          name: string
-          owner?: string | null
-          owner_id?: string | null
-          public?: boolean | null
-          updated_at?: string | null
-        }
-        Update: {
-          allowed_mime_types?: string[] | null
-          avif_autodetection?: boolean | null
-          created_at?: string | null
-          file_size_limit?: number | null
-          id?: string
-          name?: string
-          owner?: string | null
-          owner_id?: string | null
-          public?: boolean | null
-          updated_at?: string | null
-        }
-        Relationships: []
-      }
-      migrations: {
-        Row: {
-          executed_at: string | null
-          hash: string
+          confirmed: boolean | null
+          disabled: boolean | null
           id: number
           name: string
+          phone: string | null
+          room: number | null
+          surname: string
+          uuid: string | null
         }
         Insert: {
-          executed_at?: string | null
-          hash: string
-          id: number
+          confirmed?: boolean | null
+          disabled?: boolean | null
+          id?: number
           name: string
+          phone?: string | null
+          room?: number | null
+          surname: string
+          uuid?: string | null
         }
         Update: {
-          executed_at?: string | null
-          hash?: string
+          confirmed?: boolean | null
+          disabled?: boolean | null
           id?: number
           name?: string
+          phone?: string | null
+          room?: number | null
+          surname?: string
+          uuid?: string | null
         }
         Relationships: []
       }
-      objects: {
-        Row: {
-          bucket_id: string | null
-          created_at: string | null
-          id: string
-          last_accessed_at: string | null
-          metadata: Json | null
-          name: string | null
-          owner: string | null
-          owner_id: string | null
-          path_tokens: string[] | null
-          updated_at: string | null
-          version: string | null
-        }
-        Insert: {
-          bucket_id?: string | null
-          created_at?: string | null
-          id?: string
-          last_accessed_at?: string | null
-          metadata?: Json | null
-          name?: string | null
-          owner?: string | null
-          owner_id?: string | null
-          path_tokens?: string[] | null
-          updated_at?: string | null
-          version?: string | null
-        }
-        Update: {
-          bucket_id?: string | null
-          created_at?: string | null
-          id?: string
-          last_accessed_at?: string | null
-          metadata?: Json | null
-          name?: string | null
-          owner?: string | null
-          owner_id?: string | null
-          path_tokens?: string[] | null
-          updated_at?: string | null
-          version?: string | null
-        }
-        Relationships: [
-          {
-            foreignKeyName: "objects_bucketId_fkey"
-            columns: ["bucket_id"]
-            isOneToOne: false
-            referencedRelation: "buckets"
-            referencedColumns: ["id"]
-          }
-        ]
-      }
     }
     Views: {
-      [_ in never]: never
+      listallusers: {
+        Row: {
+          confirmed: boolean | null
+          disabled: boolean | null
+          email: string | null
+          id: number | null
+          name: string | null
+          phone: string | null
+          room: number | null
+          surname: string | null
+        }
+        Relationships: []
+      }
+      listusers: {
+        Row: {
+          confirmed: boolean | null
+          disabled: boolean | null
+          email: string | null
+          id: number | null
+          name: string | null
+          phone: string | null
+          room: number | null
+          surname: string | null
+        }
+        Relationships: []
+      }
     }
     Functions: {
-      can_insert_object: {
+      edituser: {
         Args: {
-          bucketid: string
-          name: string
-          owner: string
-          metadata: Json
+          param_id: number
+          param_name?: string
+          param_surname?: string
+          param_email?: string
+          param_room?: number
+          param_phone?: string
+          param_disabled?: boolean
+          param_confirmed?: boolean
         }
         Returns: undefined
       }
-      extension: {
+      getterminsbyuid:
+        | {
+            Args: {
+              u_id: number
+            }
+            Returns: {
+              id: number
+              user_id: number
+              washer: number
+              created_at: string
+              start_at: string
+              end_at: string
+            }[]
+          }
+        | {
+            Args: {
+              u_id: number
+              active: boolean
+            }
+            Returns: {
+              id: number
+              user_id: number
+              washer: number
+              created_at: string
+              start_at: string
+              end_at: string
+            }[]
+          }
+      getterminsinrange: {
         Args: {
-          name: string
-        }
-        Returns: string
-      }
-      filename: {
-        Args: {
-          name: string
-        }
-        Returns: string
-      }
-      foldername: {
-        Args: {
-          name: string
-        }
-        Returns: unknown
-      }
-      get_size_by_bucket: {
-        Args: Record<PropertyKey, never>
-        Returns: {
-          size: number
-          bucket_id: string
-        }[]
-      }
-      search: {
-        Args: {
-          prefix: string
-          bucketname: string
-          limits?: number
-          levels?: number
-          offsets?: number
-          search?: string
-          sortcolumn?: string
-          sortorder?: string
+          start: string
+          stop: string
         }
         Returns: {
-          name: string
-          id: string
-          updated_at: string
+          id: number
+          user_id: number
+          washer: number
           created_at: string
-          last_accessed_at: string
-          metadata: Json
+          start_at: string
+          end_at: string
         }[]
+      }
+      getterminsmonthyear: {
+        Args: {
+          month: number
+          year: number
+        }
+        Returns: {
+          id: number
+          user_id: number
+          washer: number
+          created_at: string
+          start_at: string
+          end_at: string
+        }[]
+      }
+      getuserbyid: {
+        Args: {
+          uid: number
+        }
+        Returns: {
+          id: number
+          uuid: string
+          name: string
+          surname: string
+          email: string
+          room: number
+          phone: string
+          confirmed: boolean
+          disabled: boolean
+          created_at: string
+          last_sign_in_at: string
+        }[]
+      }
+      search_name_surname: {
+        Args: {
+          "": unknown
+        }
+        Returns: string
       }
     }
     Enums: {

@@ -12,7 +12,7 @@ import { ProtectedPath } from "./ProtectedPath";
 
 import "@mantine/notifications/styles.css";
 import "@mantine/core/styles.css";
-import { createTheme, MantineProvider } from "@mantine/core";
+import { createTheme, MantineProvider, Modal } from "@mantine/core";
 import { Notifications } from "@mantine/notifications";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 

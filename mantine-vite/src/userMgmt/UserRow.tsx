@@ -1,20 +1,16 @@
 import {
-  Group,
-  Badge,
-  Checkbox,
-  Text,
-  Button,
-  Box,
-  Select,
   Avatar,
+  Badge,
+  Button,
+  Group,
   TableTd,
   TableTr,
+  Text,
 } from "@mantine/core";
-import { IconEdit } from "@tabler/icons";
-import { useState } from "react";
-import { useConfirmUser } from "../api/confirmUser";
+import { useDisclosure } from "@mantine/hooks";
+import { IconPencil } from "@tabler/icons";
 import { useEditUser } from "../api/editUser";
-import { IUser } from "../api/listUsers";
+import { IUser } from "../api/getUser";
 import { MyModal } from "./Modal";
 
 interface IUserRowProps {
@@ -25,17 +21,18 @@ interface IUserRowProps {
 export const UserRow = ({ item: userIn, i }: IUserRowProps) => {
   // const { error, loading, mutateUser } = useConfirmUser(userIn.uuid);
   const { error, loading, editUserProps } = useEditUser();
+  const [opened, { open, close }] = useDisclosure(false);
 
-  const mainCol = userIn.role === "admin" ? "red" : "";
+  const mainCol = "admin" === "admin" ? "red" : "";
 
   const user = (
     <Group gap="sm">
-      <Avatar color={mainCol}>{userIn.role === "admin" ? "AD" : "UP"}</Avatar>
+      <Avatar color={mainCol}>{"admin" === "admin" ? "AD" : "UP"}</Avatar>
       <div>
-        <Text size="sm" w={500} color={mainCol}>
+        <Text size="sm" w={500} c={mainCol}>
           {userIn.name} {userIn.surname}
         </Text>
-        <Text size="xs" color="dimmed">
+        <Text size="xs" c="dimmed">
           {userIn.email}
         </Text>
       </div>
@@ -44,86 +41,99 @@ export const UserRow = ({ item: userIn, i }: IUserRowProps) => {
 
   if (!userIn.confirmed) {
     return (
-      <TableTr key={userIn.uuid}>
+      <TableTr key={userIn.id}>
         <TableTd>
-          <Button leftSection={<IconEdit />} variant="light" color={mainCol}>
-            {i + 1}
+          <Button
+            onClick={open}
+            color={mainCol}
+            size="xs"
+            variant="subtle"
+            leftSection={<IconPencil />}
+          >
+            Uredi
           </Button>
         </TableTd>
         <TableTd>{user}</TableTd>
 
-        <TableTd>
-          <Text>
-            <Badge color={mainCol} size="lg">
-              {userIn.room}
-            </Badge>
-          </Text>
-        </TableTd>
+        {/* <TableTd>
+          <Badge color={mainCol} size="lg">
+            {userIn.room}
+          </Badge>
+        </TableTd> */}
 
         <TableTd colSpan={2}>
-          <Box
+          <Group
             style={{
               backgroundColor: "rgba(0, 255, 50, 0.1)",
               borderRadius: "5px",
               padding: "0.5rem",
             }}
+            justify="end"
           >
             <Button
               size="xs"
               loading={loading}
               onClick={() => {
                 confirm("Zelite potrditi osebo?") &&
-                  editUserProps({ uuid: userIn.uuid, confirmed: true });
+                  editUserProps({ id: userIn.id, confirmed: true });
               }}
               color={"teal"}
             >
               {error ? "Ponovi" : "Potrdi"}
             </Button>
-          </Box>
+          </Group>
         </TableTd>
       </TableTr>
     );
   }
 
   return (
-    <TableTr key={userIn.uuid}>
-      <TableTd>
-        {/* <Button leftIcon={<IconEdit />} variant="light" color={mainCol}>
-          {i + 1}
-        </Button> */}
-        <MyModal mainCol={mainCol} user={userIn} />
-      </TableTd>
-      <TableTd
-        style={{
-          opacity: userIn.disabled ? 0.2 : 1,
-        }}
-      >
-        {user}
-      </TableTd>
-      <TableTd
-        style={{
-          opacity: userIn.disabled ? 0.2 : 1,
-        }}
-      >
-        <Badge color={mainCol} size="lg">
-          {userIn.room}
-        </Badge>
-      </TableTd>
-      <TableTd
-        style={{
-          opacity: userIn.disabled ? 0.2 : 1,
-        }}
-      >
-        {userIn.phone}
-      </TableTd>
+    <>
+      <MyModal mainCol={mainCol} user={userIn} opened={opened} close={close} />
+      <TableTr key={userIn.id}>
+        <TableTd>
+          <Button
+            onClick={open}
+            color={mainCol}
+            size="xs"
+            variant="subtle"
+            leftSection={<IconPencil />}
+          >
+            Uredi
+          </Button>
+        </TableTd>
+        <TableTd
+          style={{
+            opacity: userIn.disabled ? 0.2 : 1,
+          }}
+        >
+          {user}
+        </TableTd>
+        <TableTd
+          style={{
+            opacity: userIn.disabled ? 0.2 : 1,
+          }}
+        >
+          <Badge color={mainCol} size="lg">
+            {userIn.room}
+          </Badge>
+        </TableTd>
+        <TableTd
+          style={{
+            opacity: userIn.disabled ? 0.2 : 1,
+          }}
+        >
+          {userIn.phone}
+        </TableTd>
 
-      {/* <TableTd>
-        {!item.disabled ? (
-          <Badge color="green">Aktiven</Badge>
-        ) : (
-          <Badge color="red">Onemogočen</Badge>
-        )}
-      </TableTd> */}
-    </TableTr>
+        {/* <TableTd>
+      {!item.disabled ? (
+        <Badge color="green">Aktiven</Badge>
+      ) : (
+        <Badge color="red">Onemogočen</Badge>
+      )}
+    </TableTd> */}
+      </TableTr>
+    </>
   );
 };

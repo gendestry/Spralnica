@@ -9,36 +9,19 @@ import {
   TableThead,
   TableTr,
 } from "@mantine/core";
+import { useDebouncedValue } from "@mantine/hooks";
 import { IconAlertCircle } from "@tabler/icons";
 import { useState } from "react";
-import { IUser, useFetchUsers } from "../api/listUsers";
+import { useFetchUsers } from "../api/listUsers";
 import { skeletalRows } from "../skeletons";
 import { InputWithButton } from "./FancySearch";
 import { UserRow } from "./UserRow";
 
-interface UsersTableProps {
-  data?: Promise<IUser[]>;
-}
-
-function filterSearch(search: string, users: IUser[]): IUser[] {
-  if (search === "") {
-    return users;
-  }
-  return (
-    users.filter((user) => {
-      return JSON.stringify(Object.values(user))
-        .toLowerCase()
-        .includes(search.toLowerCase());
-    }) || []
-  );
-}
-
 export function UsersRolesTable() {
   const [search, setSearch] = useState("");
+  const [debounced] = useDebouncedValue(search, 300);
 
-  const { data, error } = useFetchUsers();
-
-  const filtered = filterSearch(search, data || []);
+  const { data, error } = useFetchUsers(debounced);
 
   return (
     <ScrollArea m="lg">
@@ -94,12 +77,11 @@ export function UsersRolesTable() {
           </TableTbody>
         )}
         {!data && !error && <TableTbody>{skeletalRows}</TableTbody>}
-        {!error && (
+        {!error && data && (
           <TableTbody>
-            {filtered.map &&
-              filtered.map((user, i) => (
-                <UserRow i={i} key={user.uuid} item={user} />
-              ))}
+            {data.map((user, i) => (
+              <UserRow i={i} key={user.id} item={user} />
+            ))}
           </TableTbody>
         )}
       </Table>

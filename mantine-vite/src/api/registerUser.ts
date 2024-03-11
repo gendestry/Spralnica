@@ -1,13 +1,13 @@
 import { useState } from "react";
 import { mutate } from "swr";
-import { IRegisterForm } from "../Register";
+import { IRegisterUser} from "../Register";
 import { supabaseClient } from "../supabase/supabaseClient";
 
 export const useRegisterUser = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const registerUser = (user: IRegisterForm) => {
+  const registerUser = (user: IRegisterUser) => {
     return new Promise<void>((resolve, reject) => {
       setLoading(true);
       supabaseClient.auth

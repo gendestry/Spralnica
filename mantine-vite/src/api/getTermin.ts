@@ -1,94 +1,83 @@
 import useSWR, { mutate } from "swr";
-import { ITermin } from "./addTermin";
-import { fetcher } from "./swrFetcher";
+import { supabaseClient } from "../supabase/supabaseClient";
+import { Tables } from "../supabase/supabase";
+
+export type ITermin = Tables<"termins">;
 
 const getTermin = (id: string) => {
-  const url = `/getTermin/${id}`;
   return new Promise<ITermin>((resolve, reject) => {
-    fetcher
-      .get<ITermin>(url)
+    supabaseClient
+      .from("termins")
+      .select("*")
+      .eq("id", id)
       .then((res) => {
-        resolve(res.data);
-      })
-      .catch((e) => {
-        reject(e);
-      })
-      .finally(() => {
-        // store.dispatch(popLoad());
+        if (res.error) {
+          reject(res.error);
+        } else {
+          resolve(res.data[0]);
+        }
       });
   });
 };
-export const useGetTermin = (uuid: string) => {
-  return useSWR<ITermin>("getTermin/" + uuid, () => getTermin(uuid));
+export const useGetTermin = (uid: string) => {
+  return useSWR<ITermin>("getTermin/" + uid, () => getTermin(uid));
 };
 
-const getTerminsByUser = (uuid: string, active?: boolean) => {
-  // const stillActive = active ? "/active" : "";
-  const stillActive = "";
-
-  const url = `/getTerminsByUser/${uuid}${stillActive}`;
+const getTerminsByUser = (uid: number, active?: boolean) => {
   return new Promise<ITermin[]>((resolve, reject) => {
-    fetcher
-      .get<ITermin[]>(url)
+    supabaseClient
+      .rpc("getterminsbyuid", { u_id: uid, active: active })
       .then((res) => {
-        resolve(res.data);
-      })
-      .catch((e) => {
-        reject(e);
-      })
-      .finally(() => {
-        // store.dispatch(popLoad());
+        if (res.error) {
+          reject(res.error);
+        } else {
+          resolve(res.data);
+        }
       });
   });
 };
-export const useGetTerminsByUser = (uuid: string, active: boolean = true) => {
+export const useGetTerminsByUser = (uid: number, active: boolean = true) => {
   // const stillActive = active ? "/active" : "";
-  return useSWR<ITermin[]>("getTerminsByUser/" + uuid, () =>
-    getTerminsByUser(uuid, active)
+  return useSWR<ITermin[]>("getTerminsByUser/" + uid, () =>
+    getTerminsByUser(uid, active)
   );
 };
 
-const getTerminsInRange = (start: number, end: number) => {
-  const url = `/getTerminsInRange/${start}/${end}`;
+const getTerminsInRange = (start: string, end: string) => {
   return new Promise<ITermin[]>((resolve, reject) => {
-    fetcher
-      .get<ITermin[]>(url)
+    supabaseClient
+      .rpc("getterminsinrange", { start: start, stop: end })
       .then((res) => {
-        resolve(res.data);
-      })
-      .catch((e) => {
-        reject(e);
-      })
-      .finally(() => {
-        // store.dispatch(popLoad());
+        if (res.error) {
+          reject(res.error);
+        } else {
+          resolve(res.data);
+        }
       });
   });
 };
-export const useGetTerminsInRange = (start: number, end: number) => {
+export const useGetTerminsInRange = (start: string, end: string) => {
   return useSWR<ITermin[]>("getTerminsInRange/" + start + "/" + end, () =>
     getTerminsInRange(start, end)
   );
 };
 
 const getTerminsMonthly = (month: number, year: number) => {
-  const url = `/getTerminsMonthly/${month}/${year}`;
-  return new Promise<ITermin[][]>((resolve, reject) => {
-    fetcher
-      .get<ITermin[][]>(url)
+  return new Promise<ITermin[]>((resolve, reject) => {
+    supabaseClient
+      .rpc("getterminsmonthyear", { month: month, year: year })
       .then((res) => {
-        resolve(res.data);
-      })
-      .catch((e) => {
-        reject(e);
-      })
-      .finally(() => {
-        // store.dispatch(popLoad());
+        if (res.error) {
+          reject(res.error);
+        } else {
+          resolve(res.data);
+        }
       });
   });
 };
 
 export const useGetTerminsMonthly = (month: number, year: number) => {
-  return useSWR<ITermin[][]>("getTerminsMonthly/" + month + "/" + year, () =>
+  return useSWR<ITermin[]>("getTerminsMonthly/" + month + "/" + year, () =>
     getTerminsMonthly(month, year)
   );
 };

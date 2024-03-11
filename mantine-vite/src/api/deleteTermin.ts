@@ -1,22 +1,17 @@
 import { showNotification } from "@mantine/notifications";
 import { useState } from "react";
 import { mutate } from "swr";
-import { fetcher } from "./swrFetcher";
+import { supabaseClient } from "../supabase/supabaseClient";
 
-export const deleteTermin = (id: string) => {
-  const url = `/deleteTermin`;
+export const deleteTermin = (id: number) => {
   return new Promise<void>((resolve, reject) => {
-    fetcher
-      .post(url, { id: id })
-      .then((res) => {
+    supabaseClient.from("termins").delete().eq("id", id).then((res) => {
+      if (res.error) {
+        reject(res.error);
+      } else {
         resolve();
-      })
-      .catch((e) => {
-        reject(e);
-      })
-      .finally(() => {
-        // store.dispatch(popLoad());
-      });
+      }
+    });
   });
 };
 
@@ -24,7 +19,7 @@ export const useDeleteTermin = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<Error | null>(null);
 
-  const delTermin = (id: string, uuid: string) => {
+  const delTermin = (id: number, uuid: number) => {
     return new Promise<void>((resolve, reject) => {
       setLoading(true);
       deleteTermin(id)
